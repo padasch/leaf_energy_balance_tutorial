@@ -8,7 +8,7 @@ sapply(
 
 # Packages
 packages <- c(
-  "here", "tidyverse", "ggplot2", "patchwork"
+  "here", "tidyverse", "ggplot2", "patchwork", "rpmodel"
 )
 
 # Install packages not yet installed
