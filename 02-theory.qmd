@@ -1,9 +1,4 @@
----
-title: "Theory"
-bibliography: references.bib
----
-
-# Primer on Photosynthesis
+# Theory {#sec-theory}
 
 ::: callout-tip
 Visualizations and functions for the equations below are given in the Chapter Implementation
@@ -99,7 +94,7 @@ A detailed explanation and derivation of the P-Model, including accounting for t
 
     -   
 
-# A Leaf's Energy Balance
+# A Leaf's Energy Balance {#sec-leb}
 
 -   A leaf's energy balance is governed by incoming and outgoing radiation.
 
@@ -124,7 +119,7 @@ The P-Model - the "P" stands for "Productivity) - is a photosynthesis model that
 # Symbols
 
 | Symbol      | Variable | Unit              | Description                           |
-|--------------|--------------|--------------|------------------------------|
+|---------------|---------------|---------------|---------------------------|
 | $V_{cmax}$  | vcmax    | $\mu$mol/CO$_2$/s | Maximum carboxylation rate of rubisco |
 | $J_{max}$   | jmax     |                   |                                       |
 | $g_s$       | gs       |                   | Stomatal conductance                  |

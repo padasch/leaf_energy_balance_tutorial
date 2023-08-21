@@ -1,6 +1,4 @@
----
-title: "Exercises"
----
+# Next Steps {#sec-next-steps}
 
 -   Use different formulations for the cost function (relative costs, total costs)
 

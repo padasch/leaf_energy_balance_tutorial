@@ -1,22 +1,31 @@
 project:
-  type: website
-
-website:
+  type: book
+  
+book:
   title: "Leaf Energy Balance Tutorial"
-  navbar:
-    left:
-      - href: index.qmd
-        text: About
-      - href: 01-theory.qmd
-        text: Theory
-      - href: 02-implementation.qmd
-        text: Implementation
-      - href: 03-test-case.qmd
-        text: Test Case
-      - href: 99-exercises.qmd
-        text: Exercises
-
-csl: new-phytologist.csl
+  subtitle: "Predicting a leaf's long-term temperature based on eco-evolutionary optimality principles"
+  author: "Pascal Schneider"
+  date: "2023-08-23"
+  page-navigation: true
+  chapters:
+    - index.qmd
+    - 01-introduction.qmd
+    - 02-theory.qmd
+    - 03-implementation.qmd
+    - 04-sensitivity_analysis.qmd
+    - 05-test_case.qmd
+    - 99-exercise.qmd
+    - references.qmd
+  search: true
+  sharing: [twitter, facebook]
+  navbar: 
+    right:
+      - icon: github
+        href: https://github.com/padasch/leaf_energy_balance_tutorial
+        aria-label: GitHub
+  
+bibliography: references.bib
+csl: global-change-biology.csl
 
 format:
   html:
@@ -29,3 +38,7 @@ format:
     
 
 editor: visual
+
+execute: 
+  warning: false
+  freeze: auto
