@@ -1,0 +1,72 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Leaf Energy Balance Tutorial",
+    "section": "",
+    "text": "This is an online tutorial to simulate a leaf’s energy balance to different drivers.\n\n1 Requirements\n\n\nCode\nsessionInfo()\n\n\nR version 4.3.1 (2023-06-16)\nPlatform: aarch64-apple-darwin20 (64-bit)\nRunning under: macOS Ventura 13.4.1\n\nMatrix products: default\nBLAS:   /Library/Frameworks/R.framework/Versions/4.3-arm64/Resources/lib/libRblas.0.dylib \nLAPACK: /Library/Frameworks/R.framework/Versions/4.3-arm64/Resources/lib/libRlapack.dylib;  LAPACK version 3.11.0\n\nlocale:\n[1] C/UTF-8/C/C/C/C\n\ntime zone: Europe/Zurich\ntzcode source: internal\n\nattached base packages:\n[1] stats     graphics  grDevices utils     datasets  methods   base     \n\nloaded via a namespace (and not attached):\n [1] htmlwidgets_1.6.2 compiler_4.3.1    fastmap_1.1.1     cli_3.6.1        \n [5] tools_4.3.1       htmltools_0.5.5   rstudioapi_0.14   yaml_2.3.7       \n [9] rmarkdown_2.22    knitr_1.43        jsonlite_1.8.5    xfun_0.39        \n[13] digest_0.6.31     rlang_1.1.1       evaluate_0.21"
+  },
+  {
+    "objectID": "02-theory.html",
+    "href": "02-theory.html",
+    "title": "3  Theory",
+    "section": "",
+    "text": "4 Relevance of Predicting Leaf Temperatures"
+  },
+  {
+    "objectID": "02-theory.html#background",
+    "href": "02-theory.html#background",
+    "title": "3  Theory",
+    "section": "6.1 Background",
+    "text": "6.1 Background\nThe P-Model - the “P” stands for “Productivity) - is a photosynthesis model that predicts the acclimation of key photosynthetic traits based on eco-evolutionary optimality principles. Specifically, it rests on two principles: The Coordination Hypothesis by Maire et al. (2012) stating that a leaf coordinates its two limiting"
+  },
+  {
+    "objectID": "02-theory.html#an-analytic-approach",
+    "href": "02-theory.html#an-analytic-approach",
+    "title": "3  Theory",
+    "section": "6.2 An Analytic Approach",
+    "text": "6.2 An Analytic Approach\n\nMake clear that this is only the optimally achieved leaf temperature and not the instantaneous one\nBut state that this explicitly includes the regulation of thermoregulation and thermal acclimation"
+  },
+  {
+    "objectID": "02-theory.html#a-numeric-approach",
+    "href": "02-theory.html#a-numeric-approach",
+    "title": "3  Theory",
+    "section": "6.3 A Numeric Approach",
+    "text": "6.3 A Numeric Approach"
+  },
+  {
+    "objectID": "03-implementation.html#description",
+    "href": "03-implementation.html#description",
+    "title": "4  Algorithm",
+    "section": "4.1 Description",
+    "text": "4.1 Description\nThe goal of this algorithm is to predict a leaf temperature at which the costs for maintaining photosynthesis are minimal. To do this, two optimization algorithms are required as displayed in Figure 4.1, the numerical P-Model algorithm and the energy balance algorithm.\nThe numerical P-Model algorithm solves the optimization problem to find the values for \\(V_{cmax}\\), \\(J_{max}\\), and \\(g_{s}\\) at which the carbon costs for maintaining photosynthesis are minimal (explained in Chapter 3). Due to difficulties in defining the cost factor for \\(J_{max}\\), the current implementation solves a reduced problem where only \\(V_{cmax}\\) and \\(g_{s}\\) are optimized (see Chapter 7 for resolving this issue):\n\\[\n\\frac{\\beta \\;V_{cmax} + 1.6\\;D\\;g_s}{A_{gross}} = min.\n\\]\nThe energy balance algorithm searches for the leaf temperature that closes the energy budget described in Chapter 5. Certain terms within the energy balance depend on assuming a leaf temperature in the first place. This turns the algorithm into an optimization problem where the goal is to minimze the squared difference between the initially assumed leaf temperature (\\(T_{\\text{leaf, init}}\\)) and the leaf temperature that closes the energy balance (\\(T_{\\text{leaf, eb}}\\)):\n\\[\n(T_{\\text{leaf, init}} - T_{\\text{leaf, eb}})^{2} = min.\n\\]\nThe algorithm visualised in Figure 4.1 reads as follows:\n1. Pick random values for vcmax, jmax, gs\n2. Pick random value for tc_leaf (initial leaf temperature)\n3. Calculate the energy balanced given tc_leaf, gs, abiotic environment\n4. Check if initial tc_leaf equals tc_leaf that closes the energy balance:\n   If false, re-run energy balance with a new tc_leaf\n   If true, then proceed\n5. Use tc_leaf, vcmax, jmax, gs, abiotic environment to calculate the carbon costs\n6. Check if carbon costs are minimal\n   If false, re-start at 1. with new parameters for vcmax, jmax, and gs\n   If true, return tc_leaf, vcmax, jmax, gs\n\nDescribe all functions used in here\nFunctions needed\n\nNumerical optimization routine for\n\nLeaf Energy Balance\nFor Vcmax/gs\n\nCost function\nVisualise cost optimization\n\nExplain nested optimization\n\nClosing the Energy Balance\nCost Minimization\n\n\n\n\n\nFigure 4.1: Algorithm for calculating optimal traits using the numerical P-Model coupled to a leaf energy balance model. The numerical P-Model parts are in purple. The energy balance model parts are in organge. Note that $J_{max}$ is implemented here for reasons of completeness. The current optimization routine does not properly optimize $J_{max}$."
+  },
+  {
+    "objectID": "03-implementation.html#implementation",
+    "href": "03-implementation.html#implementation",
+    "title": "4  Algorithm",
+    "section": "4.2 Implementation",
+    "text": "4.2 Implementation\nThe function calls below are ordered in decreasing order they are called in the routine. This means that the text starts with the energy balance model and then move outwards to the optimization of the leaf traits.\n\n\nCode\n# Get some dummy variables\n\ntc_air  &lt;- 25     # degC\ntc_leaf &lt;- 30     # degC\nvpd_air &lt;- 2000   # Pa\npatm    &lt;- 101325 # Pa\nco2     &lt;- 400    # ppm\nppfd    &lt;- 500e-6 # mol/m2/s\nvcmax   &lt;- 50e-6  # mol/m2/s\njmax    &lt;- 100e-6 # mol/m2/s\ngs      &lt;- 1.5e-6 # mol CO2 /m2/s/Pa\nfapar   &lt;- 1      # -\nkphio   &lt;- 0.087  # -\nbeta    &lt;- 146    # -\nc_cost  &lt;- 0.103  # -\n\n\n\n4.2.1 Numerical P-Model\nDemonstration of the numerical P-Model algorithm without considering the leaf energy balance. Comparing the results of the numerical P-Model against the analytical P-Model shows that they achieve a similar \\(\\chi \\approx0.68\\) but with quite different values for \\(V_{cmax}\\), \\(J_{cmax}\\), and \\(g_{s}\\)\n\n\nCode\nget_optimized_traits_and_costs(\n  tc_leaf = tc_air,\n  vpd_leaf = vpd_air,\n  patm = patm,\n  co2 = co2,\n  ppfd = ppfd,\n  kphio = kphio\n) |&gt; knitr::kable()\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nvcmax\njmax\ngs\nci\nchi\na_c\na_j\na_gross\nci_c\nci_j\ncost_transp\ncost_vcmax\ncost_jmax\ncarbon_costs\n\n\n\n\n7.8e-05\n0.0004143\n1.4e-06\n27.665\n0.6825808\n1.85e-05\n1.85e-05\n1.85e-05\n27.665\n27.65429\n397.2639\n984.4404\n3.687265\n867.4283\n\n\n\n\n\nCode\nrpmodel::rpmodel(\n  tc = tc_air, \n  vpd = vpd_air, \n  co2 = co2, \n  fapar = 1, \n  ppfd = ppfd, \n  patm = patm, \n  kphio = kphio\n) |&gt; as_tibble() |&gt; knitr::kable()\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\ngpp\nca\ngammastar\nkmm\nns_star\nchi\nxi\nmj\nmc\nci\niwue\ngs\nvcmax\nvcmax25\njmax\njmax25\nrd\n\n\n\n\n0.0001183\n40.53\n4.332\n70.84225\n1\n0.6868433\n82.82301\n0.6439624\n0.2382018\n27.83776\n7.93265\n8e-07\n4.13e-05\n4.13e-05\n6.53e-05\n6.53e-05\n6e-07\n\n\n\n\n\n\n\n4.2.2 Energy Balance Algorithm\n\n4.2.2.1 Call Energy Balance\n\n\nCode\ndiff_tcleaf &lt;- \n  calculate_leaf_energy_balance(  \n    tc_leaf       = 30, \n    tc_air        = tc_air,\n    gs            = gs,\n    ppfd          = ppfd, \n    vpd_air       = vpd_air, \n    patm          = patm,\n    return_what   = c(\"balance\")\n  )\n\nleb_fluxes &lt;- \n  calculate_leaf_energy_balance(  \n    tc_leaf       = 30, \n    tc_air        = tc_air,\n    gs            = gs,\n    ppfd          = ppfd, \n    vpd_air       = vpd_air, \n    patm          = patm,\n    return_what   = c(\"fluxes\")\n  )\n\ncat()\n\ncat(\"\\nThe squared difference between input tc_leaf and\",\n    \"\\nenergy-balance-closure tc_leaf is: \", diff_tcleaf)\n\n\n\nThe squared difference between input tc_leaf and \nenergy-balance-closure tc_leaf is:  56.79534\n\n\nCode\ncat(\"\\nThe energy balance variables at this state are: \")\n\n\n\nThe energy balance variables at this state are: \n\n\nCode\nknitr::kable(leb_fluxes)\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nELEAFeb\nGradiation\nRsol\nRnetiso\nRlongup\nH\nlambdaET\ngw\nGbh\nH2\ntc_leaf2\n\n\n\n\n2.904582\n0.1949628\n0\n-97.91872\n454.922\n416.2046\n127.6673\n0.2252718\n2.845609\n-211.1213\n22.46373\n\n\n\n\n\n\n\n4.2.2.2 Optimize Energy Balance\nSince the"
+  },
+  {
+    "objectID": "05-test_case.html",
+    "href": "05-test_case.html",
+    "title": "6  Test Case",
+    "section": "",
+    "text": "7 Test Case"
+  },
+  {
+    "objectID": "99-exercise.html",
+    "href": "99-exercise.html",
+    "title": "7  Next Steps",
+    "section": "",
+    "text": "Use different formulations for the cost function (relative costs, total costs)\nImplement another optimization algorithm and compare performances\nTry to implement the cost for Jmax as well\n\nNote: This could become tricky because of it having too little\n\nSketch an algorithm to account for an instantaneous model"
+  },
+  {
+    "objectID": "references.html",
+    "href": "references.html",
+    "title": "References",
+    "section": "",
+    "text": "Berry, J., & Bjorkman, O. (1980). Photosynthetic Response and\nAdaptation to Temperature in Higher Plants. Annual Review of Plant\nPhysiology, 31(1), 491–543. https://doi.org/10.1146/annurev.pp.31.060180.002423\n\n\nMaire, V., Martre, P., Kattge, J., Gastal, F., Esser, G., Fontaine, S.,\n& Soussana, J.-F. (2012). The Coordination of Leaf Photosynthesis\nLinks C and N Fluxes in C3 Plant Species. PLoS ONE,\n7(6), e38345. https://doi.org/10.1371/journal.pone.0038345\n\n\nPeng, Y., Bloomfield, K. J., Cernusak, L. A., Domingues, T. F., &\nColin Prentice, I. (2021). Global climate and nutrient controls of\nphotosynthetic capacity. Communications Biology, 4(1),\n462. https://doi.org/10.1038/s42003-021-01985-7\n\n\nPrentice, I. C., Dong, N., Gleason, M. S., Maire, V., & Wright, J.\nI. (2014). Balancing the costs of carbon gain and water transport:\nTesting a new theoretical framework for plant functional ecology.\nEcology Letters, 17(1), 8291. https://doi.org/gf9w4m\n\n\nRogers, A. (2014). The use and misuse of Vcmax in Earth System Models.\nPhotosynthesis Research, 119(1-2), 15–29. https://doi.org/10.1007/s11120-013-9818-1\n\n\nStocker, B. D., Wang, H., Smith, N. G., Harrison, S. P., Keenan, T. F.,\nSandoval, D., Davis, T., & Prentice, I. C. (2020). P-model v1.0: an\noptimality-based light use efficiency model for simulating ecosystem\ngross primary production. Geoscientific Model Development,\n13(3), 1545–1581. https://doi.org/10.5194/gmd-13-1545-2020\n\n\nStocker, B., & Hufkens, K. (2021). Rpmodel v1.2.0: R package\nimplementing the p-model. Zenodo. https://doi.org/10.5281/ZENODO.3359706"
+  }
+]
