@@ -38,10 +38,10 @@ get_carbon_costs <- function(
   
   if (cost_type == "relative_carbon_costs") {
     # With Jmax
-    # carbon_costs <- (cost_transp + cost_vcmax + cost_jmax) / a_gross
+    carbon_costs <- (cost_transp + cost_vcmax + cost_jmax) / a_gross
     
     # Without Jmax
-    carbon_costs <- (cost_transp + cost_vcmax) / a_gross
+    # carbon_costs <- (cost_transp + cost_vcmax) / a_gross
   }
   
   out <- list(
