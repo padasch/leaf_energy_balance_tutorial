@@ -1,0 +1,13 @@
+---
+title: "Exercises"
+---
+
+-   Use different formulations for the cost function (relative costs, total costs)
+
+-   Implement another optimization algorithm and compare performances
+
+-   Try to implement the cost for Jmax as well
+
+    -   Note: This could become tricky because of it having too little
+
+-   Sketch an algorithm to account for an instantaneous model

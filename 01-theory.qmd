@@ -1,0 +1,137 @@
+---
+title: "Theory"
+bibliography: references.bib
+---
+
+# Primer on Photosynthesis
+
+::: callout-tip
+Visualizations and functions for the equations below are given in the Chapter Implementation
+:::
+
+### Instantaneous Photosynthesis
+
+Photosynthesis is the process by which plants use the energy from sunlight to turn CO$_2$ and H$_2$O into biomass and O$_2$. A commonly used photosynthesis model, the Farquhar-vonCaemmerer-Berry Model [@berry1980photosynthetic] describes gross photosynthesis ($A_{gross}$) as the smaller of two reactions:
+
+$$
+A_{gross} = \text{min}(A_c,\; A_j)
+$$
+
+$A_c$ is the carboxylation-limited photosynthesis rate. Carboxylation is the reaction of CO$_2$ with the enzyme key photosynthesis enzyme Rubisco. Therefore, the maximum rate of carboxylation ($V_{cmax}$) directly controls $A_c$. Additionally, $A_c$ is constrained depends on the amount of CO$_2$ that is available in the leaf ($c_i$), and is constrained by additional enzyme-dynamics that we skip for now (given by the Michaelis-Menten Konstant $K$ and the photorespiration $\Gamma^*$). $A_c$ is defined as:
+
+$$
+A_c = V_{cmax}\frac{c_i - \Gamma^*}{c_i-K}\
+$$
+
+$A_j$ is the RuBP-photosynthesis rate. RuBP is another crucial enzyme in the photosynthesic cycle and its regeneration depends on the electron transport coming from harvesting the incoming light. Thus, this photosynthesis rate is also often called "electron transport-limited rate". $A_j$ is therefore directly dependent on $J$, the electron transport rate, as shown below:
+
+$$
+A_j = \frac{J}{4}\frac{c_i-\Gamma^*}{c_i+2\Gamma^*}
+$$
+
+The electron transport rate is further defined by a saturating function, whereby $J$ increases with the absorbed light ($I_{abs$) up to an maximum electron transport rate $J_{max}$:
+
+$$
+J=\frac{4 \varphi I_{abs}}{\sqrt{1+\left(\dfrac{4 \varphi I_{abs}}{J_{max}}\right)^{2}}}
+$$
+
+Here, $\varphi$ is the quantum yield efficiency of photosynthesis and describes how many moles of carbon are bound per mole of electrons. Technically, eight electrons are necessary to bind one CO$_2$, so the quantum yield efficiency is often set to 0.125 (but may vary in reality due to abiotic and biotic conditions).
+
+Key to take away from this short primer is that we require three variables: $c_i$, $V_{cmax}$, $J_{max}$. It is known that these variables vary highly across plant species and ecosystems, which is why many modelers use empirical data to prescribe these values [@rogers2014use]. However, recent research showed that these variables are quite predictable from climatic data because plants seem to acclimate (i.e., adjust) their physiology to their growth environment in a similar matter around the globe [@peng2021global].
+
+Before we get to the acclimated part, we must also understand how CO$_2$ actually enters a leaf. All gaseous exchange with the atmosphere goes through small openings in a leaf, called the stomata, which are actively opened and closed by the leaf itself. As stomatas open CO$_2$ enters and H$_2$O leaves the leaf. This is a classic diffusion, which is controlled by the diffusivity of the compound in question and the gradient in compound concentration in the leaf and in the atmosphere. Using Fick's law, the transpiration of H$_2$O is:
+
+$$
+E = g_s 1.6D
+$$
+
+Here, $E$ is the transpiration of water, $D$ is the vapor pressure deficit (the difference between actual and saturated water vapor pressure), $g_s$ is the stomatal conductance of CO$_2$ (the $1.6$ are to transform the H$_2$O flux into units of CO$_2$). This stomatal conductance can then be used in a separate stomatal conductance model that predicts how $c_i$ varies
+
+### Acclimated Photosynthesis
+
+#### The original P-Model
+
+To predict the three key variables mentioned above, we use the "P-Model" (the "P" stands for "Productivity") formulation that was originally published by @prentice2014balancing. The model is based on two eco-evolutionary optimality principles. The **Coordination Hypothesis** states that a leave coordinates its physiology so that during midday conditions (high light, high temperature) neither photosynthesis rate is limiting:
+
+$$
+A_{gross} = A_c = A_j
+$$
+
+The **Least-Cost Hypothesis** applies the economic principle of resource optimization to a plant. To maintain its product (biomass, here $A_{gross}$), a plant needs to balance its carbon resource investments for building its "infrastructure" to bind CO$_2$ and to maintain a matching supply of H$_2$O. In other words, there must exists an optimal ratio of internal to atmospheric CO$_2$ concentrations ($\chi$), so that the marginal costs for maintaining electron transport and carboxylation are minimal:
+
+$$
+a \frac{\partial(E / A_{gross})}{\partial \chi}+b \frac{\partial\left(V_{cmax} / A_{gross}\right)}{\partial \chi} = 0
+$$
+
+Here, $a$ is the marginal cost to maintain a given water transport rate, $b$ is the marginal cost to maintain a given carboxylation transport rate. Accounting for the temperature dependency of water ($\eta^*$), we can express the marginal costs as a ratio - the ratio between the marginal costs of maintaining carboxylation over maintaining water transport:
+
+$$
+\beta = b/a \,\eta^* 
+$$
+
+Applying these two principles predicts $V_{cmax}$ and $g_{s}$ jointly and how they vary with climatic conditions for $I_{abs}$, CO$_{2}$, $D$, air temperature ($T$), and atmospheric pressure ($P_{atm}$).
+
+::: callout-tip
+A detailed explanation and derivation of the P-Model, including accounting for the marginal costs of maintaining electron transport, is given in @stocker2020pmodel and available as code in @stocker2021rpmodel.
+:::
+
+#### A numerical approach
+
+### Drivers
+
+<!--# TODO -->
+
+-   NEXT: I left off realizing that the whole instantaneous photosynthesis explanation is probably no necessary here... And I found it hard to explain what we actually need to know and what we are actually doing...
+
+# Relevance of Predicting Leaf Temperatures
+
+-   Explain ongoing discussion on leaf temperature and thermoregulation
+
+-   Recent publications
+
+    -   Vinod2023
+
+    -   Ghuo2023
+
+    -   Michaletz paper
+
+    -   Still2020
+
+    -   
+
+# A Leaf's Energy Balance
+
+-   A leaf's energy balance is governed by incoming and outgoing radiation.
+
+-   Add Figure
+
+-   Add some equations to make it fancy
+
+# The P-Model
+
+## Background
+
+The P-Model - the "P" stands for "Productivity) - is a photosynthesis model that predicts the acclimation of key photosynthetic traits based on eco-evolutionary optimality principles. Specifically, it rests on two principles: The Coordination Hypothesis by @maire2012coordination stating that a leaf coordinates its two limiting
+
+## An Analytic Approach
+
+-   Make clear that this is only the optimally achieved leaf temperature and not the instantaneous one
+
+-   But state that this explicitly includes the regulation of thermoregulation and thermal acclimation
+
+## A Numeric Approach
+
+# Symbols
+
+| Symbol      | Variable | Unit              | Description                           |
+|--------------|--------------|--------------|------------------------------|
+| $V_{cmax}$  | vcmax    | $\mu$mol/CO$_2$/s | Maximum carboxylation rate of rubisco |
+| $J_{max}$   | jmax     |                   |                                       |
+| $g_s$       | gs       |                   | Stomatal conductance                  |
+| $c_i$       | ci       | \-                | Leaf-internal CO$_2$ concentration    |
+| $A_c$       | ac       |                   | Carboxylation-limited photosynthesis  |
+| $A_j$       | aj       |                   | RuBP-limited photosynthesis           |
+| $A_{gross}$ | agross   |                   | Gross photosynthesis                  |
+| $D$         | vpd      | Pa                | Vapor pressure deficit                |
+
+: Overview of variables used in this tutorial.

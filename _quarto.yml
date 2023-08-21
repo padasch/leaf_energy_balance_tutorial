@@ -1,0 +1,31 @@
+project:
+  type: website
+
+website:
+  title: "Leaf Energy Balance Tutorial"
+  navbar:
+    left:
+      - href: index.qmd
+        text: About
+      - href: 01-theory.qmd
+        text: Theory
+      - href: 02-implementation.qmd
+        text: Implementation
+      - href: 03-test-case.qmd
+        text: Test Case
+      - href: 99-exercises.qmd
+        text: Exercises
+
+csl: new-phytologist.csl
+
+format:
+  html:
+    theme: 
+      dark: darkly
+      light: flatly
+    css: styles.css
+    toc: true
+    code-fold: show
+    
+
+editor: visual

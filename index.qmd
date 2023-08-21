@@ -1,0 +1,11 @@
+---
+title: "Leaf Energy Balance Tutorial"
+---
+
+This is an online tutorial to simulate a leaf's energy balance to different drivers.
+
+# Requirements
+
+```{r}
+sessionInfo()
+```
