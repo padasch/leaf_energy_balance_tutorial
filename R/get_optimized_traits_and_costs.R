@@ -38,8 +38,8 @@ get_optimized_traits_and_costs <- function(
     
     ## Optimization inputs:
     par        = c( vcmax_start,       jmax_start      , gs_start),
-    lower      = c( vcmax_start*10^-4, jmax_start*10^-4, gs_start*10^-4 ),
-    upper      = c( vcmax_start*10^4,  jmax_start*10^4 , gs_start*10^4  ),
+    lower      = c( vcmax_start*10^-6, jmax_start*10^-6, gs_start*10^-6 ),
+    upper      = c( vcmax_start*10^6,  jmax_start*10^6 , gs_start*10^6  ),
     fn         = get_traits_and_carbon_costs,
     method     = "L-BFGS-B",
     control    = list(maxit = 1000),
@@ -51,7 +51,8 @@ get_optimized_traits_and_costs <- function(
     co2        = co2,
     ppfd       = ppfd,
     kphio      = kphio,
-    maximize   = TRUE)
+    maximize   = TRUE,
+    return_all = FALSE)
   
   ## Get the carbon costs for the optimized traits
   optimized_par <- get_traits_and_carbon_costs(
