@@ -37,12 +37,15 @@ get_traits_and_carbon_costs <- function(
   jmax  <- par[2]
   gs    <- par[3]
   
+  ## x: Given gs, calculate the leaf temperature
+  
+  
   ## 2: Get photosynthetic variables based on environmental conditions:
   kmm       <- rpmodel::kmm(tc_leaf, patm)
   gammastar <- rpmodel::gammastar(tc_leaf, patm)
-  ns_star   <- rpmodel::viscosity_h2o(tc_leaf, patm) / rpmodel::calc_viscosity_h2o(25, 101325)
+  ns_star   <- rpmodel::viscosity_h2o(tc_leaf, patm) / rpmodel::viscosity_h2o(25, 101325)
   ca        <- rpmodel::co2_to_ca(co2, patm)
-  kphio     <- kphio * ftemp_kphio( tc_leaf, c4 = F)
+  kphio     <- kphio * rpmodel::ftemp_kphio( tc_leaf, c4 = F)
   iabs      <- ppfd * fapar
   
   ## 3: Calculate assimilation rates with to-be-optimized jmax, vcmax and gs:
@@ -144,16 +147,16 @@ get_traits_and_carbon_costs <- function(
     ## Output
     return(
       tibble(
-        vcmax_mine = vcmax,
-        jmax_mine = jmax,
-        gs_mine = gs,
-        ci_mine = ci,
-        chi_mine = ci / ca,
-        a_c_mine = a_c,
-        a_j_mine = a_j,
+        vcmax = vcmax,
+        jmax = jmax,
+        gs = gs,
+        ci = ci,
+        chi = ci / ca,
+        a_c = a_c,
+        a_j = a_j,
         a_gross = a_gross,
-        ci_c_mine = ci_c,
-        ci_j_mine = ci_j,
+        ci_c = ci_c,
+        ci_j = ci_j,
         cost_transp = carbon_costs$cost_transp,
         cost_vcmax = carbon_costs$cost_vcmax,
         cost_jmax = carbon_costs$cost_jmax,
