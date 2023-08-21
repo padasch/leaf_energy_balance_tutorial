@@ -66,7 +66,7 @@ The function calls below are ordered in decreasing order they are called in the 
 
 tc_air  <- 25     # degC
 tc_leaf <- 30     # degC
-vpd     <- 2000   # Pa
+vpd_air <- 2000   # Pa
 patm    <- 101325 # Pa
 co2     <- 400    # ppm
 ppfd    <- 500e-6 # mol/m2/s
@@ -77,6 +77,35 @@ fapar   <- 1      # -
 kphio   <- 0.087  # -
 beta    <- 146    # -
 c_cost  <- 0.103  # -
+```
+
+### Numerical P-Model
+
+Demonstration of the numerical P-Model algorithm without considering the leaf energy balance. Comparing the results of the numerical P-Model against the analytical P-Model shows that they achieve a similar $\chi \approx0.68$ but with quite different values for $V_{cmax}$, $J_{cmax}$, and $g_{s}$
+
+```{r}
+get_optimized_traits_and_costs(
+  tc_leaf = tc_air,
+  vpd_leaf = vpd_air,
+  patm = patm,
+  co2 = co2,
+  ppfd = ppfd,
+  kphio = kphio
+) |> knitr::kable()
+
+rpmodel::rpmodel(
+  tc = tc_air, 
+  vpd = vpd_air, 
+  co2 = co2, 
+  fapar = 1, 
+  ppfd = ppfd, 
+  patm = patm, 
+  kphio = kphio
+) |> as_tibble() |> knitr::kable()
+```
+
+```{r}
+
 ```
 
 ### Energy Balance Algorithm
@@ -90,7 +119,7 @@ diff_tcleaf <-
     tc_air        = tc_air,
     gs            = gs,
     ppfd          = ppfd, 
-    vpd_air       = vpd, 
+    vpd_air       = vpd_air, 
     patm          = patm,
     return_what   = c("balance")
   )
@@ -101,7 +130,7 @@ leb_fluxes <-
     tc_air        = tc_air,
     gs            = gs,
     ppfd          = ppfd, 
-    vpd_air       = vpd, 
+    vpd_air       = vpd_air, 
     patm          = patm,
     return_what   = c("fluxes")
   )
@@ -116,8 +145,7 @@ knitr::kable(leb_fluxes)
 
 #### Optimize Energy Balance 
 
+Since the
+
 ```{r}
-get_diff_input_tcleaf_and_eb_tcleaf(
-  
-)
 ```
