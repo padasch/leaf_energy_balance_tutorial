@@ -1,0 +1,14 @@
+{
+  "hash": "0b108e77e32670f3ddfe59f9b226ff99",
+  "result": {
+    "markdown": "---\ntitle: \"Leaf Energy Balance Tutorial\"\n---\n\n\nThis is an online tutorial to simulate a leaf's energy balance to different drivers.\n\n# Requirements\n\n\n::: {.cell}\n\n```{.r .cell-code}\nsessionInfo()\n```\n\n::: {.cell-output .cell-output-stdout}\n```\nR version 4.3.1 (2023-06-16)\nPlatform: aarch64-apple-darwin20 (64-bit)\nRunning under: macOS Ventura 13.4.1\n\nMatrix products: default\nBLAS:   /Library/Frameworks/R.framework/Versions/4.3-arm64/Resources/lib/libRblas.0.dylib \nLAPACK: /Library/Frameworks/R.framework/Versions/4.3-arm64/Resources/lib/libRlapack.dylib;  LAPACK version 3.11.0\n\nlocale:\n[1] C/UTF-8/C/C/C/C\n\ntime zone: Europe/Zurich\ntzcode source: internal\n\nattached base packages:\n[1] stats     graphics  grDevices utils     datasets  methods   base     \n\nloaded via a namespace (and not attached):\n [1] htmlwidgets_1.6.2 compiler_4.3.1    fastmap_1.1.1     cli_3.6.1        \n [5] tools_4.3.1       htmltools_0.5.5   rstudioapi_0.14   yaml_2.3.7       \n [9] rmarkdown_2.22    knitr_1.43        jsonlite_1.8.5    xfun_0.39        \n[13] digest_0.6.31     rlang_1.1.1       evaluate_0.21    \n```\n:::\n:::\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}
