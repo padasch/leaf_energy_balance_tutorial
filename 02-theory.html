@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Leaf Energy Balance Tutorial - 3&nbsp; Theory</title>
+<title>Leaf Energy Balance Tutorial - 2&nbsp; Theory</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -140,7 +140,7 @@ div.csl-indent {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./02-theory.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Theory</span></a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./02-theory.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Theory</span></a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -163,43 +163,49 @@ div.csl-indent {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Leaf Energy Balance Tutorial</span></span></a>
+ <span class="menu-text">About</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./01-introduction.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./02-theory.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Theory</span></span></a>
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Theory</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./03-implementation.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Algorithm</span></span></a>
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Algorithm</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./04-sensitivity_analysis.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">04-sensitivity_analysis.html</span></span></a>
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">04-sensitivity_analysis.html</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./05-test_case.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Test Case</span></span></a>
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Test Cases</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./99-exercise.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Next Steps</span></span></a>
+  <a href="./98-next-steps.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Next Steps</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./99-variables.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Variables</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -218,18 +224,17 @@ div.csl-indent {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#instantaneous-photosynthesis" id="toc-instantaneous-photosynthesis" class="nav-link active" data-scroll-target="#instantaneous-photosynthesis"><span class="header-section-number">3.0.1</span> Instantaneous Photosynthesis</a></li>
-  <li><a href="#acclimated-photosynthesis" id="toc-acclimated-photosynthesis" class="nav-link" data-scroll-target="#acclimated-photosynthesis"><span class="header-section-number">3.0.2</span> Acclimated Photosynthesis</a></li>
-  <li><a href="#drivers" id="toc-drivers" class="nav-link" data-scroll-target="#drivers"><span class="header-section-number">3.0.3</span> Drivers</a></li>
-  <li><a href="#relevance-of-predicting-leaf-temperatures" id="toc-relevance-of-predicting-leaf-temperatures" class="nav-link" data-scroll-target="#relevance-of-predicting-leaf-temperatures"><span class="header-section-number">4</span> Relevance of Predicting Leaf Temperatures</a></li>
-  <li><a href="#sec-leb" id="toc-sec-leb" class="nav-link" data-scroll-target="#sec-leb"><span class="header-section-number">5</span> A Leaf’s Energy Balance</a></li>
-  <li><a href="#the-p-model" id="toc-the-p-model" class="nav-link" data-scroll-target="#the-p-model"><span class="header-section-number">6</span> The P-Model</a>
+  <li><a href="#instantaneous-photosynthesis" id="toc-instantaneous-photosynthesis" class="nav-link active" data-scroll-target="#instantaneous-photosynthesis"><span class="header-section-number">2.0.1</span> Instantaneous Photosynthesis</a></li>
+  <li><a href="#acclimated-photosynthesis" id="toc-acclimated-photosynthesis" class="nav-link" data-scroll-target="#acclimated-photosynthesis"><span class="header-section-number">2.0.2</span> Acclimated Photosynthesis</a></li>
+  <li><a href="#drivers" id="toc-drivers" class="nav-link" data-scroll-target="#drivers"><span class="header-section-number">2.0.3</span> Drivers</a></li>
+  <li><a href="#relevance-of-predicting-leaf-temperatures" id="toc-relevance-of-predicting-leaf-temperatures" class="nav-link" data-scroll-target="#relevance-of-predicting-leaf-temperatures"><span class="header-section-number">3</span> Relevance of Predicting Leaf Temperatures</a></li>
+  <li><a href="#sec-leb" id="toc-sec-leb" class="nav-link" data-scroll-target="#sec-leb"><span class="header-section-number">4</span> A Leaf’s Energy Balance</a></li>
+  <li><a href="#the-p-model" id="toc-the-p-model" class="nav-link" data-scroll-target="#the-p-model"><span class="header-section-number">5</span> The P-Model</a>
   <ul class="collapse">
-  <li><a href="#background" id="toc-background" class="nav-link" data-scroll-target="#background"><span class="header-section-number">6.1</span> Background</a></li>
-  <li><a href="#an-analytic-approach" id="toc-an-analytic-approach" class="nav-link" data-scroll-target="#an-analytic-approach"><span class="header-section-number">6.2</span> An Analytic Approach</a></li>
-  <li><a href="#a-numeric-approach" id="toc-a-numeric-approach" class="nav-link" data-scroll-target="#a-numeric-approach"><span class="header-section-number">6.3</span> A Numeric Approach</a></li>
+  <li><a href="#background" id="toc-background" class="nav-link" data-scroll-target="#background"><span class="header-section-number">5.1</span> Background</a></li>
+  <li><a href="#an-analytic-approach" id="toc-an-analytic-approach" class="nav-link" data-scroll-target="#an-analytic-approach"><span class="header-section-number">5.2</span> An Analytic Approach</a></li>
+  <li><a href="#a-numeric-approach" id="toc-a-numeric-approach" class="nav-link" data-scroll-target="#a-numeric-approach"><span class="header-section-number">5.3</span> A Numeric Approach</a></li>
   </ul></li>
-  <li><a href="#symbols" id="toc-symbols" class="nav-link" data-scroll-target="#symbols"><span class="header-section-number">7</span> Symbols</a></li>
   </ul>
 </nav>
     </div>
@@ -238,7 +243,7 @@ div.csl-indent {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span id="sec-theory" class="quarto-section-identifier"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Theory</span></span></h1>
+<h1 class="title"><span id="sec-theory" class="quarto-section-identifier"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Theory</span></span></h1>
 </div>
 
 
@@ -266,8 +271,8 @@ Tip
 <p>Visualizations and functions for the equations below are given in the Chapter Implementation</p>
 </div>
 </div>
-<section id="instantaneous-photosynthesis" class="level3" data-number="3.0.1">
-<h3 data-number="3.0.1" class="anchored" data-anchor-id="instantaneous-photosynthesis"><span class="header-section-number">3.0.1</span> Instantaneous Photosynthesis</h3>
+<section id="instantaneous-photosynthesis" class="level3" data-number="2.0.1">
+<h3 data-number="2.0.1" class="anchored" data-anchor-id="instantaneous-photosynthesis"><span class="header-section-number">2.0.1</span> Instantaneous Photosynthesis</h3>
 <p>Photosynthesis is the process by which plants use the energy from sunlight to turn CO<span class="math inline">\(_2\)</span> and H<span class="math inline">\(_2\)</span>O into biomass and O<span class="math inline">\(_2\)</span>. A commonly used photosynthesis model, the Farquhar-vonCaemmerer-Berry Model <span class="citation" data-cites="berry1980photosynthetic">(<a href="references.html#ref-berry1980photosynthetic" role="doc-biblioref">Berry &amp; Bjorkman, 1980</a>)</span> describes gross photosynthesis (<span class="math inline">\(A_{gross}\)</span>) as the smaller of two reactions:</p>
 <p><span class="math display">\[
 A_{gross} = \text{min}(A_c,\; A_j)
@@ -292,10 +297,10 @@ E = g_s 1.6D
 \]</span></p>
 <p>Here, <span class="math inline">\(E\)</span> is the transpiration of water, <span class="math inline">\(D\)</span> is the vapor pressure deficit (the difference between actual and saturated water vapor pressure), <span class="math inline">\(g_s\)</span> is the stomatal conductance of CO<span class="math inline">\(_2\)</span> (the <span class="math inline">\(1.6\)</span> are to transform the H<span class="math inline">\(_2\)</span>O flux into units of CO<span class="math inline">\(_2\)</span>). This stomatal conductance can then be used in a separate stomatal conductance model that predicts how <span class="math inline">\(c_i\)</span> varies</p>
 </section>
-<section id="acclimated-photosynthesis" class="level3" data-number="3.0.2">
-<h3 data-number="3.0.2" class="anchored" data-anchor-id="acclimated-photosynthesis"><span class="header-section-number">3.0.2</span> Acclimated Photosynthesis</h3>
-<section id="the-original-p-model" class="level4" data-number="3.0.2.1">
-<h4 data-number="3.0.2.1" class="anchored" data-anchor-id="the-original-p-model"><span class="header-section-number">3.0.2.1</span> The original P-Model</h4>
+<section id="acclimated-photosynthesis" class="level3" data-number="2.0.2">
+<h3 data-number="2.0.2" class="anchored" data-anchor-id="acclimated-photosynthesis"><span class="header-section-number">2.0.2</span> Acclimated Photosynthesis</h3>
+<section id="the-original-p-model" class="level4" data-number="2.0.2.1">
+<h4 data-number="2.0.2.1" class="anchored" data-anchor-id="the-original-p-model"><span class="header-section-number">2.0.2.1</span> The original P-Model</h4>
 <p>To predict the three key variables mentioned above, we use the “P-Model” (the “P” stands for “Productivity”) formulation that was originally published by <span class="citation" data-cites="prentice2014balancing">Prentice et al. (<a href="references.html#ref-prentice2014balancing" role="doc-biblioref">2014</a>)</span>. The model is based on two eco-evolutionary optimality principles. The <strong>Coordination Hypothesis</strong> states that a leave coordinates its physiology so that during midday conditions (high light, high temperature) neither photosynthesis rate is limiting:</p>
 <p><span class="math display">\[
 A_{gross} = A_c = A_j
@@ -323,19 +328,19 @@ Tip
 </div>
 </div>
 </section>
-<section id="a-numerical-approach" class="level4" data-number="3.0.2.2">
-<h4 data-number="3.0.2.2" class="anchored" data-anchor-id="a-numerical-approach"><span class="header-section-number">3.0.2.2</span> A numerical approach</h4>
+<section id="a-numerical-approach" class="level4" data-number="2.0.2.2">
+<h4 data-number="2.0.2.2" class="anchored" data-anchor-id="a-numerical-approach"><span class="header-section-number">2.0.2.2</span> A numerical approach</h4>
 </section>
 </section>
-<section id="drivers" class="level3" data-number="3.0.3">
-<h3 data-number="3.0.3" class="anchored" data-anchor-id="drivers"><span class="header-section-number">3.0.3</span> Drivers</h3>
+<section id="drivers" class="level3" data-number="2.0.3">
+<h3 data-number="2.0.3" class="anchored" data-anchor-id="drivers"><span class="header-section-number">2.0.3</span> Drivers</h3>
 <!--# TODO -->
 <ul>
 <li>NEXT: I left off realizing that the whole instantaneous photosynthesis explanation is probably no necessary here… And I found it hard to explain what we actually need to know and what we are actually doing…</li>
 </ul>
 </section>
-<section id="relevance-of-predicting-leaf-temperatures" class="level1" data-number="4">
-<h1 data-number="4"><span class="header-section-number">4</span> Relevance of Predicting Leaf Temperatures</h1>
+<section id="relevance-of-predicting-leaf-temperatures" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Relevance of Predicting Leaf Temperatures</h1>
 <ul>
 <li><p>Explain ongoing discussion on leaf temperature and thermoregulation</p></li>
 <li><p>Recent publications</p>
@@ -348,100 +353,29 @@ Tip
 </ul></li>
 </ul>
 </section>
-<section id="sec-leb" class="level1" data-number="5">
-<h1 data-number="5"><span class="header-section-number">5</span> A Leaf’s Energy Balance</h1>
+<section id="sec-leb" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> A Leaf’s Energy Balance</h1>
 <ul>
 <li><p>A leaf’s energy balance is governed by incoming and outgoing radiation.</p></li>
 <li><p>Add Figure</p></li>
 <li><p>Add some equations to make it fancy</p></li>
 </ul>
 </section>
-<section id="the-p-model" class="level1" data-number="6">
-<h1 data-number="6"><span class="header-section-number">6</span> The P-Model</h1>
-<section id="background" class="level2" data-number="6.1">
-<h2 data-number="6.1" class="anchored" data-anchor-id="background"><span class="header-section-number">6.1</span> Background</h2>
+<section id="the-p-model" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> The P-Model</h1>
+<section id="background" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="background"><span class="header-section-number">5.1</span> Background</h2>
 <p>The P-Model - the “P” stands for “Productivity) - is a photosynthesis model that predicts the acclimation of key photosynthetic traits based on eco-evolutionary optimality principles. Specifically, it rests on two principles: The Coordination Hypothesis by <span class="citation" data-cites="maire2012coordination">Maire et al. (<a href="references.html#ref-maire2012coordination" role="doc-biblioref">2012</a>)</span> stating that a leaf coordinates its two limiting</p>
 </section>
-<section id="an-analytic-approach" class="level2" data-number="6.2">
-<h2 data-number="6.2" class="anchored" data-anchor-id="an-analytic-approach"><span class="header-section-number">6.2</span> An Analytic Approach</h2>
+<section id="an-analytic-approach" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="an-analytic-approach"><span class="header-section-number">5.2</span> An Analytic Approach</h2>
 <ul>
 <li><p>Make clear that this is only the optimally achieved leaf temperature and not the instantaneous one</p></li>
 <li><p>But state that this explicitly includes the regulation of thermoregulation and thermal acclimation</p></li>
 </ul>
 </section>
-<section id="a-numeric-approach" class="level2" data-number="6.3">
-<h2 data-number="6.3" class="anchored" data-anchor-id="a-numeric-approach"><span class="header-section-number">6.3</span> A Numeric Approach</h2>
-</section>
-</section>
-<section id="symbols" class="level1" data-number="7">
-<h1 data-number="7"><span class="header-section-number">7</span> Symbols</h1>
-<table class="table">
-<caption>Overview of variables used in this tutorial.</caption>
-<colgroup>
-<col style="width: 20%">
-<col style="width: 20%">
-<col style="width: 20%">
-<col style="width: 37%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Symbol</th>
-<th>Variable</th>
-<th>Unit</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><span class="math inline">\(V_{cmax}\)</span></td>
-<td>vcmax</td>
-<td><span class="math inline">\(\mu\)</span>mol/CO<span class="math inline">\(_2\)</span>/s</td>
-<td>Maximum carboxylation rate of rubisco</td>
-</tr>
-<tr class="even">
-<td><span class="math inline">\(J_{max}\)</span></td>
-<td>jmax</td>
-<td></td>
-<td></td>
-</tr>
-<tr class="odd">
-<td><span class="math inline">\(g_s\)</span></td>
-<td>gs</td>
-<td></td>
-<td>Stomatal conductance</td>
-</tr>
-<tr class="even">
-<td><span class="math inline">\(c_i\)</span></td>
-<td>ci</td>
-<td>-</td>
-<td>Leaf-internal CO<span class="math inline">\(_2\)</span> concentration</td>
-</tr>
-<tr class="odd">
-<td><span class="math inline">\(A_c\)</span></td>
-<td>ac</td>
-<td></td>
-<td>Carboxylation-limited photosynthesis</td>
-</tr>
-<tr class="even">
-<td><span class="math inline">\(A_j\)</span></td>
-<td>aj</td>
-<td></td>
-<td>RuBP-limited photosynthesis</td>
-</tr>
-<tr class="odd">
-<td><span class="math inline">\(A_{gross}\)</span></td>
-<td>agross</td>
-<td></td>
-<td>Gross photosynthesis</td>
-</tr>
-<tr class="even">
-<td><span class="math inline">\(D\)</span></td>
-<td>vpd</td>
-<td>Pa</td>
-<td>Vapor pressure deficit</td>
-</tr>
-</tbody>
-</table>
+<section id="a-numeric-approach" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="a-numeric-approach"><span class="header-section-number">5.3</span> A Numeric Approach</h2>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" data-line-spacing="2" role="list" style="display: none">
@@ -467,6 +401,7 @@ Stocker, B. D., Wang, H., Smith, N. G., Harrison, S. P., Keenan, T. F., Sandoval
 Stocker, B., &amp; Hufkens, K. (2021). <em>Rpmodel v1.2.0: R package implementing the p-model</em>. Zenodo. <a href="https://doi.org/10.5281/ZENODO.3359706">https://doi.org/10.5281/ZENODO.3359706</a>
 </div>
 </div>
+</section>
 </section>
 
 </main> <!-- /main -->
@@ -821,12 +756,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
       <a href="./01-introduction.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Introduction</span></span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="./03-implementation.html" class="pagination-link">
-        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Algorithm</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Algorithm</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
