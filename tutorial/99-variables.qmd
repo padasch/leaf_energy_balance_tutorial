@@ -1,0 +1,14 @@
+# Variables {.unnumbered}
+
+| Symbol      | Variable | Unit              | Description                           |
+|---------------|---------------|---------------|---------------------------|
+| $V_{cmax}$  | vcmax    | $\mu$mol/CO$_2$/s | Maximum carboxylation rate of rubisco |
+| $J_{max}$   | jmax     |                   |                                       |
+| $g_s$       | gs       |                   | Stomatal conductance                  |
+| $c_i$       | ci       | \-                | Leaf-internal CO$_2$ concentration    |
+| $A_c$       | ac       |                   | Carboxylation-limited photosynthesis  |
+| $A_j$       | aj       |                   | RuBP-limited photosynthesis           |
+| $A_{gross}$ | agross   |                   | Gross photosynthesis                  |
+| $D$         | vpd      | Pa                | Vapor pressure deficit                |
+
+: Overview of variables used in this tutorial.

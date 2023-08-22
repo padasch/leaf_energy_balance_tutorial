@@ -14,7 +14,8 @@ book:
     - 03-implementation.qmd
     - 04-sensitivity_analysis.qmd
     - 05-test_case.qmd
-    - 99-exercise.qmd
+    - 98-next-steps.qmd
+    - 99-variables.qmd
     - references.qmd
   search: true
   sharing: [twitter, facebook]
@@ -34,8 +35,17 @@ format:
       light: flatly
     css: styles.css
     toc: true
-    code-fold: show
+    grid: 
+      body-width: 1000px
+      sidebar-width: 250px
+      margin-width: 250px
+    # code-fold: show
+    code-line-numbers: true
     
+knitr:  
+  opts_chunk:
+    out.width: "80%"
+    fig.align: "center"
 
 editor: visual
 
