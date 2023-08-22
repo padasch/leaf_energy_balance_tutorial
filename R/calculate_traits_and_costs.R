@@ -17,10 +17,10 @@
 #' @export
 #'
 #' @examples
-get_traits_and_carbon_costs <- function(
+calculate_traits_and_costs <- function(
     par,
-    tc_leaf,
-    vpd_leaf,
+    tc_air,
+    vpd_air,
     ppfd,
     fapar = 1,
     co2,
@@ -29,7 +29,9 @@ get_traits_and_carbon_costs <- function(
     beta       = 146.0,
     maximize   = FALSE,
     return_all = TRUE,
-    units_out  = "per-s") {
+    units_out  = "per-s",
+    include_energy_balance = FALSE,
+    ...) {
   
   
   ## 1: Parameters to be optimized:
@@ -38,7 +40,23 @@ get_traits_and_carbon_costs <- function(
   gs    <- par[3]
   
   ## x: Given gs, calculate the leaf temperature
-  
+  if (include_energy_balance == TRUE){
+    tc_leaf <- 
+      optimize_leaf_energy_balance(
+        tc_air  = tc_air,
+        vpd_air = vpd_air,
+        gs      = gs   / 3600 / 24, # Adjust input to per-second
+        ppfd    = ppfd / 3600 / 24, # Adjust input to per-second
+        patm    = patm,
+        ...
+      )
+    
+    vpd_leaf <- air_vpd_to_leaf_vpd(vpd_air, tc_air, tc_leaf)
+    
+  } else {
+    tc_leaf  <- tc_air
+    vpd_leaf <- vpd_air
+  }
   
   ## 2: Get photosynthetic variables based on environmental conditions:
   kmm       <- rpmodel::kmm(tc_leaf, patm)
@@ -160,7 +178,10 @@ get_traits_and_carbon_costs <- function(
         cost_transp = carbon_costs$cost_transp,
         cost_vcmax = carbon_costs$cost_vcmax,
         cost_jmax = carbon_costs$cost_jmax,
-        carbon_costs = carbon_costs$carbon_costs
+        carbon_costs = carbon_costs$carbon_costs,
+        include_energy_balance = include_energy_balance,
+        tc_air  = tc_air,
+        tc_leaf = tc_leaf
       )
     )
   } else {

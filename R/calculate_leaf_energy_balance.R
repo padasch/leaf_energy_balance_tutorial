@@ -24,8 +24,8 @@
 calculate_leaf_energy_balance <- function(
   tc_leaf       = 21.5, 
   tc_air        = 20,
-  gs            = 0.15,
-  ppfd          = 1500, 
+  gs            = 1.5e-6,
+  ppfd          = 1500e-6, 
   vpd_air       = 2000, 
   patm          = 101325,
   wind          = 2, 
@@ -43,7 +43,7 @@ calculate_leaf_energy_balance <- function(
   # gs here is in mol H2O / m2 / s
   # Turning stomatal conductance of CO2 into conductance of H2O
   gs   <- 1.6 * gs * patm
-  ppfd <- ppfd * 10^-6 
+  ppfd <- ppfd * 10^6 
   
   # Define constants
   Boltz      <- 5.67 * 10^-8 # w M-2 K-4
@@ -98,8 +98,14 @@ calculate_leaf_energy_balance <- function(
   Rnet <- leaf_abs * Rsol - Rlongup # full
   
   # Isothermal net radiation (Leuning et al. 1995, Appendix)
-  ea <- esat(tc_air) - vpd_air
+  ea <- esat(tc_air, patm) - vpd_air
   ema <- 0.642 * (ea / celsius_to_kelvin(tc_air))^(1 / 7)
+  
+  # Safety Check
+  if (is.na(ema)){
+    stop("calculate_leaf_energy_balance: `ema` is NA, likely due to unrealistic combination of given vpd and air temperature (too high vpd for that air temperature).")
+  }
+  
   Rnetiso <- leaf_abs * Rsol - (1 - ema) * Boltz * celsius_to_kelvin(tc_air)^4
   
   # Isothermal version of the Penmon-Monteith equation
@@ -122,8 +128,8 @@ calculate_leaf_energy_balance <- function(
   tc_leaf2 <- tc_air + H2 / (CPAIR * AIRDENS * (Gbh / CMOLAR))
   
   # Difference between input tc_leaf and calculated, this will be minimized.
-  # EnergyBal <- (tc_leaf - tc_leaf2)           # OLD, needed to work with uniroot()
-  EnergyBal <- (tc_leaf - tc_leaf2)^2           # NEW, needed to work with optimr()
+  EnergyBal <- (tc_leaf - tc_leaf2)           # OLD, needed to work with uniroot()
+  # EnergyBal <- (tc_leaf - tc_leaf2)^2           # NEW, needed to work with optimr()
   # EnergyBal <- abs(tc_leaf - tc_leaf2)        # NEW, needs more iterations than ()^2
   
   if (return_what == "balance") {

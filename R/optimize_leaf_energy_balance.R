@@ -1,24 +1,28 @@
-get_optimal_tc_leaf <- function(
+optimize_leaf_energy_balance <- function(
     tc_air,
+    vpd_air,
+    gs,
     ppfd,
     patm,
-    co2,
-    vpd,
-    kphio) {
+    ...) { # ... for any additional leaf energy balance parameter like wind
       
     ## IN DEV:
-    sol_optimize <- optimize(
-      get_diff_input_tcleaf_and_eb_tcleaf,
-      interval  = c(max(tc_air - 15, 1), tc_air + 15),
-      tc_air    = tc_air,
-      vpd_air   = vpd_air,
-      ppfd      = ppfd,
-      co2       = co2,
-      patm      = patm,
-      kphio		  = kphio
-      )
+    sol_optimize <- uniroot(
+      f             = calculate_leaf_energy_balance,
+      interval      = c(max(tc_air - 15, 1), tc_air + 15),
+      # interval      = c(0, 50),
+      tc_air        = tc_air,
+      vpd_air       = vpd_air,
+      gs            = gs,
+      ppfd          = ppfd,
+      patm          = patm,
+      return_what   = "balance",
+      ...
+    )
     
-    return(sol_optimize$minimum)
+    tc_leaf <- sol_optimize$root
+    
+    return(tc_leaf)
     
     ## TODO: OPTIM() AND OPTIMR() BELOW CRASH FOR SOME REASON...
     
