@@ -8,7 +8,8 @@ sapply(
 
 # Packages
 packages <- c(
-  "here", "tidyverse", "ggplot2", "patchwork", "rpmodel"
+  "here", "tidyverse", "ggplot2", "patchwork", "rpmodel",
+  "quarto", "conflicted"
 )
 
 # Install packages not yet installed
@@ -20,5 +21,5 @@ if (any(installed_packages == FALSE)) {
 
 # Packages loading
 invisible(lapply(packages, library, character.only = TRUE))
-# conflict_prefer(name = "select", winner = "dplyr")
-# conflict_prefer(name = "filter", winner = "dplyr")
+conflict_prefer(name = "select", winner = "dplyr")
+conflict_prefer(name = "filter", winner = "dplyr")
