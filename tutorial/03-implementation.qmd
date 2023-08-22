@@ -4,7 +4,6 @@
 source(here::here("R/_setup.R"))
 ```
 
-
 ## Description
 
 The goal of this algorithm is to predict a leaf temperature at which the costs for maintaining photosynthesis are minimal. To do this, two optimization algorithms are required as displayed in @fig-optimization-algorithm, the numerical P-Model algorithm and the energy balance algorithm.

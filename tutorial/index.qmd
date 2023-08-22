@@ -4,6 +4,15 @@ This is an online tutorial to simulate a leaf's energy balance to different driv
 
 # Requirements
 
+```{r include=TRUE}
+source(here::here("R/_setup.R"))
+```
+
+
 ```{r}
 sessionInfo()
+```
+
+```{r}
+renv::diagnostics()
 ```
