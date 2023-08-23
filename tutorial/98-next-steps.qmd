@@ -20,6 +20,8 @@ The optimization criteria in @eq-rcc seems to fail to optimize $J_{max}$ and has
 
 -   The current model only applies to long-term acclimation conditions. One could couple an instantaneous photosynthesis model (see {rpmodel} package) to predict on shorter timescales. However, to couple an energy balance model to the instantaneous photosynthesis model, one would first need a numerical formulation of the latter.
 
+-   The current implementation uses the {optimr} package, which may or may not be suitable. To test whether another optimization algorithm finds a better solution, one could implement the {gensa} package instead.
+
 ## Refining Energy Balance Model
 
 -   Not all parameters used in the current implementation may stay constant. For example, a leaf's emissivity may depart from the chosen 0.95. One could add such variables to the function's input and run a sensitivity analysis.
