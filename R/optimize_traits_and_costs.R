@@ -30,9 +30,9 @@ optimize_traits_and_costs <- function(
   
   ## Input for optimization has to be in per-day to work properly:
   ppfd        <- ppfd * 3600 * 24  # / 3600 / 24
-  vcmax_start <- 20                # / 3600 / 24
-  jmax_start  <- 20                # / 3600 / 24 
-  gs_start    <- 0.3               # / 3600 / 24 
+  vcmax_start <- 5                # / 3600 / 24
+  jmax_start  <- 10                # / 3600 / 24 
+  gs_start    <- 0.05               # / 3600 / 24 
   
   ## Run optimization
   ## (TODO: Output order of magnitude depends on lower/upper boundaries)
@@ -40,8 +40,8 @@ optimize_traits_and_costs <- function(
     
     ## Optimization inputs:
     par        = c( vcmax_start,      jmax_start     , gs_start),
-    upper      = c( vcmax_start*1000, jmax_start*1000, gs_start*100 ),
-    lower      = c( vcmax_start/1000, jmax_start/1000, gs_start/100 ),
+    upper      = c( vcmax_start*100, jmax_start*100, gs_start*10 ),
+    lower      = c( vcmax_start/100, jmax_start/100, gs_start/10 ),
     fn         = calculate_traits_and_costs,
     method     = "L-BFGS-B",
     control    = list(maxit = 1000),

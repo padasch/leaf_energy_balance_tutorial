@@ -1,7 +1,7 @@
 # Variables {#sec-variables .unnumbered}
 
 | Symbol      | Variable | Unit              | Description                           |
-|-----------------|-----------------|-----------------|-----------------------|
+|-------------|----------|-------------------|---------------------------------------|
 | $V_{cmax}$  | vcmax    | $\mu$mol/CO$_2$/s | Maximum carboxylation rate of rubisco |
 | $J_{max}$   | jmax     |                   |                                       |
 | $g_s$       | gs       |                   | Stomatal conductance                  |

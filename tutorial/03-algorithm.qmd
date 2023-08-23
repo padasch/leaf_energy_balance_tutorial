@@ -152,15 +152,15 @@ In @fig-cost-function, this sensitivity of the carbon costs against varying valu
 
 # Get reference dataframe
 n_steps <- 50
-df_base <- tibble(.rows = n_steps)
+df_base_cc <- tibble(.rows = n_steps)
 
-df_base$vcmax      <- rep(vcmax, n_steps)
-df_base$jmax       <- rep(jmax, n_steps)
-df_base$gs         <- rep(gs, n_steps)
-df_base$cost_total <- rep(NA, n_steps)
-df_base$cost_vcmax <- rep(NA, n_steps)
-df_base$cost_jmax  <- rep(NA, n_steps)
-df_base$cost_gs    <- rep(NA, n_steps)
+df_base_cc$vcmax      <- rep(vcmax, n_steps)
+df_base_cc$jmax       <- rep(jmax, n_steps)
+df_base_cc$gs         <- rep(gs, n_steps)
+df_base_cc$cost_total <- rep(NA, n_steps)
+df_base_cc$cost_vcmax <- rep(NA, n_steps)
+df_base_cc$cost_jmax  <- rep(NA, n_steps)
+df_base_cc$cost_gs    <- rep(NA, n_steps)
 
 df_cc <- tibble()
 
@@ -209,21 +209,21 @@ loop_carbon_costs <- function(df_in, var) {
 
 ## Run function
 # Vcmax
-df_tmp <- df_base
+df_tmp <- df_base_cc
 df_tmp$vcmax <- seq(vcmax/10, vcmax*10, length.out = n_steps)
 
 df_tmp  <- loop_carbon_costs(df_tmp, "vcmax")
 df_cc   <- rbind(df_cc, df_tmp)
 
 # Jmax
-df_tmp <- df_base
+df_tmp <- df_base_cc
 df_tmp$jmax <- seq(jmax/10, jmax*10, length.out = n_steps)
 
 df_tmp  <- loop_carbon_costs(df_tmp, "jmax")
 df_cc   <- rbind(df_cc, df_tmp)
 
 # gs
-df_tmp <- df_base
+df_tmp <- df_base_cc
 df_tmp$gs <- seq(gs/10, gs*10, length.out = n_steps)
 
 df_tmp  <- loop_carbon_costs(df_tmp, "gs")
@@ -378,6 +378,9 @@ df_tmp$vpd_air <-
     tc_air = tc_air,
     tc_leaf = df_tmp$tc_air)
 
+# Removing negative vpd values
+# df_tmp <- mutate(df_tmp, vpd_air = ifelse(vpd_air < 0, 10, vpd_air))
+
 df_tmp <- run_fun(df_tmp, "tc_air")
 df_abio <- rbind(df_abio, df_tmp)
 
@@ -436,6 +439,7 @@ df_bio$name <- as.factor(df_bio$name)
 ```
 
 ```{r}
+#| code-fold: true
 df_abio |> 
   ggplot() +
   aes(x = value,
@@ -471,6 +475,7 @@ df_abio |>
   ggplot() +
   aes(x = value,
       y = tc_diff) +
+  geom_hline(yintercept = 0, lty = "dotted") +
   geom_line() +
   geom_point() +
   facet_wrap(~name, 
@@ -480,19 +485,18 @@ df_abio |>
        subtitle = "Below dotted line means the leaf is cooler",
        y = "T_leaf - T_air [ºC]",
        x = "Variable value") +
-  geom_hline(yintercept = 0, lty = "dotted") +
   theme_classic()
 
 df_bio |> 
   ggplot() +
   aes(x = value,
       y = tc_diff) +
+  geom_hline(yintercept = 0, lty = "dotted") +
   geom_line() +
   geom_point() +
   facet_wrap(~name, 
              scales = "free_x") +
   ylim(-7.5, 7.5) +
-  geom_hline(yintercept = 0, lty = "dotted") +
   labs(title = "Sensitivity of delta T to biotic drivers",
        subtitle = "Below dotted line means the leaf is cooler",
        y = "T_leaf - T_air [ºC]",
@@ -516,7 +520,7 @@ optimize_traits_and_costs(
 ) |> knitr::kable()
 ```
 
-#### Comparison w vs w/o
+#### Model Comparison
 
 Below is a demonstration for the predictions of the numerical P-Model with and without the energy balance coupled. We see that given the same conditions, the coupled model predicts higher leaf than air temperatures across a range of air temperatures. Additionally, we see that the coupled model simulates an opening of the stomata whereby the predicted stomatal conductance is up to three times what the non-coupled model predicts. Since the leaf is warmer, and following the idea of optimality, the predicted values for $V_{cmax}$ tend to be smaller.
 
@@ -533,6 +537,9 @@ df_tmp$vpd_air <-
     vpd_air = vpd_air,
     tc_air = tc_air,
     tc_leaf = df_tmp$tc_air)
+
+# Removing negative vpd values
+#df_tmp <- mutate(df_tmp, vpd_air = ifelse(vpd_air < 0, 10, vpd_air))
 
 # With and Without EB
 df_with_eb <- df_tmp
@@ -607,7 +614,6 @@ df_fin |>
   labs(title = "Sensitivity of traits to tc_air",
        x = "T_air [ºC]",
        y = "Trait Value") +
-  geom_hline(yintercept = 0, lty = "dotted") +
   theme_classic() 
 
 df_fin |> 
@@ -617,14 +623,14 @@ df_fin |>
   aes(y = tc_diff,
       x = tc_air,
       color = energy_balance) +
+  geom_hline(yintercept = 0, lty = "dotted") +
   geom_line() +
   geom_point() +
   labs(title = "Sensitivity of air-to-leaf temperature difference to tc_air",
        subtitle = "Below the dotted line means the leaf is cooler than air",
        x = "T_air [ºC]",
        y = "T_leaf - T_air [ºC]") +
-  geom_hline(yintercept = 0, lty = "dotted") +
-  ylim(-0.5, 0.5) +
+  ylim(-8, 8) +
   theme_classic() 
 ```
 
@@ -638,15 +644,15 @@ In @fig-cost-function-eb is a demonstration for the effect the coupled energy ba
 
 # Get reference dataframe
 n_steps <- 50
-df_base <- tibble(.rows = n_steps)
+df_base_cc <- tibble(.rows = n_steps)
 
-df_base$vcmax      <- rep(vcmax, n_steps)
-df_base$jmax       <- rep(jmax, n_steps)
-df_base$gs         <- rep(gs, n_steps)
-df_base$cost_total <- rep(NA, n_steps)
-df_base$cost_vcmax <- rep(NA, n_steps)
-df_base$cost_jmax  <- rep(NA, n_steps)
-df_base$cost_gs    <- rep(NA, n_steps)
+df_base_cc$vcmax      <- rep(vcmax, n_steps)
+df_base_cc$jmax       <- rep(jmax, n_steps)
+df_base_cc$gs         <- rep(gs, n_steps)
+df_base_cc$cost_total <- rep(NA, n_steps)
+df_base_cc$cost_vcmax <- rep(NA, n_steps)
+df_base_cc$cost_jmax  <- rep(NA, n_steps)
+df_base_cc$cost_gs    <- rep(NA, n_steps)
 
 df_cc <- tibble()
 
@@ -695,21 +701,21 @@ loop_carbon_costs <- function(df_in, var) {
 
 ## Run function
 # Vcmax
-df_tmp <- df_base
+df_tmp <- df_base_cc
 df_tmp$vcmax <- seq(vcmax/10, vcmax*10, length.out = n_steps)
 
 df_tmp  <- loop_carbon_costs(df_tmp, "vcmax")
 df_cc   <- rbind(df_cc, df_tmp)
 
 # Jmax
-df_tmp <- df_base
+df_tmp <- df_base_cc
 df_tmp$jmax <- seq(jmax/10, jmax*10, length.out = n_steps)
 
 df_tmp  <- loop_carbon_costs(df_tmp, "jmax")
 df_cc   <- rbind(df_cc, df_tmp)
 
 # gs
-df_tmp <- df_base
+df_tmp <- df_base_cc
 df_tmp$gs <- seq(gs/10, gs*10, length.out = n_steps)
 
 df_tmp  <- loop_carbon_costs(df_tmp, "gs")

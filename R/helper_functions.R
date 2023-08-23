@@ -33,7 +33,9 @@ air_vpd_to_leaf_vpd <- function(
   e   <- esat(tc_air, patm) - vpd_air
   vpd <- esat(tc_leaf, patm) - e
   
-  return(vpd/1000)
+  # if (min(vpd, 0) == 0) warning("Calculated VPD is below 0!")
+  
+  return(vpd)
 }
 
 # Function to solve quadratic equations
