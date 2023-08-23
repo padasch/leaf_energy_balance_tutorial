@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Leaf Energy Balance Tutorial - 5&nbsp; Test Cases</title>
+<title>Leaf Energy Balance Tutorial - 1&nbsp; Motivation</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,7 +20,26 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -30,19 +49,19 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./98-next-steps.html" rel="next">
-<link href="./04-sensitivity_analysis.html" rel="prev">
+<link href="./02-theory.html" rel="next">
+<link href="./index.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark.min.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -64,8 +83,6 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <link rel="stylesheet" href="styles.css">
 </head>
@@ -121,7 +138,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./05-test_case.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Test Cases</span></a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./01-motivation.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Motivation</span></a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -149,8 +166,8 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./01-introduction.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
+  <a href="./01-motivation.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Motivation</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -161,26 +178,14 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./03-implementation.html" class="sidebar-item-text sidebar-link">
+  <a href="./03-algorithm.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Algorithm</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./04-sensitivity_analysis.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">04-sensitivity_analysis.html</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./05-test_case.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Test Cases</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="./98-next-steps.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Next Steps</span></span></a>
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Next Steps</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -205,9 +210,9 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#leaf-traits" id="toc-leaf-traits" class="nav-link active" data-scroll-target="#leaf-traits"><span class="header-section-number">5.1</span> Leaf traits</a></li>
-  <li><a href="#land-surface-temperature" id="toc-land-surface-temperature" class="nav-link" data-scroll-target="#land-surface-temperature"><span class="header-section-number">5.2</span> Land surface temperature</a></li>
-  <li><a href="#water-isotopes" id="toc-water-isotopes" class="nav-link" data-scroll-target="#water-isotopes"><span class="header-section-number">5.3</span> Water Isotopes</a></li>
+  <li><a href="#why-care-about-leaf-temperatures" id="toc-why-care-about-leaf-temperatures" class="nav-link active" data-scroll-target="#why-care-about-leaf-temperatures"><span class="header-section-number">1.1</span> Why Care About Leaf Temperatures?</a></li>
+  <li><a href="#the-debate-on-leaf-thermoregulation" id="toc-the-debate-on-leaf-thermoregulation" class="nav-link" data-scroll-target="#the-debate-on-leaf-thermoregulation"><span class="header-section-number">1.2</span> The Debate on Leaf Thermoregulation</a></li>
+  <li><a href="#the-use-of-eco-evolutionary-optimality-theory" id="toc-the-use-of-eco-evolutionary-optimality-theory" class="nav-link" data-scroll-target="#the-use-of-eco-evolutionary-optimality-theory"><span class="header-section-number">1.3</span> The Use of Eco-Evolutionary Optimality Theory</a></li>
   </ul>
 </nav>
     </div>
@@ -216,7 +221,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Test Cases</span></h1>
+<h1 class="title"><span id="sec-motivation" class="quarto-section-identifier"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Motivation</span></span></h1>
 </div>
 
 
@@ -231,17 +236,106 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
-<section id="leaf-traits" class="level2" data-number="5.1">
-<h2 data-number="5.1" class="anchored" data-anchor-id="leaf-traits"><span class="header-section-number">5.1</span> Leaf traits</h2>
-<p>As a test-case to see whether the numerical P-Model and its coupling with the energy balance model leads to reliable predictions, we are going to predict <span class="math inline">\(V_{cmax}\)</span>. Alter</p>
+<section id="why-care-about-leaf-temperatures" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="why-care-about-leaf-temperatures"><span class="header-section-number">1.1</span> Why Care About Leaf Temperatures?</h2>
+<p>In the realm of modern ecological research, a rather unassuming aspect has gained substantial attention: the temperature of leaves. This seemingly trivial factor, however, plays a crucial role in understanding the dynamics of ecosystems and the biophysical processes that drive them. Moreover, the beauty of leaf temperature modelling lies in its practicality and real-world implications. For example in agriculture, knowing a crop’s leaf temperature and how it vaires under upcoming weather may allow a farmer to take protective actions like shading or increased irrigation to protect that crop from heat stress.</p>
+<p>Or consider the field of Earth system modeling, where many models often use air temperatures to calculate photosynthetic processes for the lack of a comprehensive leaf temperature model. However, as described below, it remains unclear to what extent leaf temperatures depart from air temperatures and why. Even a departure of a few ºC may propagate through an entire model and cause flawed prediction of photosynthesis. Considering that climate change impacts are driven by the change in global surface temperature, ignoring leaf temperature hampers the reliability of impact predictions.</p>
 </section>
-<section id="land-surface-temperature" class="level2" data-number="5.2">
-<h2 data-number="5.2" class="anchored" data-anchor-id="land-surface-temperature"><span class="header-section-number">5.2</span> Land surface temperature</h2>
+<section id="the-debate-on-leaf-thermoregulation" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="the-debate-on-leaf-thermoregulation"><span class="header-section-number">1.2</span> The Debate on Leaf Thermoregulation</h2>
+<p>Even though leaf thermoregulation, that is the mechanism by which leaves may change their temperature, has been researched for decades <span class="citation" data-cites="mahan1988maintenance">(<a href="references.html#ref-mahan1988maintenance" role="doc-biblioref">Mahan &amp; Upchurch, 1988</a>)</span>, there has been a substantial debate growing in recent years (see timeline below). Essentially, the debate centers around the question: “Can plants actively regulate their leaf temperature and if so, when and how?”.</p>
+<p><span class="citation" data-cites="cavaleri2020cold">Cavaleri (<a href="references.html#ref-cavaleri2020cold" role="doc-biblioref">2020</a>)</span> visualized this debate neatly, shown here in <a href="#fig-cavaleri-fig1">Figure&nbsp;<span>1.1</span></a>. The Figure depicts different potential leaf thermoregulation strategies that plants may follow. These strategies can be identified by slope of regressing leaf temperature against air temperature:</p>
+<ul>
+<li><p><strong>Megathermy</strong> describes the case when a leaf warms faster than its surrounding air warms (slope &gt; 1).</p></li>
+<li><p><strong>Poikilothermy</strong> describes the case when a leaf’s temperature changes one-to-one with air temperature (slope = 1). Note that “<strong>poikilothermy</strong> <strong>with offset”</strong> describes the case of poikilothermy but consistently higher leaf than air temperatures.</p></li>
+<li><p><strong>Limited Homeothermy</strong> describes the case when a leaf warms less quickly than its surrounding air (slope &lt; 1).</p></li>
+<li><p><strong>Homeostasis</strong> describes the case when a leaf’s temperature does not change irrespective of changes in temperature.</p></li>
+</ul>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-cavaleri-fig1" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="figures/cavaleri2020cold_fig1.png" class="img-fluid figure-img" style="width:80.0%"></p>
+<figcaption class="figure-caption">Figure&nbsp;1.1: Figure taken from Cavaleri 2020. The Figure visualizes different leaf thermoregulation strategies, indicated by the line’s slope (see main text for definitions).</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>From a physical point of view, a leaf’s temperature arises from the amount of energy it receives through short- and long-wave irradiation, and the amount of energy it loses through latent heat, sensible heat, and long-wave radiation (more on this in <a href="02-theory.html"><span>Chapter&nbsp;2</span></a>. Since a leaves do not produce significant heat through biophysical processes, they can primarily modify their leaf temperature through two path ways. Either, they try to avoid incoming energy from sunlight by adjusting their leaf angle. Or, they increase their energy loss via latent heat by opening their stomata to increase transpiration.</p>
+<p>This latter mechanism has become a scientific debate, since it supports the “limited homeothermy” hypothesis meaning that plants actively cool as their surrounding air warms up to avoid heat stress or even damage <span class="citation" data-cites="mahan1988maintenance">Mahan &amp; Upchurch (<a href="references.html#ref-mahan1988maintenance" role="doc-biblioref">1988</a>)</span>. However, this hypothesis has been questioned and the hypothesis of “poikilothermy” has gained traction (see below). Here’s a short (not extensive) overview of the most recent publications and their main findings on this topic:</p>
+<p>Pro “limited homeothermy”:</p>
+<ul>
+<li><p><span class="citation" data-cites="blonder2018model">Blonder &amp; Michaletz (<a href="references.html#ref-blonder2018model" role="doc-biblioref">2018</a>)</span> gathered a large leaf-level temperature dataset across north america and highlighted that thermoregulation varies a lot across different microclimates. They show that the slope of leaf against air temperature is predictable, especially considering the cooling effect of opening stomata to avoid lethal heat stress.</p></li>
+<li><p><span class="citation" data-cites="dong2017biophysical">Dong et al. (<a href="references.html#ref-dong2017biophysical" role="doc-biblioref">2017</a>)</span> found that monitoring the diurnal cycle of leaf temperature shows exceeding leaf temperature only during midday. But from sunset to sunrise, leaves they can cool themselves below air temperature by increasing transpiration.</p></li>
+</ul>
+<p>Contra “limited homeothermy”:</p>
+<ul>
+<li><p><span class="citation" data-cites="guo2023does">Guo et al. (<a href="references.html#ref-guo2023does" role="doc-biblioref">2023</a>)</span> paired FLUXNET data with MODIS land surface data and found that for the extratropics most ecosystems tend to exhibit poikilothermy with offset and that the difference between leaf and air temperature is primarily driven by abiotic factors. Also see comment by <span class="citation" data-cites="drake2023data">Drake (<a href="references.html#ref-drake2023data" role="doc-biblioref">2023</a>)</span> for broader context.</p></li>
+<li><p><span class="citation" data-cites="still2022no">Still et al. (<a href="references.html#ref-still2022no" role="doc-biblioref">2022</a>)</span> analyzed thermal imaging data across US forests and that canopy leaves tend to be warmer than their surrounding air. They highlighted the diurnal pattern whereby leaf temperature exceeds air temperature mostly during midday.</p></li>
+<li><p><span class="citation" data-cites="drake2020no">Drake et al. (<a href="references.html#ref-drake2020no" role="doc-biblioref">2020</a>)</span> compared leaf-level temperature measurements against re-constructed leaf temperatures from isotopic signatures and found that both methods indicate no thermoregulation in eucalyptus, even under warming treatments.</p></li>
+</ul>
+<p>Related but without stance:</p>
+<ul>
+<li><p><span class="citation" data-cites="vinod2023thermal">Vinod et al. (<a href="references.html#ref-vinod2023thermal" role="doc-biblioref">2023</a>)</span> review paper on mechanisms and drivers of thermal sensitivity gradients within forest canopies.</p></li>
+<li><p><span class="citation" data-cites="still2021imaging">Still et al. (<a href="references.html#ref-still2021imaging" role="doc-biblioref">2021</a>)</span> discusses methods to combine multi-scale data to understand leaf thermoregulation.</p></li>
+<li><p><span class="citation" data-cites="cavaleri2020cold">Cavaleri (<a href="references.html#ref-cavaleri2020cold" role="doc-biblioref">2020</a>)</span> summarized the ongoing debate and highlighted that thermoregulation is not an isolated process but that one needs to account for species variation, canopy structure (“umbrella effect”), and thermal acclimation.</p></li>
+</ul>
+<p>From this inconclusive literature, it is clear that the debate about leaf thermoregulation is not settled. What is more, more and more data from different methods (hand-held device measurements, thermocouples, near and remote thermal imaging, isotopic signature, etc.) deliver different insights at different scales (leaf, canopy, ecosystem). It is thus no wonder that there are papers like “The 90 ways to describe plant temperature” by <span class="citation" data-cites="korner201890">Körner &amp; Hiltbrunner (<a href="references.html#ref-korner201890" role="doc-biblioref">2018</a>)</span>.</p>
 </section>
-<section id="water-isotopes" class="level2" data-number="5.3">
-<h2 data-number="5.3" class="anchored" data-anchor-id="water-isotopes"><span class="header-section-number">5.3</span> Water Isotopes</h2>
+<section id="the-use-of-eco-evolutionary-optimality-theory" class="level2" data-number="1.3">
+<h2 data-number="1.3" class="anchored" data-anchor-id="the-use-of-eco-evolutionary-optimality-theory"><span class="header-section-number">1.3</span> The Use of Eco-Evolutionary Optimality Theory</h2>
+<p>The idea of eco-evolutionary optimality theory (EEO) was well described by <span class="citation" data-cites="harrison2021eco">Harrison et al. (<a href="references.html#ref-harrison2021eco" role="doc-biblioref">2021</a>)</span>:</p>
+<blockquote class="blockquote">
+<p>EEO invokes the power of natural selection to eliminate uncompetitive trait combinations, and thereby shape predictable, general patterns in vegetation structure and composition. The term ‘eco-evolutionary’ expresses the fact that organisms adjust to their environment on both shorter (eco-physiological, days to months) timescales and longer (demographic and evolutionary) timescales.</p>
+</blockquote>
+<p>The key take-away from this definition is the hypothesis that we can describe the composition of an ecosystem and its traits as a consequence of the climatic environment <span class="citation" data-cites="franklin2020organizing">(<a href="references.html#ref-franklin2020organizing" role="doc-biblioref">Franklin et al., 2020</a>)</span>. By coming up with EEO-based constraints for how an ecosystem must have evolved under a given climate, we can predict key photosynthetic processes using nothing else but information on the environment. Compared to the common approach to describe these processes with empirical fixed parametrization, EEO-principles allow more flexible predictions and gradual development of ecosystems under global change into account. Therefore, these principles offer a great opportunity to create more reliable, robust, and realistic Earth system models <span class="citation" data-cites="prentice2015reliable">(<a href="references.html#ref-prentice2015reliable" role="doc-biblioref">Prentice et al., 2015</a>)</span>.</p>
+<p>Due to being a fundamental driver of photosynthesis, its complexity in assessing, and the ongoing scientific debate, the field of leaf thermoregulation is definitely worth taking a deep dive! Moreover, by exploiting EEO principles, we can create model that accounts for the interplay of thermal acclimation and thermoregulation. Understanding this interplay is an unresolved but highly relevant question because it gives insights into the processes a plant may use to cope with a rising temperatures <span class="citation" data-cites="cavaleri2020cold">(<a href="references.html#ref-cavaleri2020cold" role="doc-biblioref">Cavaleri, 2020</a>)</span>.</p>
 
 
+<div id="refs" class="references csl-bib-body hanging-indent" data-line-spacing="2" role="list" style="display: none">
+<div id="ref-blonder2018model" class="csl-entry" role="listitem">
+Blonder, B., &amp; Michaletz, S. T. (2018). A model for leaf temperature decoupling from air temperature. <em>Agricultural and Forest Meteorology</em>, <em>262</em>, 354–360. <a href="https://doi.org/10.1016/j.agrformet.2018.07.012">https://doi.org/10.1016/j.agrformet.2018.07.012</a>
+</div>
+<div id="ref-cavaleri2020cold" class="csl-entry" role="listitem">
+Cavaleri, M. A. (2020). Cold<span>-</span>blooded forests in a warming world. <em>New Phytologist</em>, <em>228</em>(5), 1455–1457. <a href="https://doi.org/10.1111/nph.16916">https://doi.org/10.1111/nph.16916</a>
+</div>
+<div id="ref-dong2017biophysical" class="csl-entry" role="listitem">
+Dong, N., Prentice, I. C., Harrison, S. P., Song, Q. H., Zhang, Y. P., &amp; Sykes, M. (2017). Biophysical homoeostasis of leaf temperature: A neglected process for vegetation and land<span>-</span>surface modelling. <em>Global Ecology and Biogeography</em>, <em>26</em>(9), 998–1007. <a href="https://doi.org/10.1111/geb.12614">https://doi.org/10.1111/geb.12614</a>
+</div>
+<div id="ref-drake2023data" class="csl-entry" role="listitem">
+Drake, J. E. (2023). A data<span>-</span>intensive documentation of plant ecosystem thermoregulation across spatial and temporal scales. <em>New Phytologist</em>, <em>238</em>(3), 921–923. <a href="https://doi.org/10.1111/nph.18819">https://doi.org/10.1111/nph.18819</a>
+</div>
+<div id="ref-drake2020no" class="csl-entry" role="listitem">
+Drake, J. E., Harwood, R., Vårhammar, A., Barbour, M. M., Reich, P. B., Barton, C. V. M., &amp; Tjoelker, M. G. (2020). No evidence of homeostatic regulation of leaf temperature in Eucalyptus parramattensis trees: integration of CO2 flux and oxygen isotope methodologies. <em>New Phytologist</em>, <em>228</em>(5), 1511–1523. <a href="https://doi.org/10.1111/nph.16733">https://doi.org/10.1111/nph.16733</a>
+</div>
+<div id="ref-franklin2020organizing" class="csl-entry" role="listitem">
+Franklin, O., Harrison, S. P., Dewar, R., Farrior, C. E., Brännström, Å., Dieckmann, U., Pietsch, S., Falster, D., Cramer, W., Loreau, M., Wang, H., Mäkelä, A., Rebel, K. T., Meron, E., Schymanski, S. J., Rovenskaya, E., Stocker, B. D., Zaehle, S., Manzoni, S., … Prentice, I. C. (2020). Organizing principles for vegetation dynamics. <em>Nature Plants</em>, <em>6</em>(5), 444453. <a href="https://doi.org/ghmz7g">https://doi.org/ghmz7g</a>
+</div>
+<div id="ref-guo2023does" class="csl-entry" role="listitem">
+Guo, Z., Still, C. J., Lee, C. K. F., Ryu, Y., Blonder, B., Wang, J., Bonebrake, T. C., Hughes, A., Li, Y., Yeung, H. C. H., Zhang, K., Law, Y. K., Lin, Z., &amp; Wu, J. (2023). Does plant ecosystem thermoregulation occur? <span>An</span> extratropical assessment at different spatial and temporal scales. <em>New Phytologist</em>, <em>238</em>(3), 1004–1018. <a href="https://doi.org/10.1111/nph.18632">https://doi.org/10.1111/nph.18632</a>
+</div>
+<div id="ref-harrison2021eco" class="csl-entry" role="listitem">
+Harrison, S. P., Cramer, W., Franklin, O., Prentice, I. C., Wang, H., Brännström, Å., Boer, H., Dieckmann, U., Joshi, J., Keenan, T. F., Lavergne, A., Manzoni, S., Mengoli, G., Morfopoulos, C., Peñuelas, J., Pietsch, S., Rebel, K. T., Ryu, Y., Smith, N. G., … Wright, I. J. (2021). Eco<span>-</span>evolutionary optimality as a means to improve vegetation and land<span>-</span>surface models. <em>New Phytologist</em>, <em>231</em>(6), 2125–2141. <a href="https://doi.org/10.1111/nph.17558">https://doi.org/10.1111/nph.17558</a>
+</div>
+<div id="ref-korner201890" class="csl-entry" role="listitem">
+Körner, C., &amp; Hiltbrunner, E. (2018). The 90 ways to describe plant temperature. <em>Perspectives in Plant Ecology, Evolution and Systematics</em>, <em>30</em>, 16–21. <a href="https://doi.org/10.1016/j.ppees.2017.04.004">https://doi.org/10.1016/j.ppees.2017.04.004</a>
+</div>
+<div id="ref-mahan1988maintenance" class="csl-entry" role="listitem">
+Mahan, J. R., &amp; Upchurch, D. R. (1988). Maintenance of constant leaf temperature by plants. <span class="nocase">Hypothesis-limited</span> homeothermy. <em>Environmental and Experimental Botany</em>, <em>28</em>(4), 351–357. <a href="https://doi.org/10.1016/0098-8472(88)90059-7">https://doi.org/10.1016/0098-8472(88)90059-7</a>
+</div>
+<div id="ref-prentice2015reliable" class="csl-entry" role="listitem">
+Prentice, I. C., Liang, X., Medlyn, B. E., &amp; Wang, Y.-P. (2015). Reliable, robust and realistic: the three R’s of next-generation land-surface modelling. <em>Atmospheric Chemistry and Physics</em>, <em>15</em>(10), 5987–6005. <a href="https://doi.org/10.5194/acp-15-5987-2015">https://doi.org/10.5194/acp-15-5987-2015</a>
+</div>
+<div id="ref-still2022no" class="csl-entry" role="listitem">
+Still, C. J., Page, G., Rastogi, B., Griffith, D. M., Aubrecht, D. M., Kim, Y., Burns, S. P., Hanson, C. V., Kwon, H., Hawkins, L., Meinzer, F. C., Sevanto, S., Roberts, D., Goulden, M., Pau, S., Detto, M., Helliker, B., &amp; Richardson, A. D. (2022). No evidence of canopy-scale leaf thermoregulation to cool leaves below air temperature across a range of forest ecosystems. <em>Proceedings of the National Academy of Sciences</em>, <em>119</em>(38), e2205682119. <a href="https://doi.org/10.1073/pnas.2205682119">https://doi.org/10.1073/pnas.2205682119</a>
+</div>
+<div id="ref-still2021imaging" class="csl-entry" role="listitem">
+Still, C. J., Rastogi, B., Page, G. F. M., Griffith, D. M., Sibley, A., Schulze, M., Hawkins, L., Pau, S., Detto, M., &amp; Helliker, B. R. (2021). Imaging canopy temperature: shedding (thermal) light on ecosystem processes. <em>New Phytologist</em>, <em>230</em>(5), 1746–1753. <a href="https://doi.org/10.1111/nph.17321">https://doi.org/10.1111/nph.17321</a>
+</div>
+<div id="ref-vinod2023thermal" class="csl-entry" role="listitem">
+Vinod, N., Slot, M., McGregor, I. R., Ordway, E. M., Smith, M. N., Taylor, T. C., Sack, L., Buckley, T. N., &amp; Anderson-Teixeira, K. J. (2023). Thermal sensitivity across forest vertical profiles: patterns, mechanisms, and ecological implications. <em>New Phytologist</em>, <em>237</em>(1), 22–47. <a href="https://doi.org/10.1111/nph.18539">https://doi.org/10.1111/nph.18539</a>
+</div>
+</div>
 </section>
 
 </main> <!-- /main -->
@@ -354,7 +448,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       return localAlternateSentinel;
     }
   }
-  let localAlternateSentinel = 'alternate';
+  let localAlternateSentinel = 'default';
   // Dark / light mode switch
   window.quartoToggleColorScheme = () => {
     // Read the current dark / light value 
@@ -595,13 +689,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./04-sensitivity_analysis.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">04-sensitivity_analysis.html</span></span>
+      <a href="./index.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">About</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./98-next-steps.html" class="pagination-link">
-        <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Next Steps</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./02-theory.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Theory</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

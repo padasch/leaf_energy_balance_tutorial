@@ -1,0 +1,1891 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.450">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Leaf Energy Balance Tutorial - 3&nbsp; Algorithm</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./98-next-steps.html" rel="next">
+<link href="./02-theory.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-sidebar floating nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">Leaf Energy Balance Tutorial</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/padasch/leaf_energy_balance_tutorial" rel="" target=""><i class="bi bi-github" role="img" aria-label="GitHub">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+</ul>
+            <div class="quarto-navbar-tools">
+    <div class="dropdown">
+      <a href="" title="Share" id="quarto-navigation-tool-dropdown-0" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Share"><i class="bi bi-share"></i></a>
+      <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="quarto-navigation-tool-dropdown-0">
+          <li>
+            <a class="dropdown-item quarto-navbar-tools-item" href="https://twitter.com/intent/tweet?url=|url|">
+              <i class="bi bi-bi-twitter pe-1"></i>
+            Twitter
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item quarto-navbar-tools-item" href="https://www.facebook.com/sharer/sharer.php?u=|url|">
+              <i class="bi bi-bi-facebook pe-1"></i>
+            Facebook
+            </a>
+          </li>
+      </ul>
+    </div>
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./03-algorithm.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Algorithm</span></a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">About</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01-motivation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Motivation</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02-theory.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Theory</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03-algorithm.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Algorithm</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./98-next-steps.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Next Steps</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./99-variables.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Variables</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#description" id="toc-description" class="nav-link active" data-scroll-target="#description"><span class="header-section-number">3.1</span> Description</a></li>
+  <li><a href="#implementation" id="toc-implementation" class="nav-link" data-scroll-target="#implementation"><span class="header-section-number">3.2</span> Implementation</a>
+  <ul>
+  <li><a href="#numerical-p-model" id="toc-numerical-p-model" class="nav-link" data-scroll-target="#numerical-p-model"><span class="header-section-number">3.2.1</span> Numerical P-Model</a>
+  <ul class="collapse">
+  <li><a href="#comparison-against-analytical-solution" id="toc-comparison-against-analytical-solution" class="nav-link" data-scroll-target="#comparison-against-analytical-solution"><span class="header-section-number">3.2.1.1</span> Comparison Against Analytical Solution</a></li>
+  <li><a href="#cost-function" id="toc-cost-function" class="nav-link" data-scroll-target="#cost-function"><span class="header-section-number">3.2.1.2</span> Cost function</a></li>
+  </ul></li>
+  <li><a href="#energy-balance" id="toc-energy-balance" class="nav-link" data-scroll-target="#energy-balance"><span class="header-section-number">3.2.2</span> Energy Balance</a>
+  <ul class="collapse">
+  <li><a href="#sensitivity-analysis" id="toc-sensitivity-analysis" class="nav-link" data-scroll-target="#sensitivity-analysis"><span class="header-section-number">3.2.2.1</span> Sensitivity Analysis</a></li>
+  </ul></li>
+  <li><a href="#coupled-model" id="toc-coupled-model" class="nav-link" data-scroll-target="#coupled-model"><span class="header-section-number">3.2.3</span> Coupled Model</a>
+  <ul class="collapse">
+  <li><a href="#comparison-w-vs-wo" id="toc-comparison-w-vs-wo" class="nav-link" data-scroll-target="#comparison-w-vs-wo"><span class="header-section-number">3.2.3.1</span> Comparison w vs w/o</a></li>
+  <li><a href="#cost-function-1" id="toc-cost-function-1" class="nav-link" data-scroll-target="#cost-function-1"><span class="header-section-number">3.2.3.2</span> Cost Function</a></li>
+  </ul></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span id="sec-algorithm" class="quarto-section-identifier"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Algorithm</span></span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="description" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="description"><span class="header-section-number">3.1</span> Description</h2>
+<p>The goal of this algorithm is to predict a leaf temperature at which the costs for maintaining photosynthesis are minimal. To do this, two optimization algorithms are required as displayed in <a href="#fig-optimization-algorithm">Figure&nbsp;<span>3.1</span></a>, the numerical P-Model algorithm and the energy balance algorithm.</p>
+<p>The <strong>numerical P-Model algorithm</strong> solves the optimization problem to find the values for <span class="math inline">\(V_{cmax}\)</span>, <span class="math inline">\(J_{max}\)</span>, and <span class="math inline">\(g_{s}\)</span> at which the carbon costs for maintaining photosynthesis are minimal (explained in <a href="02-theory.html"><span>Chapter&nbsp;2</span></a>):</p>
+<p><span id="eq-rcc2"><span class="math display">\[
+\frac{\beta \;V_{cmax} + 1.6\;D\;g_s + c \;J_{max} }{A_{gross}} = min.
+\tag{3.1}\]</span></span></p>
+<p>The <strong>energy balance algorithm</strong> searches for the leaf temperature that closes the energy budget described in <a href="02-theory.html#sec-leb"><span>Section&nbsp;2.2</span></a>. Certain terms within the energy balance depend on assuming a leaf temperature in the first place. This turns the algorithm into an optimization problem where the goal is to minimze the difference between the initially assumed leaf temperature (<span class="math inline">\(T_{\text{leaf, init}}\)</span>) and the leaf temperature that closes the energy balance (<span class="math inline">\(T_{\text{leaf, eb}}\)</span>):</p>
+<p><span id="eq-leb-criteria"><span class="math display">\[
+T_{\text{leaf, init}} - T_{\text{leaf, eb}} = min.
+\tag{3.2}\]</span></span></p>
+<p>The algorithm visualized in <a href="#fig-optimization-algorithm">Figure&nbsp;<span>3.1</span></a> reads as follows:</p>
+<pre><code>1. Pick random values for vcmax, jmax, gs
+2. Pick random value for tc_leaf (initial leaf temperature)
+3. Calculate the energy balanced given tc_leaf, gs, abiotic environment
+4. Check if initial tc_leaf equals tc_leaf that closes the energy balance:
+   If false, re-run energy balance with a new tc_leaf
+   If true, then proceed
+5. Use tc_leaf, vcmax, jmax, gs, abiotic environment to calculate the carbon costs
+6. Check if carbon costs are minimal
+   If false, re-start at 1. with new parameters for vcmax, jmax, and gs
+   If true, return tc_leaf, vcmax, jmax, gs</code></pre>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-optimization-algorithm" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="figures/optimization_scheme.svg" class="img-fluid figure-img" style="width:80.0%"></p>
+<figcaption class="figure-caption">Figure&nbsp;3.1: Algorithm for calculating optimal traits using the numerical P-Model coupled to a leaf energy balance model. The numerical P-Model parts are in purple. The energy balance model parts are in organge. Note that <span class="math inline">\(J_{max}\)</span> is implemented here for reasons of completeness. The current optimization routine does not properly optimize <span class="math inline">\(J_{max}\)</span>.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="implementation" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="implementation"><span class="header-section-number">3.2</span> Implementation</h2>
+<p>The individual algorithms described above are based on two functions - one function to calculate the quantitiy to be optimized and one function for handling the optimization. Below are demonstrations for calling the algorithms separately and coupled. All functions can be found in the <code>R</code> directory of this repository.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="co"># Get reference values</span></span>
+<span id="cb2-2"><a href="#cb2-2"></a><span class="do">## Climate</span></span>
+<span id="cb2-3"><a href="#cb2-3"></a>tc_air  <span class="ot">&lt;-</span> <span class="dv">25</span>     <span class="co"># degC</span></span>
+<span id="cb2-4"><a href="#cb2-4"></a>tc_leaf <span class="ot">&lt;-</span> <span class="dv">30</span>     <span class="co"># degC</span></span>
+<span id="cb2-5"><a href="#cb2-5"></a>vpd_air <span class="ot">&lt;-</span> <span class="dv">2000</span>   <span class="co"># Pa</span></span>
+<span id="cb2-6"><a href="#cb2-6"></a>patm    <span class="ot">&lt;-</span> <span class="dv">101325</span> <span class="co"># Pa</span></span>
+<span id="cb2-7"><a href="#cb2-7"></a>co2     <span class="ot">&lt;-</span> <span class="dv">400</span>    <span class="co"># ppm</span></span>
+<span id="cb2-8"><a href="#cb2-8"></a>ppfd    <span class="ot">&lt;-</span> <span class="fl">500e-6</span> <span class="co"># mol/m2/s</span></span>
+<span id="cb2-9"><a href="#cb2-9"></a>fapar   <span class="ot">&lt;-</span> <span class="dv">1</span>      <span class="co"># -</span></span>
+<span id="cb2-10"><a href="#cb2-10"></a></span>
+<span id="cb2-11"><a href="#cb2-11"></a><span class="do">## Traits</span></span>
+<span id="cb2-12"><a href="#cb2-12"></a>vcmax   <span class="ot">&lt;-</span> <span class="fl">50e-6</span>  <span class="co"># mol/m2/s</span></span>
+<span id="cb2-13"><a href="#cb2-13"></a>jmax    <span class="ot">&lt;-</span> <span class="fl">100e-6</span> <span class="co"># mol/m2/s</span></span>
+<span id="cb2-14"><a href="#cb2-14"></a>gs      <span class="ot">&lt;-</span> <span class="fl">1.5e-6</span> <span class="co"># mol CO2 /m2/s/Pa</span></span>
+<span id="cb2-15"><a href="#cb2-15"></a>kphio   <span class="ot">&lt;-</span> <span class="fl">0.087</span>  <span class="co"># -</span></span>
+<span id="cb2-16"><a href="#cb2-16"></a>beta    <span class="ot">&lt;-</span> <span class="dv">146</span>    <span class="co"># -</span></span>
+<span id="cb2-17"><a href="#cb2-17"></a>c_cost  <span class="ot">&lt;-</span> <span class="fl">0.103</span>  <span class="co"># -</span></span>
+<span id="cb2-18"><a href="#cb2-18"></a>wind          <span class="ot">&lt;-</span>  <span class="dv">2</span>    <span class="co"># m/s</span></span>
+<span id="cb2-19"><a href="#cb2-19"></a>leaf_size     <span class="ot">&lt;-</span>  <span class="fl">0.02</span> <span class="co"># m</span></span>
+<span id="cb2-20"><a href="#cb2-20"></a>stomata_ratio <span class="ot">&lt;-</span>  <span class="dv">1</span>    <span class="co"># -</span></span>
+<span id="cb2-21"><a href="#cb2-21"></a>leaf_abs      <span class="ot">&lt;-</span>  <span class="fl">0.5</span>  <span class="co"># -</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="numerical-p-model" class="level3" data-number="3.2.1">
+<h3 data-number="3.2.1" class="anchored" data-anchor-id="numerical-p-model"><span class="header-section-number">3.2.1</span> Numerical P-Model</h3>
+<p>The relevant functions are:</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+calculate_traits_and_costs()
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="cell" data-layout-align="center">
+<div class="cell-output cell-output-stdout">
+<pre><code>function (par, tc_air, vpd_air, ppfd, fapar = 1, co2, patm, kphio, 
+    beta = 146, maximize = FALSE, return_all = TRUE, units_out_per_second = TRUE, 
+    include_energy_balance = FALSE, ...) 
+{
+    vcmax &lt;- par[1]
+    jmax &lt;- par[2]
+    gs &lt;- par[3]
+    if (include_energy_balance == TRUE) {
+        tc_leaf &lt;- optimize_leaf_energy_balance(tc_air = tc_air, 
+            vpd_air = vpd_air, gs = gs/3600/24, ppfd = ppfd/3600/24, 
+            patm = patm, ...)
+        vpd_leaf &lt;- air_vpd_to_leaf_vpd(vpd_air, tc_air, tc_leaf)
+    }
+    else {
+        tc_leaf &lt;- tc_air
+        vpd_leaf &lt;- vpd_air
+    }
+    kmm &lt;- rpmodel::kmm(tc_leaf, patm)
+    gammastar &lt;- rpmodel::gammastar(tc_leaf, patm)
+    ns_star &lt;- rpmodel::viscosity_h2o(tc_leaf, patm)/rpmodel::viscosity_h2o(25, 
+        101325)
+    ca &lt;- rpmodel::co2_to_ca(co2, patm)
+    kphio &lt;- kphio * rpmodel::ftemp_kphio(tc_leaf, c4 = F)
+    iabs &lt;- ppfd * fapar
+    L &lt;- 1/sqrt(1 + ((4 * kphio * iabs)/jmax)^2)
+    A &lt;- -gs
+    B &lt;- gs * ca - 2 * gammastar * gs - L * kphio * iabs
+    C &lt;- 2 * gammastar * gs * ca + L * kphio * iabs * gammastar
+    ci_j &lt;- QUADM(A, B, C)
+    a_j &lt;- kphio * iabs * (ci_j - gammastar)/(ci_j + 2 * gammastar) * 
+        L
+    c_cost &lt;- 0.103
+    A &lt;- -1 * gs
+    B &lt;- gs * ca - gs * kmm - vcmax
+    C &lt;- gs * ca * kmm + vcmax * gammastar
+    ci_c &lt;- QUADM(A, B, C)
+    a_c &lt;- vcmax * (ci_c - gammastar)/(ci_c + kmm)
+    ci &lt;- max(ci_c, ci_j)
+    a_gross &lt;- min(a_j, a_c)
+    carbon_costs &lt;- get_carbon_costs(vpd_leaf = vpd_leaf, ns_star = ns_star, 
+        gs = gs, vcmax = vcmax, jmax = jmax, beta = beta, c_cost = c_cost, 
+        a_gross = a_gross, cost_type = "relative_carbon_costs")
+    if (return_all) {
+        if (units_out_per_second == TRUE) {
+            vcmax &lt;- vcmax/(3600 * 24)
+            jmax &lt;- jmax/(3600 * 24)
+            gs &lt;- gs/(3600 * 24)
+            a_c &lt;- a_c/(3600 * 24)
+            a_j &lt;- a_j/(3600 * 24)
+            a_gross &lt;- a_gross/(3600 * 24)
+        }
+        return(tibble(vcmax = vcmax, jmax = jmax, gs = gs, ci = ci, 
+            chi = ci/ca, a_c = a_c, a_j = a_j, a_gross = a_gross, 
+            ci_c = ci_c, ci_j = ci_j, cost_transp = carbon_costs$cost_transp, 
+            cost_vcmax = carbon_costs$cost_vcmax, cost_jmax = carbon_costs$cost_jmax, 
+            carbon_costs = carbon_costs$carbon_costs, include_energy_balance = include_energy_balance, 
+            tc_air = tc_air, tc_leaf = tc_leaf))
+    }
+    else {
+        return(carbon_costs$carbon_costs)
+    }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+get_carbon_costs()
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="cell" data-layout-align="center">
+<div class="cell-output cell-output-stdout">
+<pre><code>function (ns_star, gs, vpd_leaf, beta, vcmax, c_cost, jmax, a_gross, 
+    cost_type) 
+{
+    cost_options &lt;- c("relative_carbon_costs")
+    if (!(cost_type %in% cost_options)) {
+        stop("get_carbon_costs: Requested cost type not implemented.")
+    }
+    cost_transp &lt;- 1.6 * ns_star * gs * vpd_leaf
+    cost_vcmax &lt;- beta * vcmax
+    cost_jmax &lt;- c_cost * jmax
+    if (cost_type == "relative_carbon_costs") {
+        carbon_costs &lt;- (cost_transp + cost_vcmax + cost_jmax)/a_gross
+    }
+    out &lt;- list(cost_transp = cost_transp, cost_vcmax = cost_vcmax, 
+        cost_jmax = cost_jmax, carbon_costs = carbon_costs)
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+optimize_traits_and_costs()
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="cell" data-layout-align="center">
+<div class="cell-output cell-output-stdout">
+<pre><code>function (tc_air, vpd_air, patm, co2, ppfd, kphio, include_energy_balance = FALSE, 
+    vcmax_start = NA, jmax_start = NA, gs_start = NA, ...) 
+{
+    ppfd &lt;- ppfd * 3600 * 24
+    vcmax_start &lt;- 20
+    jmax_start &lt;- 20
+    gs_start &lt;- 0.3
+    out_optim &lt;- optimr::optimr(par = c(vcmax_start, jmax_start, 
+        gs_start), upper = c(vcmax_start * 1000, jmax_start * 
+        1000, gs_start * 100), lower = c(vcmax_start/1000, jmax_start/1000, 
+        gs_start/100), fn = calculate_traits_and_costs, method = "L-BFGS-B", 
+        control = list(maxit = 1000), tc_air = tc_air, vpd_air = vpd_air, 
+        patm = patm, co2 = co2, ppfd = ppfd, kphio = kphio, include_energy_balance = include_energy_balance, 
+        maximize = TRUE, return_all = FALSE, ...)
+    optimized_par &lt;- calculate_traits_and_costs(par = out_optim$par, 
+        tc_air = tc_air, vpd_air = vpd_air, patm = patm, co2 = co2, 
+        ppfd = ppfd, kphio = kphio, include_energy_balance = include_energy_balance, 
+        units_out_per_second = TRUE, return_all = TRUE, ...)
+    return(optimized_par)
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<section id="comparison-against-analytical-solution" class="level4" data-number="3.2.1.1">
+<h4 data-number="3.2.1.1" class="anchored" data-anchor-id="comparison-against-analytical-solution"><span class="header-section-number">3.2.1.1</span> Comparison Against Analytical Solution</h4>
+<p>Below is a demonstration of the numerical P-Model algorithm without considering the leaf energy balance. Comparing the results of the numerical P-Model against the analytical P-Model shows that they achieve a similar <span class="math inline">\(\chi \approx0.68\)</span> but with quite different values for <span class="math inline">\(V_{cmax}\)</span>, <span class="math inline">\(J_{cmax}\)</span>, and <span class="math inline">\(g_{s}\)</span>. This issue is explained further below.</p>
+<p><strong>Output of analytical P-Model:</strong></p>
+<div class="cell" data-layout-align="center">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="co"># Analytical P-Model</span></span>
+<span id="cb6-2"><a href="#cb6-2"></a>rpmodel<span class="sc">::</span><span class="fu">rpmodel</span>(</span>
+<span id="cb6-3"><a href="#cb6-3"></a>  <span class="at">tc =</span> tc_air, </span>
+<span id="cb6-4"><a href="#cb6-4"></a>  <span class="at">vpd =</span> vpd_air, </span>
+<span id="cb6-5"><a href="#cb6-5"></a>  <span class="at">co2 =</span> co2, </span>
+<span id="cb6-6"><a href="#cb6-6"></a>  <span class="at">fapar =</span> <span class="dv">1</span>, </span>
+<span id="cb6-7"><a href="#cb6-7"></a>  <span class="at">ppfd =</span> ppfd, </span>
+<span id="cb6-8"><a href="#cb6-8"></a>  <span class="at">patm =</span> patm, </span>
+<span id="cb6-9"><a href="#cb6-9"></a>  <span class="at">kphio =</span> kphio</span>
+<span id="cb6-10"><a href="#cb6-10"></a>) <span class="sc">|&gt;</span> <span class="fu">as_tibble</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb6-11"><a href="#cb6-11"></a>  <span class="fu">mutate</span>(<span class="at">vcmax =</span> vcmax <span class="sc">*</span> <span class="fl">1e6</span>, <span class="at">jmax =</span> jmax <span class="sc">*</span> <span class="fl">1e6</span>, <span class="at">gs =</span> gs <span class="sc">*</span> <span class="fl">1e6</span>, <span class="at">gpp =</span> gpp <span class="sc">*</span> <span class="fl">1e6</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb6-12"><a href="#cb6-12"></a>  <span class="fu">relocate</span>(vcmax, jmax, gs, chi, ci, gpp) <span class="sc">|&gt;</span> knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<table class="table table-sm table-striped small">
+<colgroup>
+<col style="width: 5%">
+<col style="width: 5%">
+<col style="width: 6%">
+<col style="width: 6%">
+<col style="width: 6%">
+<col style="width: 5%">
+<col style="width: 4%">
+<col style="width: 6%">
+<col style="width: 6%">
+<col style="width: 5%">
+<col style="width: 6%">
+<col style="width: 6%">
+<col style="width: 6%">
+<col style="width: 5%">
+<col style="width: 6%">
+<col style="width: 6%">
+<col style="width: 4%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: right;">vcmax</th>
+<th style="text-align: right;">jmax</th>
+<th style="text-align: right;">gs</th>
+<th style="text-align: right;">chi</th>
+<th style="text-align: right;">ci</th>
+<th style="text-align: right;">gpp</th>
+<th style="text-align: right;">ca</th>
+<th style="text-align: right;">gammastar</th>
+<th style="text-align: right;">kmm</th>
+<th style="text-align: right;">ns_star</th>
+<th style="text-align: right;">xi</th>
+<th style="text-align: right;">mj</th>
+<th style="text-align: right;">mc</th>
+<th style="text-align: right;">iwue</th>
+<th style="text-align: right;">vcmax25</th>
+<th style="text-align: right;">jmax25</th>
+<th style="text-align: right;">rd</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">41.3384</td>
+<td style="text-align: right;">65.3339</td>
+<td style="text-align: right;">0.7758191</td>
+<td style="text-align: right;">0.6868433</td>
+<td style="text-align: right;">27.83776</td>
+<td style="text-align: right;">118.268</td>
+<td style="text-align: right;">40.53</td>
+<td style="text-align: right;">4.332</td>
+<td style="text-align: right;">70.84225</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">82.82301</td>
+<td style="text-align: right;">0.6439624</td>
+<td style="text-align: right;">0.2382018</td>
+<td style="text-align: right;">7.93265</td>
+<td style="text-align: right;">4.13e-05</td>
+<td style="text-align: right;">6.53e-05</td>
+<td style="text-align: right;">6e-07</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><strong>Output of numerical P-Model</strong></p>
+<div class="cell" data-layout-align="center">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="co"># Numerical P-Model</span></span>
+<span id="cb7-2"><a href="#cb7-2"></a><span class="fu">optimize_traits_and_costs</span>(</span>
+<span id="cb7-3"><a href="#cb7-3"></a>  <span class="at">tc_air =</span> tc_air,</span>
+<span id="cb7-4"><a href="#cb7-4"></a>  <span class="at">vpd_air =</span> vpd_air,</span>
+<span id="cb7-5"><a href="#cb7-5"></a>  <span class="at">patm =</span> patm,</span>
+<span id="cb7-6"><a href="#cb7-6"></a>  <span class="at">co2 =</span> co2,</span>
+<span id="cb7-7"><a href="#cb7-7"></a>  <span class="at">ppfd =</span> ppfd,</span>
+<span id="cb7-8"><a href="#cb7-8"></a>  <span class="at">kphio =</span> kphio,</span>
+<span id="cb7-9"><a href="#cb7-9"></a>) <span class="sc">|&gt;</span></span>
+<span id="cb7-10"><a href="#cb7-10"></a>  <span class="fu">mutate</span>(<span class="at">vcmax =</span> vcmax <span class="sc">*</span> <span class="fl">1e6</span>, <span class="at">jmax =</span> jmax <span class="sc">*</span> <span class="fl">1e6</span>, <span class="at">gs =</span> gs <span class="sc">*</span> <span class="fl">1e6</span>, <span class="at">a_gross =</span> a_gross <span class="sc">*</span> <span class="fl">1e6</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb7-11"><a href="#cb7-11"></a>  <span class="fu">relocate</span>(vcmax, jmax, gs, chi, ci, a_gross) <span class="sc">|&gt;</span> knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<table class="table table-sm table-striped small">
+<colgroup>
+<col style="width: 5%">
+<col style="width: 5%">
+<col style="width: 5%">
+<col style="width: 5%">
+<col style="width: 5%">
+<col style="width: 5%">
+<col style="width: 5%">
+<col style="width: 5%">
+<col style="width: 5%">
+<col style="width: 5%">
+<col style="width: 6%">
+<col style="width: 6%">
+<col style="width: 5%">
+<col style="width: 7%">
+<col style="width: 13%">
+<col style="width: 3%">
+<col style="width: 4%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: right;">vcmax</th>
+<th style="text-align: right;">jmax</th>
+<th style="text-align: right;">gs</th>
+<th style="text-align: right;">chi</th>
+<th style="text-align: right;">ci</th>
+<th style="text-align: right;">a_gross</th>
+<th style="text-align: right;">a_c</th>
+<th style="text-align: right;">a_j</th>
+<th style="text-align: right;">ci_c</th>
+<th style="text-align: right;">ci_j</th>
+<th style="text-align: right;">cost_transp</th>
+<th style="text-align: right;">cost_vcmax</th>
+<th style="text-align: right;">cost_jmax</th>
+<th style="text-align: right;">carbon_costs</th>
+<th style="text-align: left;">include_energy_balance</th>
+<th style="text-align: right;">tc_air</th>
+<th style="text-align: right;">tc_leaf</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">77.95291</td>
+<td style="text-align: right;">417.2889</td>
+<td style="text-align: right;">1.456419</td>
+<td style="text-align: right;">0.6858447</td>
+<td style="text-align: right;">27.79729</td>
+<td style="text-align: right;">18.54416</td>
+<td style="text-align: right;">1.85e-05</td>
+<td style="text-align: right;">1.86e-05</td>
+<td style="text-align: right;">27.79729</td>
+<td style="text-align: right;">27.79325</td>
+<td style="text-align: right;">402.6706</td>
+<td style="text-align: right;">983.3292</td>
+<td style="text-align: right;">3.713537</td>
+<td style="text-align: right;">867.3698</td>
+<td style="text-align: left;">FALSE</td>
+<td style="text-align: right;">25</td>
+<td style="text-align: right;">25</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<section id="cost-function" class="level4" data-number="3.2.1.2">
+<h4 data-number="3.2.1.2" class="anchored" data-anchor-id="cost-function"><span class="header-section-number">3.2.1.2</span> Cost function</h4>
+<p>From <a href="02-theory.html#eq-rcc">Equation&nbsp;<span>2.10</span></a>, we can tell that the smaller the value for a trait becomes, the smaller the gross assimilation becomes and thus the carbon costs become larger. Above the minimum, the carbon costs become larger because of additional limitations to photosynthesis that do not allow for an even increase in gross assimilation with increasing trait.</p>
+<p>In <a href="#fig-cost-function">Figure&nbsp;<span>3.2</span></a>, this sensitivity of the carbon costs against varying values of the different traits are displayed. As can be seen, there are distinct minima for the cost of transpiration (<span class="math inline">\(g_s\)</span>) and for the cost of carboxylation (<span class="math inline">\(V_{cmax}\)</span>). For the cost of electron transport however, there is no distinct minima (<span class="math inline">\(J_{max}\)</span>). This occurs because once <span class="math inline">\(J_{max}\)</span> becomes large enough so that <span class="math inline">\(A_j\)</span> is not limiting anymore, it does not play into the cost function anymore. So, the numerical routine simply picks a large enough value for <span class="math inline">\(J_{max}\)</span> to not be limiting but for no clear constraint on the upper end.</p>
+<div class="cell" data-layout-align="center">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="co"># Get reference dataframe</span></span>
+<span id="cb8-2"><a href="#cb8-2"></a>n_steps <span class="ot">&lt;-</span> <span class="dv">50</span></span>
+<span id="cb8-3"><a href="#cb8-3"></a>df_base <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">.rows =</span> n_steps)</span>
+<span id="cb8-4"><a href="#cb8-4"></a></span>
+<span id="cb8-5"><a href="#cb8-5"></a>df_base<span class="sc">$</span>vcmax      <span class="ot">&lt;-</span> <span class="fu">rep</span>(vcmax, n_steps)</span>
+<span id="cb8-6"><a href="#cb8-6"></a>df_base<span class="sc">$</span>jmax       <span class="ot">&lt;-</span> <span class="fu">rep</span>(jmax, n_steps)</span>
+<span id="cb8-7"><a href="#cb8-7"></a>df_base<span class="sc">$</span>gs         <span class="ot">&lt;-</span> <span class="fu">rep</span>(gs, n_steps)</span>
+<span id="cb8-8"><a href="#cb8-8"></a>df_base<span class="sc">$</span>cost_total <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, n_steps)</span>
+<span id="cb8-9"><a href="#cb8-9"></a>df_base<span class="sc">$</span>cost_vcmax <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, n_steps)</span>
+<span id="cb8-10"><a href="#cb8-10"></a>df_base<span class="sc">$</span>cost_jmax  <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, n_steps)</span>
+<span id="cb8-11"><a href="#cb8-11"></a>df_base<span class="sc">$</span>cost_gs    <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, n_steps)</span>
+<span id="cb8-12"><a href="#cb8-12"></a></span>
+<span id="cb8-13"><a href="#cb8-13"></a>df_cc <span class="ot">&lt;-</span> <span class="fu">tibble</span>()</span>
+<span id="cb8-14"><a href="#cb8-14"></a></span>
+<span id="cb8-15"><a href="#cb8-15"></a><span class="co"># Calculate carbon costs</span></span>
+<span id="cb8-16"><a href="#cb8-16"></a>loop_carbon_costs <span class="ot">&lt;-</span> <span class="cf">function</span>(df_in, var) {</span>
+<span id="cb8-17"><a href="#cb8-17"></a>  </span>
+<span id="cb8-18"><a href="#cb8-18"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(df_in)) {</span>
+<span id="cb8-19"><a href="#cb8-19"></a>    </span>
+<span id="cb8-20"><a href="#cb8-20"></a>    output <span class="ot">&lt;-</span> </span>
+<span id="cb8-21"><a href="#cb8-21"></a>      <span class="fu">calculate_traits_and_costs</span>(</span>
+<span id="cb8-22"><a href="#cb8-22"></a>        <span class="at">par =</span> <span class="fu">c</span>(df_in<span class="sc">$</span>vcmax[i],</span>
+<span id="cb8-23"><a href="#cb8-23"></a>                df_in<span class="sc">$</span>jmax[i],</span>
+<span id="cb8-24"><a href="#cb8-24"></a>                df_in<span class="sc">$</span>gs[i]),</span>
+<span id="cb8-25"><a href="#cb8-25"></a>        <span class="at">tc_air =</span> tc_air,</span>
+<span id="cb8-26"><a href="#cb8-26"></a>        <span class="at">vpd_air =</span> vpd_air,</span>
+<span id="cb8-27"><a href="#cb8-27"></a>        <span class="at">ppfd =</span> ppfd,</span>
+<span id="cb8-28"><a href="#cb8-28"></a>        <span class="at">co2 =</span> co2,</span>
+<span id="cb8-29"><a href="#cb8-29"></a>        <span class="at">patm =</span> patm,</span>
+<span id="cb8-30"><a href="#cb8-30"></a>        <span class="at">kphio =</span> kphio,</span>
+<span id="cb8-31"><a href="#cb8-31"></a>        <span class="at">include_energy_balance =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb8-32"><a href="#cb8-32"></a>        <span class="at">return_all =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb8-33"><a href="#cb8-33"></a>        <span class="at">units_out_per_second =</span> <span class="cn">TRUE</span></span>
+<span id="cb8-34"><a href="#cb8-34"></a>      )</span>
+<span id="cb8-35"><a href="#cb8-35"></a>      </span>
+<span id="cb8-36"><a href="#cb8-36"></a>      df_in<span class="sc">$</span>cost_total[i] <span class="ot">&lt;-</span> output<span class="sc">$</span>carbon_costs</span>
+<span id="cb8-37"><a href="#cb8-37"></a>      df_in<span class="sc">$</span>cost_vcmax[i] <span class="ot">&lt;-</span> output<span class="sc">$</span>cost_vcmax</span>
+<span id="cb8-38"><a href="#cb8-38"></a>      df_in<span class="sc">$</span>cost_jmax[i]  <span class="ot">&lt;-</span> output<span class="sc">$</span>cost_jmax</span>
+<span id="cb8-39"><a href="#cb8-39"></a>      df_in<span class="sc">$</span>cost_gs[i]    <span class="ot">&lt;-</span> output<span class="sc">$</span>cost_transp</span>
+<span id="cb8-40"><a href="#cb8-40"></a>      </span>
+<span id="cb8-41"><a href="#cb8-41"></a>  }</span>
+<span id="cb8-42"><a href="#cb8-42"></a>  </span>
+<span id="cb8-43"><a href="#cb8-43"></a>  df_out <span class="ot">&lt;-</span> </span>
+<span id="cb8-44"><a href="#cb8-44"></a>    df_in <span class="sc">|&gt;</span> </span>
+<span id="cb8-45"><a href="#cb8-45"></a>    <span class="fu">select</span>(<span class="fu">starts_with</span>(<span class="st">"cost"</span>), <span class="sc">!!</span>var) <span class="sc">|&gt;</span> </span>
+<span id="cb8-46"><a href="#cb8-46"></a>    <span class="co"># pivot_longer(</span></span>
+<span id="cb8-47"><a href="#cb8-47"></a>    <span class="co">#   cols = starts_with("cost"),</span></span>
+<span id="cb8-48"><a href="#cb8-48"></a>    <span class="co">#   names_to = "cost_name",</span></span>
+<span id="cb8-49"><a href="#cb8-49"></a>    <span class="co">#   values_to = "cost_value") |&gt; </span></span>
+<span id="cb8-50"><a href="#cb8-50"></a>    <span class="fu">pivot_longer</span>(</span>
+<span id="cb8-51"><a href="#cb8-51"></a>      <span class="at">cols =</span> <span class="sc">!!</span>var,</span>
+<span id="cb8-52"><a href="#cb8-52"></a>      <span class="at">names_to =</span> <span class="st">"var"</span>,</span>
+<span id="cb8-53"><a href="#cb8-53"></a>      <span class="at">values_to =</span> <span class="st">"val"</span>)</span>
+<span id="cb8-54"><a href="#cb8-54"></a>  </span>
+<span id="cb8-55"><a href="#cb8-55"></a>  <span class="fu">return</span>(df_out)               </span>
+<span id="cb8-56"><a href="#cb8-56"></a>}</span>
+<span id="cb8-57"><a href="#cb8-57"></a></span>
+<span id="cb8-58"><a href="#cb8-58"></a><span class="do">## Run function</span></span>
+<span id="cb8-59"><a href="#cb8-59"></a><span class="co"># Vcmax</span></span>
+<span id="cb8-60"><a href="#cb8-60"></a>df_tmp <span class="ot">&lt;-</span> df_base</span>
+<span id="cb8-61"><a href="#cb8-61"></a>df_tmp<span class="sc">$</span>vcmax <span class="ot">&lt;-</span> <span class="fu">seq</span>(vcmax<span class="sc">/</span><span class="dv">10</span>, vcmax<span class="sc">*</span><span class="dv">10</span>, <span class="at">length.out =</span> n_steps)</span>
+<span id="cb8-62"><a href="#cb8-62"></a></span>
+<span id="cb8-63"><a href="#cb8-63"></a>df_tmp  <span class="ot">&lt;-</span> <span class="fu">loop_carbon_costs</span>(df_tmp, <span class="st">"vcmax"</span>)</span>
+<span id="cb8-64"><a href="#cb8-64"></a>df_cc   <span class="ot">&lt;-</span> <span class="fu">rbind</span>(df_cc, df_tmp)</span>
+<span id="cb8-65"><a href="#cb8-65"></a></span>
+<span id="cb8-66"><a href="#cb8-66"></a><span class="co"># Jmax</span></span>
+<span id="cb8-67"><a href="#cb8-67"></a>df_tmp <span class="ot">&lt;-</span> df_base</span>
+<span id="cb8-68"><a href="#cb8-68"></a>df_tmp<span class="sc">$</span>jmax <span class="ot">&lt;-</span> <span class="fu">seq</span>(jmax<span class="sc">/</span><span class="dv">10</span>, jmax<span class="sc">*</span><span class="dv">10</span>, <span class="at">length.out =</span> n_steps)</span>
+<span id="cb8-69"><a href="#cb8-69"></a></span>
+<span id="cb8-70"><a href="#cb8-70"></a>df_tmp  <span class="ot">&lt;-</span> <span class="fu">loop_carbon_costs</span>(df_tmp, <span class="st">"jmax"</span>)</span>
+<span id="cb8-71"><a href="#cb8-71"></a>df_cc   <span class="ot">&lt;-</span> <span class="fu">rbind</span>(df_cc, df_tmp)</span>
+<span id="cb8-72"><a href="#cb8-72"></a></span>
+<span id="cb8-73"><a href="#cb8-73"></a><span class="co"># gs</span></span>
+<span id="cb8-74"><a href="#cb8-74"></a>df_tmp <span class="ot">&lt;-</span> df_base</span>
+<span id="cb8-75"><a href="#cb8-75"></a>df_tmp<span class="sc">$</span>gs <span class="ot">&lt;-</span> <span class="fu">seq</span>(gs<span class="sc">/</span><span class="dv">10</span>, gs<span class="sc">*</span><span class="dv">10</span>, <span class="at">length.out =</span> n_steps)</span>
+<span id="cb8-76"><a href="#cb8-76"></a></span>
+<span id="cb8-77"><a href="#cb8-77"></a>df_tmp  <span class="ot">&lt;-</span> <span class="fu">loop_carbon_costs</span>(df_tmp, <span class="st">"gs"</span>)</span>
+<span id="cb8-78"><a href="#cb8-78"></a>df_cc   <span class="ot">&lt;-</span> <span class="fu">rbind</span>(df_cc, df_tmp)</span>
+<span id="cb8-79"><a href="#cb8-79"></a></span>
+<span id="cb8-80"><a href="#cb8-80"></a><span class="do">## Plot it</span></span>
+<span id="cb8-81"><a href="#cb8-81"></a>df_cc <span class="sc">|&gt;</span> </span>
+<span id="cb8-82"><a href="#cb8-82"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb8-83"><a href="#cb8-83"></a>  <span class="fu">aes</span>(<span class="at">x =</span> val<span class="sc">*</span><span class="fl">1e6</span>, <span class="at">y =</span> cost_total) <span class="sc">+</span></span>
+<span id="cb8-84"><a href="#cb8-84"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb8-85"><a href="#cb8-85"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb8-86"><a href="#cb8-86"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>var, <span class="at">scales =</span> <span class="st">"free_x"</span>) <span class="sc">+</span></span>
+<span id="cb8-87"><a href="#cb8-87"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Sensitivity of Carbon Costs"</span>,</span>
+<span id="cb8-88"><a href="#cb8-88"></a>       <span class="at">x =</span> <span class="st">"Trait value [mu mol/m^2/s]"</span>,</span>
+<span id="cb8-89"><a href="#cb8-89"></a>       <span class="at">y =</span> <span class="st">"Carbon Costs"</span>) <span class="sc">+</span></span>
+<span id="cb8-90"><a href="#cb8-90"></a>  <span class="fu">theme_classic</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-cost-function" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="03-algorithm_files/figure-html/fig-cost-function-1.png" class="img-fluid figure-img" style="width:80.0%"></p>
+<figcaption class="figure-caption">Figure&nbsp;3.2: <strong>?(caption)</strong></figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="energy-balance" class="level3" data-number="3.2.2">
+<h3 data-number="3.2.2" class="anchored" data-anchor-id="energy-balance"><span class="header-section-number">3.2.2</span> Energy Balance</h3>
+<p>The relevant functions are:</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+calculate_leaf_energy_balance()
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="cell" data-layout-align="center">
+<div class="cell-output cell-output-stdout">
+<pre><code>function (tc_leaf = 21.5, tc_air = 20, gs = 1.5e-06, ppfd = 0.0015, 
+    vpd_air = 2000, patm = 101325, wind = 2, leaf_size = 0.02, 
+    stomata_ratio = 1, leaf_abs = 0.5, return_what = c("balance", 
+        "fluxes")) 
+{
+    return_what &lt;- match.arg(return_what)
+    gs &lt;- 1.6 * gs * patm
+    ppfd &lt;- ppfd * 10^6
+    Boltz &lt;- 5.67 * 10^-8
+    Emissivity &lt;- 0.95
+    LatEvap &lt;- 2.54
+    CPAIR &lt;- 1010
+    H2OLV0 &lt;- 2501000
+    H2OMW &lt;- 0.018
+    AIRMA &lt;- 0.029
+    AIRDENS &lt;- 1.204
+    UMOLPERJ &lt;- 4.57
+    DHEAT &lt;- 2.15e-05
+    AIRDENS &lt;- patm/(287.058 * celsius_to_kelvin(tc_air))
+    LHV &lt;- (H2OLV0 - 2365 * tc_air) * H2OMW
+    SLOPE &lt;- (esat(tc_air + 0.1) - esat(tc_air))/0.1
+    Gradiation &lt;- 4 * Boltz * celsius_to_kelvin(tc_air)^3 * Emissivity/(CPAIR * 
+        AIRMA)
+    CMOLAR &lt;- patm/(8.314 * celsius_to_kelvin(tc_air))
+    Gbhforced &lt;- 0.003 * sqrt(wind/leaf_size) * CMOLAR
+    GRASHOF &lt;- 1.6e+08 * abs(tc_leaf - tc_air) * (leaf_size^3)
+    Gbhfree &lt;- 0.5 * DHEAT * (GRASHOF^0.25)/leaf_size * CMOLAR
+    Gbh &lt;- 2 * (Gbhfree + Gbhforced)
+    Gbhr &lt;- Gbh + 2 * Gradiation
+    Gbw &lt;- stomata_ratio * 1.075 * Gbh
+    gw &lt;- gs * Gbw/(gs + Gbw)
+    Rlongup &lt;- Emissivity * Boltz * celsius_to_kelvin(tc_leaf)^4
+    Rsol &lt;- 2 * ppfd/UMOLPERJ
+    Rnet &lt;- leaf_abs * Rsol - Rlongup
+    ea &lt;- esat(tc_air, patm) - vpd_air
+    ema &lt;- 0.642 * (ea/celsius_to_kelvin(tc_air))^(1/7)
+    if (is.na(ema)) {
+        stop("calculate_leaf_energy_balance: `ema` is NA, likely due to unrealistic combination of given vpd and air temperature (too high vpd for that air temperature).")
+    }
+    Rnetiso &lt;- leaf_abs * Rsol - (1 - ema) * Boltz * celsius_to_kelvin(tc_air)^4
+    GAMMA &lt;- CPAIR * AIRMA * patm/LHV
+    ET &lt;- (1/LHV) * (SLOPE * Rnetiso + vpd_air * Gbh * CPAIR * 
+        AIRMA)/(SLOPE + GAMMA * Gbhr/gw)
+    lambdaET &lt;- LHV * ET
+    Y &lt;- 1/(1 + Gradiation/Gbh)
+    H2 &lt;- Y * (Rnetiso - lambdaET)
+    H &lt;- -CPAIR * AIRDENS * (Gbh/CMOLAR) * (tc_air - tc_leaf)
+    tc_leaf2 &lt;- tc_air + H2/(CPAIR * AIRDENS * (Gbh/CMOLAR))
+    EnergyBal &lt;- (tc_leaf - tc_leaf2)
+    if (return_what == "balance") {
+        return(EnergyBal)
+    }
+    if (return_what == "fluxes") {
+        l &lt;- data.frame(ELEAFeb = 1000 * ET, Gradiation = Gradiation, 
+            Rsol = Rsol, Rnetiso = Rnetiso, Rlongup = Rlongup, 
+            H = H, lambdaET = lambdaET, gw = gw, Gbh = Gbh, H2 = H2, 
+            tc_leaf2 = tc_leaf2)
+        return(l)
+    }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+optimize_leaf_energy_balance()
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-5" class="callout-5-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="cell" data-layout-align="center">
+<div class="cell-output cell-output-stdout">
+<pre><code>function (tc_air, vpd_air, gs, ppfd, patm, ...) 
+{
+    sol_optimize &lt;- uniroot(f = calculate_leaf_energy_balance, 
+        interval = c(max(tc_air - 15, 1), tc_air + 15), tc_air = tc_air, 
+        vpd_air = vpd_air, gs = gs, ppfd = ppfd, patm = patm, 
+        return_what = "balance", ...)
+    tc_leaf &lt;- sol_optimize$root
+    return(tc_leaf)
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p>Below is a demonstration of the energy balance functions and a sensitivity analysis.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a>diff_tcleaf <span class="ot">&lt;-</span> </span>
+<span id="cb11-2"><a href="#cb11-2"></a>  <span class="fu">calculate_leaf_energy_balance</span>(  </span>
+<span id="cb11-3"><a href="#cb11-3"></a>    <span class="at">tc_leaf       =</span> tc_leaf, </span>
+<span id="cb11-4"><a href="#cb11-4"></a>    <span class="at">tc_air        =</span> tc_air,</span>
+<span id="cb11-5"><a href="#cb11-5"></a>    <span class="at">gs            =</span> gs,</span>
+<span id="cb11-6"><a href="#cb11-6"></a>    <span class="at">ppfd          =</span> ppfd, </span>
+<span id="cb11-7"><a href="#cb11-7"></a>    <span class="at">vpd_air       =</span> vpd_air, </span>
+<span id="cb11-8"><a href="#cb11-8"></a>    <span class="at">patm          =</span> patm,</span>
+<span id="cb11-9"><a href="#cb11-9"></a>    <span class="at">return_what   =</span> <span class="fu">c</span>(<span class="st">"balance"</span>)</span>
+<span id="cb11-10"><a href="#cb11-10"></a>  )</span>
+<span id="cb11-11"><a href="#cb11-11"></a></span>
+<span id="cb11-12"><a href="#cb11-12"></a>leb_fluxes <span class="ot">&lt;-</span> </span>
+<span id="cb11-13"><a href="#cb11-13"></a>  <span class="fu">calculate_leaf_energy_balance</span>(  </span>
+<span id="cb11-14"><a href="#cb11-14"></a>    <span class="at">tc_leaf       =</span> tc_leaf, </span>
+<span id="cb11-15"><a href="#cb11-15"></a>    <span class="at">tc_air        =</span> tc_air,</span>
+<span id="cb11-16"><a href="#cb11-16"></a>    <span class="at">gs            =</span> gs,</span>
+<span id="cb11-17"><a href="#cb11-17"></a>    <span class="at">ppfd          =</span> ppfd, </span>
+<span id="cb11-18"><a href="#cb11-18"></a>    <span class="at">vpd_air       =</span> vpd_air, </span>
+<span id="cb11-19"><a href="#cb11-19"></a>    <span class="at">patm          =</span> patm,</span>
+<span id="cb11-20"><a href="#cb11-20"></a>    <span class="at">return_what   =</span> <span class="fu">c</span>(<span class="st">"fluxes"</span>)</span>
+<span id="cb11-21"><a href="#cb11-21"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-layout-align="center">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a><span class="fu">cat</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">The squared difference between input tc_leaf and"</span>,</span>
+<span id="cb12-2"><a href="#cb12-2"></a>    <span class="st">"</span><span class="sc">\n</span><span class="st">energy-balance-closure tc_leaf is: "</span>, diff_tcleaf)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+The squared difference between input tc_leaf and 
+energy-balance-closure tc_leaf is:  6.507787</code></pre>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a><span class="fu">cat</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">The energy balance variables at this state are: "</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+The energy balance variables at this state are: </code></pre>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(leb_fluxes)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<table class="table table-sm table-striped small">
+<colgroup>
+<col style="width: 8%">
+<col style="width: 10%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 7%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 9%">
+<col style="width: 8%">
+<col style="width: 9%">
+<col style="width: 8%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: right;">ELEAFeb</th>
+<th style="text-align: right;">Gradiation</th>
+<th style="text-align: right;">Rsol</th>
+<th style="text-align: right;">Rnetiso</th>
+<th style="text-align: right;">Rlongup</th>
+<th style="text-align: right;">H</th>
+<th style="text-align: right;">lambdaET</th>
+<th style="text-align: right;">gw</th>
+<th style="text-align: right;">Gbh</th>
+<th style="text-align: right;">H2</th>
+<th style="text-align: right;">tc_leaf2</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">3.312554</td>
+<td style="text-align: right;">0.1949628</td>
+<td style="text-align: right;">218.8184</td>
+<td style="text-align: right;">11.49047</td>
+<td style="text-align: right;">454.922</td>
+<td style="text-align: right;">416.2046</td>
+<td style="text-align: right;">145.5992</td>
+<td style="text-align: right;">0.2252718</td>
+<td style="text-align: right;">2.845609</td>
+<td style="text-align: right;">-125.5096</td>
+<td style="text-align: right;">23.49221</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a>tc_leaf_eb <span class="ot">&lt;-</span> </span>
+<span id="cb17-2"><a href="#cb17-2"></a>  <span class="fu">optimize_leaf_energy_balance</span>(</span>
+<span id="cb17-3"><a href="#cb17-3"></a>   <span class="at">tc_air  =</span> tc_air,</span>
+<span id="cb17-4"><a href="#cb17-4"></a>   <span class="at">vpd_air =</span> vpd_air,</span>
+<span id="cb17-5"><a href="#cb17-5"></a>   <span class="at">gs      =</span> gs,</span>
+<span id="cb17-6"><a href="#cb17-6"></a>   <span class="at">ppfd    =</span> ppfd,</span>
+<span id="cb17-7"><a href="#cb17-7"></a>   <span class="at">patm    =</span> patm,</span>
+<span id="cb17-8"><a href="#cb17-8"></a> )</span>
+<span id="cb17-9"><a href="#cb17-9"></a></span>
+<span id="cb17-10"><a href="#cb17-10"></a><span class="fu">cat</span>(<span class="st">"Given the environment and gs, tc_leaf is: "</span>, tc_leaf_eb)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Given the environment and gs, tc_leaf is:  23.45996</code></pre>
+</div>
+</div>
+<section id="sensitivity-analysis" class="level4" data-number="3.2.2.1">
+<h4 data-number="3.2.2.1" class="anchored" data-anchor-id="sensitivity-analysis"><span class="header-section-number">3.2.2.1</span> Sensitivity Analysis</h4>
+<p>Below is a sensitivity analysis of the energy balance model showing how the main drivers of a leaf’s temperature</p>
+<div class="cell" data-layout-align="center">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a><span class="co"># Define function first --------------------------------------------------------</span></span>
+<span id="cb19-2"><a href="#cb19-2"></a>run_fun <span class="ot">&lt;-</span> <span class="cf">function</span>(df, var) {</span>
+<span id="cb19-3"><a href="#cb19-3"></a>  </span>
+<span id="cb19-4"><a href="#cb19-4"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(df)) {</span>
+<span id="cb19-5"><a href="#cb19-5"></a>    df<span class="sc">$</span>tc_leaf[i] <span class="ot">&lt;-</span> </span>
+<span id="cb19-6"><a href="#cb19-6"></a>      <span class="fu">optimize_leaf_energy_balance</span>(</span>
+<span id="cb19-7"><a href="#cb19-7"></a>        <span class="at">tc_air  =</span> df<span class="sc">$</span>tc_air[i],</span>
+<span id="cb19-8"><a href="#cb19-8"></a>        <span class="at">vpd_air =</span> df<span class="sc">$</span>vpd_air[i],</span>
+<span id="cb19-9"><a href="#cb19-9"></a>        <span class="at">gs      =</span> df<span class="sc">$</span>gs[i],</span>
+<span id="cb19-10"><a href="#cb19-10"></a>        <span class="at">ppfd    =</span> df<span class="sc">$</span>ppfd[i],</span>
+<span id="cb19-11"><a href="#cb19-11"></a>        <span class="at">patm    =</span> df<span class="sc">$</span>patm[i],</span>
+<span id="cb19-12"><a href="#cb19-12"></a>        <span class="at">wind    =</span> df<span class="sc">$</span>wind[i],</span>
+<span id="cb19-13"><a href="#cb19-13"></a>        <span class="at">leaf_size =</span> df<span class="sc">$</span>leaf_size[i],</span>
+<span id="cb19-14"><a href="#cb19-14"></a>        <span class="at">stomata_ratio =</span> df<span class="sc">$</span>stomata_ratio[i],</span>
+<span id="cb19-15"><a href="#cb19-15"></a>        <span class="at">leaf_abs =</span> df<span class="sc">$</span>leaf_abs[i]</span>
+<span id="cb19-16"><a href="#cb19-16"></a>        )</span>
+<span id="cb19-17"><a href="#cb19-17"></a>    </span>
+<span id="cb19-18"><a href="#cb19-18"></a>      df<span class="sc">$</span>tc_diff[i] <span class="ot">=</span> df<span class="sc">$</span>tc_leaf[i] <span class="sc">-</span> df<span class="sc">$</span>tc_air[i]</span>
+<span id="cb19-19"><a href="#cb19-19"></a>  }</span>
+<span id="cb19-20"><a href="#cb19-20"></a>  </span>
+<span id="cb19-21"><a href="#cb19-21"></a>  df_out <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span> </span>
+<span id="cb19-22"><a href="#cb19-22"></a>    <span class="fu">select</span>(<span class="fu">c</span>(<span class="sc">!!</span>var, <span class="st">"tc_leaf"</span>, <span class="st">"tc_diff"</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb19-23"><a href="#cb19-23"></a>    <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="sc">!!</span>var)</span>
+<span id="cb19-24"><a href="#cb19-24"></a>  </span>
+<span id="cb19-25"><a href="#cb19-25"></a>  <span class="fu">return</span>(df_out)</span>
+<span id="cb19-26"><a href="#cb19-26"></a>}</span>
+<span id="cb19-27"><a href="#cb19-27"></a></span>
+<span id="cb19-28"><a href="#cb19-28"></a><span class="co"># Create empty df for plotting  ------------------------------------------------</span></span>
+<span id="cb19-29"><a href="#cb19-29"></a>df_abio <span class="ot">&lt;-</span> <span class="fu">tibble</span>()</span>
+<span id="cb19-30"><a href="#cb19-30"></a>df_bio  <span class="ot">&lt;-</span> <span class="fu">tibble</span>()</span>
+<span id="cb19-31"><a href="#cb19-31"></a></span>
+<span id="cb19-32"><a href="#cb19-32"></a><span class="co"># Create base df for sensitivity analysis  -------------------------------------</span></span>
+<span id="cb19-33"><a href="#cb19-33"></a>n_steps <span class="ot">&lt;-</span> <span class="dv">20</span></span>
+<span id="cb19-34"><a href="#cb19-34"></a>df_base <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">.rows =</span> n_steps)</span>
+<span id="cb19-35"><a href="#cb19-35"></a>df_base<span class="sc">$</span>tc_air    <span class="ot">&lt;-</span> <span class="fu">rep</span>(tc_air  , n_steps)</span>
+<span id="cb19-36"><a href="#cb19-36"></a>df_base<span class="sc">$</span>vpd_air   <span class="ot">&lt;-</span> <span class="fu">rep</span>(vpd_air , n_steps)</span>
+<span id="cb19-37"><a href="#cb19-37"></a>df_base<span class="sc">$</span>gs        <span class="ot">&lt;-</span> <span class="fu">rep</span>(gs      , n_steps)</span>
+<span id="cb19-38"><a href="#cb19-38"></a>df_base<span class="sc">$</span>co2       <span class="ot">&lt;-</span> <span class="fu">rep</span>(co2     , n_steps)</span>
+<span id="cb19-39"><a href="#cb19-39"></a>df_base<span class="sc">$</span>ppfd      <span class="ot">&lt;-</span> <span class="fu">rep</span>(ppfd    , n_steps)</span>
+<span id="cb19-40"><a href="#cb19-40"></a>df_base<span class="sc">$</span>patm      <span class="ot">&lt;-</span> <span class="fu">rep</span>(patm    , n_steps)</span>
+<span id="cb19-41"><a href="#cb19-41"></a>df_base<span class="sc">$</span>wind      <span class="ot">&lt;-</span> <span class="fu">rep</span>(wind    , n_steps)</span>
+<span id="cb19-42"><a href="#cb19-42"></a>df_base<span class="sc">$</span>leaf_size <span class="ot">&lt;-</span> <span class="fu">rep</span>(leaf_size, n_steps)</span>
+<span id="cb19-43"><a href="#cb19-43"></a>df_base<span class="sc">$</span>leaf_abs  <span class="ot">&lt;-</span> <span class="fu">rep</span>(leaf_abs, n_steps)</span>
+<span id="cb19-44"><a href="#cb19-44"></a>df_base<span class="sc">$</span>tc_leaf   <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, n_steps)</span>
+<span id="cb19-45"><a href="#cb19-45"></a>df_base<span class="sc">$</span>tc_diff   <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, n_steps)</span>
+<span id="cb19-46"><a href="#cb19-46"></a>df_base<span class="sc">$</span>stomata_ratio   <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">1</span>, stomata_ratio)</span>
+<span id="cb19-47"><a href="#cb19-47"></a>df_base<span class="sc">$</span>kphio     <span class="ot">&lt;-</span> <span class="fu">rep</span>(kphio, stomata_ratio)</span>
+<span id="cb19-48"><a href="#cb19-48"></a></span>
+<span id="cb19-49"><a href="#cb19-49"></a><span class="co"># Run function across all variables  -------------------------------------------</span></span>
+<span id="cb19-50"><a href="#cb19-50"></a></span>
+<span id="cb19-51"><a href="#cb19-51"></a><span class="do">### ABIOTIC VARIABLES </span></span>
+<span id="cb19-52"><a href="#cb19-52"></a><span class="do">## Air temperature and VPD</span></span>
+<span id="cb19-53"><a href="#cb19-53"></a>df_tmp <span class="ot">&lt;-</span> df_base</span>
+<span id="cb19-54"><a href="#cb19-54"></a>df_tmp<span class="sc">$</span>tc_air  <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">1</span>, <span class="dv">50</span>, <span class="at">length.out =</span> n_steps)</span>
+<span id="cb19-55"><a href="#cb19-55"></a></span>
+<span id="cb19-56"><a href="#cb19-56"></a><span class="co"># Account for changes in vpd when temperature changes:</span></span>
+<span id="cb19-57"><a href="#cb19-57"></a>df_tmp<span class="sc">$</span>vpd_air <span class="ot">&lt;-</span> </span>
+<span id="cb19-58"><a href="#cb19-58"></a>  <span class="fu">air_vpd_to_leaf_vpd</span>(</span>
+<span id="cb19-59"><a href="#cb19-59"></a>    <span class="at">vpd_air =</span> vpd_air,</span>
+<span id="cb19-60"><a href="#cb19-60"></a>    <span class="at">tc_air =</span> tc_air,</span>
+<span id="cb19-61"><a href="#cb19-61"></a>    <span class="at">tc_leaf =</span> df_tmp<span class="sc">$</span>tc_air)</span>
+<span id="cb19-62"><a href="#cb19-62"></a></span>
+<span id="cb19-63"><a href="#cb19-63"></a>df_tmp <span class="ot">&lt;-</span> <span class="fu">run_fun</span>(df_tmp, <span class="st">"tc_air"</span>)</span>
+<span id="cb19-64"><a href="#cb19-64"></a>df_abio <span class="ot">&lt;-</span> <span class="fu">rbind</span>(df_abio, df_tmp)</span>
+<span id="cb19-65"><a href="#cb19-65"></a></span>
+<span id="cb19-66"><a href="#cb19-66"></a><span class="co"># PPFD</span></span>
+<span id="cb19-67"><a href="#cb19-67"></a>df_tmp <span class="ot">&lt;-</span> df_base</span>
+<span id="cb19-68"><a href="#cb19-68"></a>df_tmp<span class="sc">$</span>ppfd  <span class="ot">&lt;-</span> <span class="fu">seq</span>(ppfd<span class="sc">/</span><span class="dv">10</span>, ppfd<span class="sc">*</span><span class="dv">10</span>, <span class="at">length.out =</span> n_steps)</span>
+<span id="cb19-69"><a href="#cb19-69"></a></span>
+<span id="cb19-70"><a href="#cb19-70"></a>df_tmp <span class="ot">&lt;-</span> <span class="fu">run_fun</span>(df_tmp, <span class="st">"ppfd"</span>)</span>
+<span id="cb19-71"><a href="#cb19-71"></a>df_abio <span class="ot">&lt;-</span> <span class="fu">rbind</span>(df_abio, df_tmp)</span>
+<span id="cb19-72"><a href="#cb19-72"></a></span>
+<span id="cb19-73"><a href="#cb19-73"></a><span class="co"># Atmospheric pressure</span></span>
+<span id="cb19-74"><a href="#cb19-74"></a>df_tmp <span class="ot">&lt;-</span> df_base</span>
+<span id="cb19-75"><a href="#cb19-75"></a>df_tmp<span class="sc">$</span>patm  <span class="ot">&lt;-</span> <span class="fu">seq</span>(patm<span class="sc">/</span><span class="dv">10</span>, patm<span class="sc">*</span><span class="dv">10</span>, <span class="at">length.out =</span> n_steps)</span>
+<span id="cb19-76"><a href="#cb19-76"></a></span>
+<span id="cb19-77"><a href="#cb19-77"></a>df_tmp <span class="ot">&lt;-</span> <span class="fu">run_fun</span>(df_tmp, <span class="st">"patm"</span>)</span>
+<span id="cb19-78"><a href="#cb19-78"></a>df_abio <span class="ot">&lt;-</span> <span class="fu">rbind</span>(df_abio, df_tmp)</span>
+<span id="cb19-79"><a href="#cb19-79"></a></span>
+<span id="cb19-80"><a href="#cb19-80"></a><span class="co"># Wind</span></span>
+<span id="cb19-81"><a href="#cb19-81"></a>df_tmp <span class="ot">&lt;-</span> df_base</span>
+<span id="cb19-82"><a href="#cb19-82"></a>df_tmp<span class="sc">$</span>wind  <span class="ot">&lt;-</span> <span class="fu">seq</span>(wind<span class="sc">/</span><span class="dv">10</span>, wind<span class="sc">*</span><span class="dv">10</span>, <span class="at">length.out =</span> n_steps)</span>
+<span id="cb19-83"><a href="#cb19-83"></a></span>
+<span id="cb19-84"><a href="#cb19-84"></a>df_tmp <span class="ot">&lt;-</span> <span class="fu">run_fun</span>(df_tmp, <span class="st">"wind"</span>)</span>
+<span id="cb19-85"><a href="#cb19-85"></a>df_abio <span class="ot">&lt;-</span> <span class="fu">rbind</span>(df_abio, df_tmp)</span>
+<span id="cb19-86"><a href="#cb19-86"></a></span>
+<span id="cb19-87"><a href="#cb19-87"></a><span class="do">### BIOTIC VARIABLES</span></span>
+<span id="cb19-88"><a href="#cb19-88"></a><span class="co"># Stomatal Conductance</span></span>
+<span id="cb19-89"><a href="#cb19-89"></a>df_tmp <span class="ot">&lt;-</span> df_base</span>
+<span id="cb19-90"><a href="#cb19-90"></a>df_tmp<span class="sc">$</span>gs  <span class="ot">&lt;-</span> <span class="fu">seq</span>(gs<span class="sc">/</span><span class="dv">10</span>, gs<span class="sc">*</span><span class="dv">10</span>, <span class="at">length.out =</span> n_steps)</span>
+<span id="cb19-91"><a href="#cb19-91"></a></span>
+<span id="cb19-92"><a href="#cb19-92"></a>df_tmp <span class="ot">&lt;-</span> <span class="fu">run_fun</span>(df_tmp, <span class="st">"gs"</span>)</span>
+<span id="cb19-93"><a href="#cb19-93"></a>df_bio <span class="ot">&lt;-</span> <span class="fu">rbind</span>(df_bio, df_tmp)</span>
+<span id="cb19-94"><a href="#cb19-94"></a></span>
+<span id="cb19-95"><a href="#cb19-95"></a><span class="co"># Leaf Size</span></span>
+<span id="cb19-96"><a href="#cb19-96"></a>df_tmp <span class="ot">&lt;-</span> df_base</span>
+<span id="cb19-97"><a href="#cb19-97"></a>df_tmp<span class="sc">$</span>leaf_size  <span class="ot">&lt;-</span> <span class="fu">seq</span>(leaf_size<span class="sc">/</span><span class="dv">10</span>, leaf_size<span class="sc">*</span><span class="dv">10</span>, <span class="at">length.out =</span> n_steps)</span>
+<span id="cb19-98"><a href="#cb19-98"></a></span>
+<span id="cb19-99"><a href="#cb19-99"></a>df_tmp <span class="ot">&lt;-</span> <span class="fu">run_fun</span>(df_tmp, <span class="st">"leaf_size"</span>)</span>
+<span id="cb19-100"><a href="#cb19-100"></a>df_bio <span class="ot">&lt;-</span> <span class="fu">rbind</span>(df_bio, df_tmp)</span>
+<span id="cb19-101"><a href="#cb19-101"></a></span>
+<span id="cb19-102"><a href="#cb19-102"></a><span class="co"># Leaf absorptance</span></span>
+<span id="cb19-103"><a href="#cb19-103"></a>df_tmp <span class="ot">&lt;-</span> df_base</span>
+<span id="cb19-104"><a href="#cb19-104"></a>df_tmp<span class="sc">$</span>leaf_abs  <span class="ot">&lt;-</span> <span class="fu">seq</span>(leaf_abs<span class="sc">/</span><span class="dv">10</span>, leaf_abs<span class="sc">*</span><span class="dv">10</span>, <span class="at">length.out =</span> n_steps)</span>
+<span id="cb19-105"><a href="#cb19-105"></a></span>
+<span id="cb19-106"><a href="#cb19-106"></a>df_tmp <span class="ot">&lt;-</span> <span class="fu">run_fun</span>(df_tmp, <span class="st">"leaf_abs"</span>)</span>
+<span id="cb19-107"><a href="#cb19-107"></a>df_bio <span class="ot">&lt;-</span> <span class="fu">rbind</span>(df_bio, df_tmp)</span>
+<span id="cb19-108"><a href="#cb19-108"></a></span>
+<span id="cb19-109"><a href="#cb19-109"></a><span class="co"># Stomatal Ratio</span></span>
+<span id="cb19-110"><a href="#cb19-110"></a>df_tmp <span class="ot">&lt;-</span> df_base <span class="sc">|&gt;</span> <span class="fu">slice</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>)</span>
+<span id="cb19-111"><a href="#cb19-111"></a>df_tmp<span class="sc">$</span>stomata_ratio  <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>)</span>
+<span id="cb19-112"><a href="#cb19-112"></a></span>
+<span id="cb19-113"><a href="#cb19-113"></a>df_tmp <span class="ot">&lt;-</span> <span class="fu">run_fun</span>(df_tmp, <span class="st">"stomata_ratio"</span>)</span>
+<span id="cb19-114"><a href="#cb19-114"></a>df_bio <span class="ot">&lt;-</span> <span class="fu">rbind</span>(df_bio, df_tmp)</span>
+<span id="cb19-115"><a href="#cb19-115"></a></span>
+<span id="cb19-116"><a href="#cb19-116"></a>df_abio<span class="sc">$</span>name <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(df_abio<span class="sc">$</span>name)</span>
+<span id="cb19-117"><a href="#cb19-117"></a>df_bio<span class="sc">$</span>name <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(df_bio<span class="sc">$</span>name)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1"></a>df_abio <span class="sc">|&gt;</span> </span>
+<span id="cb20-2"><a href="#cb20-2"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb20-3"><a href="#cb20-3"></a>  <span class="fu">aes</span>(<span class="at">x =</span> value,</span>
+<span id="cb20-4"><a href="#cb20-4"></a>      <span class="at">y =</span> tc_leaf) <span class="sc">+</span></span>
+<span id="cb20-5"><a href="#cb20-5"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb20-6"><a href="#cb20-6"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb20-7"><a href="#cb20-7"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>name, </span>
+<span id="cb20-8"><a href="#cb20-8"></a>             <span class="at">scales =</span> <span class="st">"free_x"</span>) <span class="sc">+</span></span>
+<span id="cb20-9"><a href="#cb20-9"></a>  <span class="fu">ylim</span>(<span class="dv">0</span>, <span class="dv">50</span>) <span class="sc">+</span> </span>
+<span id="cb20-10"><a href="#cb20-10"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Sensitivity of tc_leaf to abiotic drivers."</span>,</span>
+<span id="cb20-11"><a href="#cb20-11"></a>       <span class="at">y =</span> <span class="st">"T_leaf [ºC]"</span>,</span>
+<span id="cb20-12"><a href="#cb20-12"></a>       <span class="at">x =</span> <span class="st">"Variable value"</span>) <span class="sc">+</span></span>
+<span id="cb20-13"><a href="#cb20-13"></a>  <span class="fu">theme_classic</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="03-algorithm_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid figure-img" style="width:80.0%"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1"></a>df_bio <span class="sc">|&gt;</span> </span>
+<span id="cb21-2"><a href="#cb21-2"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb21-3"><a href="#cb21-3"></a>  <span class="fu">aes</span>(<span class="at">x =</span> value,</span>
+<span id="cb21-4"><a href="#cb21-4"></a>      <span class="at">y =</span> tc_leaf) <span class="sc">+</span></span>
+<span id="cb21-5"><a href="#cb21-5"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb21-6"><a href="#cb21-6"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb21-7"><a href="#cb21-7"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>name, </span>
+<span id="cb21-8"><a href="#cb21-8"></a>             <span class="at">scales =</span> <span class="st">"free_x"</span>) <span class="sc">+</span></span>
+<span id="cb21-9"><a href="#cb21-9"></a>  <span class="fu">ylim</span>(<span class="dv">0</span>, <span class="dv">50</span>) <span class="sc">+</span> </span>
+<span id="cb21-10"><a href="#cb21-10"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Sensitivity of tc_leaf to biotic drivers."</span>,</span>
+<span id="cb21-11"><a href="#cb21-11"></a>       <span class="at">y =</span> <span class="st">"T_leaf [ºC]"</span>,</span>
+<span id="cb21-12"><a href="#cb21-12"></a>       <span class="at">x =</span> <span class="st">"Variable value"</span>) <span class="sc">+</span></span>
+<span id="cb21-13"><a href="#cb21-13"></a>  <span class="fu">theme_classic</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="03-algorithm_files/figure-html/unnamed-chunk-15-2.png" class="img-fluid figure-img" style="width:80.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell" data-layout-align="center">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1"></a>df_abio <span class="sc">|&gt;</span> </span>
+<span id="cb22-2"><a href="#cb22-2"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb22-3"><a href="#cb22-3"></a>  <span class="fu">aes</span>(<span class="at">x =</span> value,</span>
+<span id="cb22-4"><a href="#cb22-4"></a>      <span class="at">y =</span> tc_diff) <span class="sc">+</span></span>
+<span id="cb22-5"><a href="#cb22-5"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb22-6"><a href="#cb22-6"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb22-7"><a href="#cb22-7"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>name, </span>
+<span id="cb22-8"><a href="#cb22-8"></a>             <span class="at">scales =</span> <span class="st">"free_x"</span>) <span class="sc">+</span></span>
+<span id="cb22-9"><a href="#cb22-9"></a>  <span class="fu">ylim</span>(<span class="sc">-</span><span class="fl">7.5</span>, <span class="fl">7.5</span>) <span class="sc">+</span></span>
+<span id="cb22-10"><a href="#cb22-10"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Sensitivity of delta T to abiotic drivers"</span>,</span>
+<span id="cb22-11"><a href="#cb22-11"></a>       <span class="at">subtitle =</span> <span class="st">"Below dotted line means the leaf is cooler"</span>,</span>
+<span id="cb22-12"><a href="#cb22-12"></a>       <span class="at">y =</span> <span class="st">"T_leaf - T_air [ºC]"</span>,</span>
+<span id="cb22-13"><a href="#cb22-13"></a>       <span class="at">x =</span> <span class="st">"Variable value"</span>) <span class="sc">+</span></span>
+<span id="cb22-14"><a href="#cb22-14"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>, <span class="at">lty =</span> <span class="st">"dotted"</span>) <span class="sc">+</span></span>
+<span id="cb22-15"><a href="#cb22-15"></a>  <span class="fu">theme_classic</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="03-algorithm_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid figure-img" style="width:80.0%"></p>
+</figure>
+</div>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1"></a>df_bio <span class="sc">|&gt;</span> </span>
+<span id="cb23-2"><a href="#cb23-2"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb23-3"><a href="#cb23-3"></a>  <span class="fu">aes</span>(<span class="at">x =</span> value,</span>
+<span id="cb23-4"><a href="#cb23-4"></a>      <span class="at">y =</span> tc_diff) <span class="sc">+</span></span>
+<span id="cb23-5"><a href="#cb23-5"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb23-6"><a href="#cb23-6"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb23-7"><a href="#cb23-7"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>name, </span>
+<span id="cb23-8"><a href="#cb23-8"></a>             <span class="at">scales =</span> <span class="st">"free_x"</span>) <span class="sc">+</span></span>
+<span id="cb23-9"><a href="#cb23-9"></a>  <span class="fu">ylim</span>(<span class="sc">-</span><span class="fl">7.5</span>, <span class="fl">7.5</span>) <span class="sc">+</span></span>
+<span id="cb23-10"><a href="#cb23-10"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>, <span class="at">lty =</span> <span class="st">"dotted"</span>) <span class="sc">+</span></span>
+<span id="cb23-11"><a href="#cb23-11"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Sensitivity of delta T to biotic drivers"</span>,</span>
+<span id="cb23-12"><a href="#cb23-12"></a>       <span class="at">subtitle =</span> <span class="st">"Below dotted line means the leaf is cooler"</span>,</span>
+<span id="cb23-13"><a href="#cb23-13"></a>       <span class="at">y =</span> <span class="st">"T_leaf - T_air [ºC]"</span>,</span>
+<span id="cb23-14"><a href="#cb23-14"></a>       <span class="at">x =</span> <span class="st">"Variable value"</span>) <span class="sc">+</span></span>
+<span id="cb23-15"><a href="#cb23-15"></a>  <span class="fu">theme_classic</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="03-algorithm_files/figure-html/unnamed-chunk-16-2.png" class="img-fluid figure-img" style="width:80.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="coupled-model" class="level3" data-number="3.2.3">
+<h3 data-number="3.2.3" class="anchored" data-anchor-id="coupled-model"><span class="header-section-number">3.2.3</span> Coupled Model</h3>
+<p>To call the coupled model, simply set <code>include_energy_balance == TRUE</code>.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1"></a><span class="fu">optimize_traits_and_costs</span>(</span>
+<span id="cb24-2"><a href="#cb24-2"></a>  <span class="at">tc_air  =</span> tc_air,</span>
+<span id="cb24-3"><a href="#cb24-3"></a>  <span class="at">vpd_air =</span> vpd_air,</span>
+<span id="cb24-4"><a href="#cb24-4"></a>  <span class="at">patm    =</span> patm,</span>
+<span id="cb24-5"><a href="#cb24-5"></a>  <span class="at">co2     =</span> co2,</span>
+<span id="cb24-6"><a href="#cb24-6"></a>  <span class="at">ppfd    =</span> ppfd,</span>
+<span id="cb24-7"><a href="#cb24-7"></a>  <span class="at">kphio   =</span> kphio,</span>
+<span id="cb24-8"><a href="#cb24-8"></a>  <span class="at">include_energy_balance =</span> <span class="cn">TRUE</span></span>
+<span id="cb24-9"><a href="#cb24-9"></a>) <span class="sc">|&gt;</span> knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped small">
+<colgroup>
+<col style="width: 5%">
+<col style="width: 4%">
+<col style="width: 5%">
+<col style="width: 5%">
+<col style="width: 5%">
+<col style="width: 5%">
+<col style="width: 5%">
+<col style="width: 5%">
+<col style="width: 5%">
+<col style="width: 5%">
+<col style="width: 6%">
+<col style="width: 6%">
+<col style="width: 5%">
+<col style="width: 7%">
+<col style="width: 13%">
+<col style="width: 3%">
+<col style="width: 5%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: right;">vcmax</th>
+<th style="text-align: right;">jmax</th>
+<th style="text-align: right;">gs</th>
+<th style="text-align: right;">ci</th>
+<th style="text-align: right;">chi</th>
+<th style="text-align: right;">a_c</th>
+<th style="text-align: right;">a_j</th>
+<th style="text-align: right;">a_gross</th>
+<th style="text-align: right;">ci_c</th>
+<th style="text-align: right;">ci_j</th>
+<th style="text-align: right;">cost_transp</th>
+<th style="text-align: right;">cost_vcmax</th>
+<th style="text-align: right;">cost_jmax</th>
+<th style="text-align: right;">carbon_costs</th>
+<th style="text-align: left;">include_energy_balance</th>
+<th style="text-align: right;">tc_air</th>
+<th style="text-align: right;">tc_leaf</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">4.54e-05</td>
+<td style="text-align: right;">0.00036</td>
+<td style="text-align: right;">0.0002014</td>
+<td style="text-align: right;">40.42388</td>
+<td style="text-align: right;">0.9973817</td>
+<td style="text-align: right;">2.14e-05</td>
+<td style="text-align: right;">2.14e-05</td>
+<td style="text-align: right;">2.14e-05</td>
+<td style="text-align: right;">40.42388</td>
+<td style="text-align: right;">40.42386</td>
+<td style="text-align: right;">29.50253</td>
+<td style="text-align: right;">572.0753</td>
+<td style="text-align: right;">3.203276</td>
+<td style="text-align: right;">327.5584</td>
+<td style="text-align: left;">TRUE</td>
+<td style="text-align: right;">25</td>
+<td style="text-align: right;">18.04351</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<section id="comparison-w-vs-wo" class="level4" data-number="3.2.3.1">
+<h4 data-number="3.2.3.1" class="anchored" data-anchor-id="comparison-w-vs-wo"><span class="header-section-number">3.2.3.1</span> Comparison w vs w/o</h4>
+<p>Below is a demonstration for the predictions of the numerical P-Model with and without the energy balance coupled. We see that given the same conditions, the coupled model predicts higher leaf than air temperatures across a range of air temperatures. Additionally, we see that the coupled model simulates an opening of the stomata whereby the predicted stomatal conductance is up to three times what the non-coupled model predicts. Since the leaf is warmer, and following the idea of optimality, the predicted values for <span class="math inline">\(V_{cmax}\)</span> tend to be smaller.</p>
+<div class="cell" data-layout-align="center">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1"></a><span class="do">## Air temperature and VPD</span></span>
+<span id="cb25-2"><a href="#cb25-2"></a>df_tmp <span class="ot">&lt;-</span> df_base</span>
+<span id="cb25-3"><a href="#cb25-3"></a>df_tmp<span class="sc">$</span>tc_air  <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">1</span>, <span class="dv">50</span>, <span class="at">length.out =</span> n_steps)</span>
+<span id="cb25-4"><a href="#cb25-4"></a></span>
+<span id="cb25-5"><a href="#cb25-5"></a><span class="co"># Account for changes in vpd when temperature changes:</span></span>
+<span id="cb25-6"><a href="#cb25-6"></a>df_tmp<span class="sc">$</span>vpd_air <span class="ot">&lt;-</span> </span>
+<span id="cb25-7"><a href="#cb25-7"></a>  <span class="fu">air_vpd_to_leaf_vpd</span>(</span>
+<span id="cb25-8"><a href="#cb25-8"></a>    <span class="at">vpd_air =</span> vpd_air,</span>
+<span id="cb25-9"><a href="#cb25-9"></a>    <span class="at">tc_air =</span> tc_air,</span>
+<span id="cb25-10"><a href="#cb25-10"></a>    <span class="at">tc_leaf =</span> df_tmp<span class="sc">$</span>tc_air)</span>
+<span id="cb25-11"><a href="#cb25-11"></a></span>
+<span id="cb25-12"><a href="#cb25-12"></a><span class="co"># With and Without EB</span></span>
+<span id="cb25-13"><a href="#cb25-13"></a>df_with_eb <span class="ot">&lt;-</span> df_tmp</span>
+<span id="cb25-14"><a href="#cb25-14"></a>df_wout_eb <span class="ot">&lt;-</span> df_tmp</span>
+<span id="cb25-15"><a href="#cb25-15"></a></span>
+<span id="cb25-16"><a href="#cb25-16"></a><span class="co"># Run loop</span></span>
+<span id="cb25-17"><a href="#cb25-17"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(df_tmp)) {</span>
+<span id="cb25-18"><a href="#cb25-18"></a>  </span>
+<span id="cb25-19"><a href="#cb25-19"></a>  <span class="co"># cat("\n Working on", i, "/", nrow(df_tmp))</span></span>
+<span id="cb25-20"><a href="#cb25-20"></a>  </span>
+<span id="cb25-21"><a href="#cb25-21"></a>  df_with_eb<span class="sc">$</span>data[i] <span class="ot">&lt;-</span> </span>
+<span id="cb25-22"><a href="#cb25-22"></a>    <span class="fu">optimize_traits_and_costs</span>(</span>
+<span id="cb25-23"><a href="#cb25-23"></a>      <span class="at">tc_air  =</span> df_with_eb<span class="sc">$</span>tc_air[i],</span>
+<span id="cb25-24"><a href="#cb25-24"></a>      <span class="at">vpd_air =</span> df_with_eb<span class="sc">$</span>vpd_air[i],</span>
+<span id="cb25-25"><a href="#cb25-25"></a>      <span class="at">ppfd    =</span> df_with_eb<span class="sc">$</span>ppfd[i],</span>
+<span id="cb25-26"><a href="#cb25-26"></a>      <span class="at">patm    =</span> df_with_eb<span class="sc">$</span>patm[i],</span>
+<span id="cb25-27"><a href="#cb25-27"></a>      <span class="at">co2     =</span> df_with_eb<span class="sc">$</span>co2[i],</span>
+<span id="cb25-28"><a href="#cb25-28"></a>      <span class="at">kphio   =</span> df_with_eb<span class="sc">$</span>kphio[i],</span>
+<span id="cb25-29"><a href="#cb25-29"></a>      <span class="at">include_energy_balance =</span> <span class="cn">TRUE</span></span>
+<span id="cb25-30"><a href="#cb25-30"></a>      ) <span class="sc">|&gt;</span> <span class="fu">list</span>()</span>
+<span id="cb25-31"><a href="#cb25-31"></a>  </span>
+<span id="cb25-32"><a href="#cb25-32"></a>  df_wout_eb<span class="sc">$</span>data[i] <span class="ot">&lt;-</span> </span>
+<span id="cb25-33"><a href="#cb25-33"></a>    <span class="fu">optimize_traits_and_costs</span>(</span>
+<span id="cb25-34"><a href="#cb25-34"></a>      <span class="at">tc_air  =</span> df_wout_eb<span class="sc">$</span>tc_air[i],</span>
+<span id="cb25-35"><a href="#cb25-35"></a>      <span class="at">vpd_air =</span> df_wout_eb<span class="sc">$</span>vpd_air[i],</span>
+<span id="cb25-36"><a href="#cb25-36"></a>      <span class="at">ppfd    =</span> df_wout_eb<span class="sc">$</span>ppfd[i],</span>
+<span id="cb25-37"><a href="#cb25-37"></a>      <span class="at">patm    =</span> df_wout_eb<span class="sc">$</span>patm[i],</span>
+<span id="cb25-38"><a href="#cb25-38"></a>      <span class="at">co2     =</span> df_wout_eb<span class="sc">$</span>co2[i],</span>
+<span id="cb25-39"><a href="#cb25-39"></a>      <span class="at">kphio   =</span> df_wout_eb<span class="sc">$</span>kphio[i],</span>
+<span id="cb25-40"><a href="#cb25-40"></a>      <span class="at">include_energy_balance =</span> <span class="cn">FALSE</span></span>
+<span id="cb25-41"><a href="#cb25-41"></a>      ) <span class="sc">|&gt;</span> <span class="fu">list</span>()</span>
+<span id="cb25-42"><a href="#cb25-42"></a>}</span>
+<span id="cb25-43"><a href="#cb25-43"></a></span>
+<span id="cb25-44"><a href="#cb25-44"></a><span class="co"># Finish up dataframes</span></span>
+<span id="cb25-45"><a href="#cb25-45"></a></span>
+<span id="cb25-46"><a href="#cb25-46"></a>vars_tc <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"tc_air"</span>, <span class="st">"tc_leaf"</span>, <span class="st">"tc_diff"</span>)</span>
+<span id="cb25-47"><a href="#cb25-47"></a>vars_pm <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"vcmax"</span>, <span class="st">"jmax"</span>, <span class="st">"gs"</span>, <span class="st">"chi"</span>)</span>
+<span id="cb25-48"><a href="#cb25-48"></a></span>
+<span id="cb25-49"><a href="#cb25-49"></a>df_with_eb <span class="ot">&lt;-</span> </span>
+<span id="cb25-50"><a href="#cb25-50"></a>  df_with_eb <span class="sc">|&gt;</span> </span>
+<span id="cb25-51"><a href="#cb25-51"></a>  <span class="fu">select</span>(data) <span class="sc">|&gt;</span> </span>
+<span id="cb25-52"><a href="#cb25-52"></a>  <span class="fu">unnest</span>(data) <span class="sc">|&gt;</span></span>
+<span id="cb25-53"><a href="#cb25-53"></a>  <span class="fu">select</span>(<span class="fu">any_of</span>(<span class="fu">c</span>(vars_tc, vars_pm))) <span class="sc">|&gt;</span> </span>
+<span id="cb25-54"><a href="#cb25-54"></a>  <span class="fu">mutate</span>(<span class="at">tc_diff =</span> tc_leaf <span class="sc">-</span> tc_air) <span class="sc">|&gt;</span> </span>
+<span id="cb25-55"><a href="#cb25-55"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="sc">!</span><span class="fu">any_of</span>(vars_tc)) <span class="sc">|&gt;</span> </span>
+<span id="cb25-56"><a href="#cb25-56"></a>  <span class="fu">mutate</span>(<span class="at">name =</span> <span class="fu">as.factor</span>(name))</span>
+<span id="cb25-57"><a href="#cb25-57"></a></span>
+<span id="cb25-58"><a href="#cb25-58"></a>df_wout_eb <span class="ot">&lt;-</span> </span>
+<span id="cb25-59"><a href="#cb25-59"></a>  df_wout_eb <span class="sc">|&gt;</span> </span>
+<span id="cb25-60"><a href="#cb25-60"></a>  <span class="fu">select</span>(data) <span class="sc">|&gt;</span> </span>
+<span id="cb25-61"><a href="#cb25-61"></a>  <span class="fu">unnest</span>(data) <span class="sc">|&gt;</span></span>
+<span id="cb25-62"><a href="#cb25-62"></a>  <span class="fu">select</span>(<span class="fu">any_of</span>(<span class="fu">c</span>(vars_tc, vars_pm))) <span class="sc">|&gt;</span> </span>
+<span id="cb25-63"><a href="#cb25-63"></a>  <span class="fu">mutate</span>(<span class="at">tc_diff =</span> tc_leaf <span class="sc">-</span> tc_air) <span class="sc">|&gt;</span> </span>
+<span id="cb25-64"><a href="#cb25-64"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="sc">!</span><span class="fu">any_of</span>(vars_tc)) <span class="sc">|&gt;</span> </span>
+<span id="cb25-65"><a href="#cb25-65"></a>  <span class="fu">mutate</span>(<span class="at">name =</span> <span class="fu">as.factor</span>(name))</span>
+<span id="cb25-66"><a href="#cb25-66"></a></span>
+<span id="cb25-67"><a href="#cb25-67"></a>df_fin <span class="ot">&lt;-</span> </span>
+<span id="cb25-68"><a href="#cb25-68"></a>  <span class="fu">rbind</span>(</span>
+<span id="cb25-69"><a href="#cb25-69"></a>    df_wout_eb <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">energy_balance =</span> <span class="cn">FALSE</span>),</span>
+<span id="cb25-70"><a href="#cb25-70"></a>    df_with_eb <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">energy_balance =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb25-71"><a href="#cb25-71"></a>    )</span>
+<span id="cb25-72"><a href="#cb25-72"></a></span>
+<span id="cb25-73"><a href="#cb25-73"></a>df_fin <span class="sc">|&gt;</span> </span>
+<span id="cb25-74"><a href="#cb25-74"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb25-75"><a href="#cb25-75"></a>  <span class="fu">aes</span>(<span class="at">y =</span> value,</span>
+<span id="cb25-76"><a href="#cb25-76"></a>      <span class="at">x =</span> tc_air,</span>
+<span id="cb25-77"><a href="#cb25-77"></a>      <span class="at">color =</span> energy_balance) <span class="sc">+</span></span>
+<span id="cb25-78"><a href="#cb25-78"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb25-79"><a href="#cb25-79"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb25-80"><a href="#cb25-80"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>name, </span>
+<span id="cb25-81"><a href="#cb25-81"></a>             <span class="at">scales =</span> <span class="st">"free_y"</span>) <span class="sc">+</span></span>
+<span id="cb25-82"><a href="#cb25-82"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Sensitivity of traits to tc_air"</span>,</span>
+<span id="cb25-83"><a href="#cb25-83"></a>       <span class="at">x =</span> <span class="st">"T_air [ºC]"</span>,</span>
+<span id="cb25-84"><a href="#cb25-84"></a>       <span class="at">y =</span> <span class="st">"Trait Value"</span>) <span class="sc">+</span></span>
+<span id="cb25-85"><a href="#cb25-85"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>, <span class="at">lty =</span> <span class="st">"dotted"</span>) <span class="sc">+</span></span>
+<span id="cb25-86"><a href="#cb25-86"></a>  <span class="fu">theme_classic</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="03-algorithm_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid figure-img" style="width:80.0%"></p>
+</figure>
+</div>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1"></a>df_fin <span class="sc">|&gt;</span> </span>
+<span id="cb26-2"><a href="#cb26-2"></a>  <span class="fu">select</span>(tc_air, tc_diff, energy_balance) <span class="sc">|&gt;</span> </span>
+<span id="cb26-3"><a href="#cb26-3"></a>  <span class="fu">distinct</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb26-4"><a href="#cb26-4"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb26-5"><a href="#cb26-5"></a>  <span class="fu">aes</span>(<span class="at">y =</span> tc_diff,</span>
+<span id="cb26-6"><a href="#cb26-6"></a>      <span class="at">x =</span> tc_air,</span>
+<span id="cb26-7"><a href="#cb26-7"></a>      <span class="at">color =</span> energy_balance) <span class="sc">+</span></span>
+<span id="cb26-8"><a href="#cb26-8"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb26-9"><a href="#cb26-9"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb26-10"><a href="#cb26-10"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Sensitivity of air-to-leaf temperature difference to tc_air"</span>,</span>
+<span id="cb26-11"><a href="#cb26-11"></a>       <span class="at">subtitle =</span> <span class="st">"Below the dotted line means the leaf is cooler than air"</span>,</span>
+<span id="cb26-12"><a href="#cb26-12"></a>       <span class="at">x =</span> <span class="st">"T_air [ºC]"</span>,</span>
+<span id="cb26-13"><a href="#cb26-13"></a>       <span class="at">y =</span> <span class="st">"T_leaf - T_air [ºC]"</span>) <span class="sc">+</span></span>
+<span id="cb26-14"><a href="#cb26-14"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>, <span class="at">lty =</span> <span class="st">"dotted"</span>) <span class="sc">+</span></span>
+<span id="cb26-15"><a href="#cb26-15"></a>  <span class="fu">ylim</span>(<span class="sc">-</span><span class="fl">0.5</span>, <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb26-16"><a href="#cb26-16"></a>  <span class="fu">theme_classic</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="03-algorithm_files/figure-html/unnamed-chunk-18-2.png" class="img-fluid figure-img" style="width:80.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="cost-function-1" class="level4" data-number="3.2.3.2">
+<h4 data-number="3.2.3.2" class="anchored" data-anchor-id="cost-function-1"><span class="header-section-number">3.2.3.2</span> Cost Function</h4>
+<p>In <a href="#fig-cost-function-eb">Figure&nbsp;<span>3.3</span></a> is a demonstration for the effect the coupled energy balance has on finding a distinct minimum in the carbon costs. Compared to the non-coupled model in <a href="#fig-cost-function">Figure&nbsp;<span>3.2</span></a>, we see that there is no distinct minima for either <span class="math inline">\(g_s\)</span> and <span class="math inline">\(V_{cmax}\)</span> - at least at the here investigated resoultion. This may cause convergence problems and lead to random rather than specific optimal values for the given conditions.</p>
+<div class="cell" data-layout-align="center">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1"></a><span class="co"># Get reference dataframe</span></span>
+<span id="cb27-2"><a href="#cb27-2"></a>n_steps <span class="ot">&lt;-</span> <span class="dv">50</span></span>
+<span id="cb27-3"><a href="#cb27-3"></a>df_base <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">.rows =</span> n_steps)</span>
+<span id="cb27-4"><a href="#cb27-4"></a></span>
+<span id="cb27-5"><a href="#cb27-5"></a>df_base<span class="sc">$</span>vcmax      <span class="ot">&lt;-</span> <span class="fu">rep</span>(vcmax, n_steps)</span>
+<span id="cb27-6"><a href="#cb27-6"></a>df_base<span class="sc">$</span>jmax       <span class="ot">&lt;-</span> <span class="fu">rep</span>(jmax, n_steps)</span>
+<span id="cb27-7"><a href="#cb27-7"></a>df_base<span class="sc">$</span>gs         <span class="ot">&lt;-</span> <span class="fu">rep</span>(gs, n_steps)</span>
+<span id="cb27-8"><a href="#cb27-8"></a>df_base<span class="sc">$</span>cost_total <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, n_steps)</span>
+<span id="cb27-9"><a href="#cb27-9"></a>df_base<span class="sc">$</span>cost_vcmax <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, n_steps)</span>
+<span id="cb27-10"><a href="#cb27-10"></a>df_base<span class="sc">$</span>cost_jmax  <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, n_steps)</span>
+<span id="cb27-11"><a href="#cb27-11"></a>df_base<span class="sc">$</span>cost_gs    <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, n_steps)</span>
+<span id="cb27-12"><a href="#cb27-12"></a></span>
+<span id="cb27-13"><a href="#cb27-13"></a>df_cc <span class="ot">&lt;-</span> <span class="fu">tibble</span>()</span>
+<span id="cb27-14"><a href="#cb27-14"></a></span>
+<span id="cb27-15"><a href="#cb27-15"></a><span class="co"># Calculate carbon costs</span></span>
+<span id="cb27-16"><a href="#cb27-16"></a>loop_carbon_costs <span class="ot">&lt;-</span> <span class="cf">function</span>(df_in, var) {</span>
+<span id="cb27-17"><a href="#cb27-17"></a>  </span>
+<span id="cb27-18"><a href="#cb27-18"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(df_in)) {</span>
+<span id="cb27-19"><a href="#cb27-19"></a>    </span>
+<span id="cb27-20"><a href="#cb27-20"></a>    output <span class="ot">&lt;-</span> </span>
+<span id="cb27-21"><a href="#cb27-21"></a>      <span class="fu">calculate_traits_and_costs</span>(</span>
+<span id="cb27-22"><a href="#cb27-22"></a>        <span class="at">par =</span> <span class="fu">c</span>(df_in<span class="sc">$</span>vcmax[i],</span>
+<span id="cb27-23"><a href="#cb27-23"></a>                df_in<span class="sc">$</span>jmax[i],</span>
+<span id="cb27-24"><a href="#cb27-24"></a>                df_in<span class="sc">$</span>gs[i]),</span>
+<span id="cb27-25"><a href="#cb27-25"></a>        <span class="at">tc_air =</span> tc_air,</span>
+<span id="cb27-26"><a href="#cb27-26"></a>        <span class="at">vpd_air =</span> vpd_air,</span>
+<span id="cb27-27"><a href="#cb27-27"></a>        <span class="at">ppfd =</span> ppfd,</span>
+<span id="cb27-28"><a href="#cb27-28"></a>        <span class="at">co2 =</span> co2,</span>
+<span id="cb27-29"><a href="#cb27-29"></a>        <span class="at">patm =</span> patm,</span>
+<span id="cb27-30"><a href="#cb27-30"></a>        <span class="at">kphio =</span> kphio,</span>
+<span id="cb27-31"><a href="#cb27-31"></a>        <span class="at">include_energy_balance =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb27-32"><a href="#cb27-32"></a>        <span class="at">return_all =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb27-33"><a href="#cb27-33"></a>        <span class="at">units_out_per_second =</span> <span class="cn">TRUE</span></span>
+<span id="cb27-34"><a href="#cb27-34"></a>      )</span>
+<span id="cb27-35"><a href="#cb27-35"></a>      </span>
+<span id="cb27-36"><a href="#cb27-36"></a>      df_in<span class="sc">$</span>cost_total[i] <span class="ot">&lt;-</span> output<span class="sc">$</span>carbon_costs</span>
+<span id="cb27-37"><a href="#cb27-37"></a>      df_in<span class="sc">$</span>cost_vcmax[i] <span class="ot">&lt;-</span> output<span class="sc">$</span>cost_vcmax</span>
+<span id="cb27-38"><a href="#cb27-38"></a>      df_in<span class="sc">$</span>cost_jmax[i]  <span class="ot">&lt;-</span> output<span class="sc">$</span>cost_jmax</span>
+<span id="cb27-39"><a href="#cb27-39"></a>      df_in<span class="sc">$</span>cost_gs[i]    <span class="ot">&lt;-</span> output<span class="sc">$</span>cost_transp</span>
+<span id="cb27-40"><a href="#cb27-40"></a>      </span>
+<span id="cb27-41"><a href="#cb27-41"></a>  }</span>
+<span id="cb27-42"><a href="#cb27-42"></a>  </span>
+<span id="cb27-43"><a href="#cb27-43"></a>  df_out <span class="ot">&lt;-</span> </span>
+<span id="cb27-44"><a href="#cb27-44"></a>    df_in <span class="sc">|&gt;</span> </span>
+<span id="cb27-45"><a href="#cb27-45"></a>    <span class="fu">select</span>(<span class="fu">starts_with</span>(<span class="st">"cost"</span>), <span class="sc">!!</span>var) <span class="sc">|&gt;</span> </span>
+<span id="cb27-46"><a href="#cb27-46"></a>    <span class="co"># pivot_longer(</span></span>
+<span id="cb27-47"><a href="#cb27-47"></a>    <span class="co">#   cols = starts_with("cost"),</span></span>
+<span id="cb27-48"><a href="#cb27-48"></a>    <span class="co">#   names_to = "cost_name",</span></span>
+<span id="cb27-49"><a href="#cb27-49"></a>    <span class="co">#   values_to = "cost_value") |&gt; </span></span>
+<span id="cb27-50"><a href="#cb27-50"></a>    <span class="fu">pivot_longer</span>(</span>
+<span id="cb27-51"><a href="#cb27-51"></a>      <span class="at">cols =</span> <span class="sc">!!</span>var,</span>
+<span id="cb27-52"><a href="#cb27-52"></a>      <span class="at">names_to =</span> <span class="st">"var"</span>,</span>
+<span id="cb27-53"><a href="#cb27-53"></a>      <span class="at">values_to =</span> <span class="st">"val"</span>)</span>
+<span id="cb27-54"><a href="#cb27-54"></a>  </span>
+<span id="cb27-55"><a href="#cb27-55"></a>  <span class="fu">return</span>(df_out)               </span>
+<span id="cb27-56"><a href="#cb27-56"></a>}</span>
+<span id="cb27-57"><a href="#cb27-57"></a></span>
+<span id="cb27-58"><a href="#cb27-58"></a><span class="do">## Run function</span></span>
+<span id="cb27-59"><a href="#cb27-59"></a><span class="co"># Vcmax</span></span>
+<span id="cb27-60"><a href="#cb27-60"></a>df_tmp <span class="ot">&lt;-</span> df_base</span>
+<span id="cb27-61"><a href="#cb27-61"></a>df_tmp<span class="sc">$</span>vcmax <span class="ot">&lt;-</span> <span class="fu">seq</span>(vcmax<span class="sc">/</span><span class="dv">10</span>, vcmax<span class="sc">*</span><span class="dv">10</span>, <span class="at">length.out =</span> n_steps)</span>
+<span id="cb27-62"><a href="#cb27-62"></a></span>
+<span id="cb27-63"><a href="#cb27-63"></a>df_tmp  <span class="ot">&lt;-</span> <span class="fu">loop_carbon_costs</span>(df_tmp, <span class="st">"vcmax"</span>)</span>
+<span id="cb27-64"><a href="#cb27-64"></a>df_cc   <span class="ot">&lt;-</span> <span class="fu">rbind</span>(df_cc, df_tmp)</span>
+<span id="cb27-65"><a href="#cb27-65"></a></span>
+<span id="cb27-66"><a href="#cb27-66"></a><span class="co"># Jmax</span></span>
+<span id="cb27-67"><a href="#cb27-67"></a>df_tmp <span class="ot">&lt;-</span> df_base</span>
+<span id="cb27-68"><a href="#cb27-68"></a>df_tmp<span class="sc">$</span>jmax <span class="ot">&lt;-</span> <span class="fu">seq</span>(jmax<span class="sc">/</span><span class="dv">10</span>, jmax<span class="sc">*</span><span class="dv">10</span>, <span class="at">length.out =</span> n_steps)</span>
+<span id="cb27-69"><a href="#cb27-69"></a></span>
+<span id="cb27-70"><a href="#cb27-70"></a>df_tmp  <span class="ot">&lt;-</span> <span class="fu">loop_carbon_costs</span>(df_tmp, <span class="st">"jmax"</span>)</span>
+<span id="cb27-71"><a href="#cb27-71"></a>df_cc   <span class="ot">&lt;-</span> <span class="fu">rbind</span>(df_cc, df_tmp)</span>
+<span id="cb27-72"><a href="#cb27-72"></a></span>
+<span id="cb27-73"><a href="#cb27-73"></a><span class="co"># gs</span></span>
+<span id="cb27-74"><a href="#cb27-74"></a>df_tmp <span class="ot">&lt;-</span> df_base</span>
+<span id="cb27-75"><a href="#cb27-75"></a>df_tmp<span class="sc">$</span>gs <span class="ot">&lt;-</span> <span class="fu">seq</span>(gs<span class="sc">/</span><span class="dv">10</span>, gs<span class="sc">*</span><span class="dv">10</span>, <span class="at">length.out =</span> n_steps)</span>
+<span id="cb27-76"><a href="#cb27-76"></a></span>
+<span id="cb27-77"><a href="#cb27-77"></a>df_tmp  <span class="ot">&lt;-</span> <span class="fu">loop_carbon_costs</span>(df_tmp, <span class="st">"gs"</span>)</span>
+<span id="cb27-78"><a href="#cb27-78"></a>df_cc   <span class="ot">&lt;-</span> <span class="fu">rbind</span>(df_cc, df_tmp)</span>
+<span id="cb27-79"><a href="#cb27-79"></a></span>
+<span id="cb27-80"><a href="#cb27-80"></a><span class="do">## Plot it</span></span>
+<span id="cb27-81"><a href="#cb27-81"></a>df_cc <span class="sc">|&gt;</span> </span>
+<span id="cb27-82"><a href="#cb27-82"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb27-83"><a href="#cb27-83"></a>  <span class="fu">aes</span>(<span class="at">x =</span> val<span class="sc">*</span><span class="fl">1e6</span>, <span class="at">y =</span> cost_total) <span class="sc">+</span></span>
+<span id="cb27-84"><a href="#cb27-84"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb27-85"><a href="#cb27-85"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb27-86"><a href="#cb27-86"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>var, <span class="at">scales =</span> <span class="st">"free_x"</span>) <span class="sc">+</span></span>
+<span id="cb27-87"><a href="#cb27-87"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Sensitivity of Carbon Costs (with energy balance)"</span>,</span>
+<span id="cb27-88"><a href="#cb27-88"></a>       <span class="at">x =</span> <span class="st">"Trait value [mu mol/m^2/s]"</span>,</span>
+<span id="cb27-89"><a href="#cb27-89"></a>       <span class="at">y =</span> <span class="st">"Relative Carbon Costs"</span>) <span class="sc">+</span></span>
+<span id="cb27-90"><a href="#cb27-90"></a>  <span class="fu">theme_classic</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-cost-function-eb" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="03-algorithm_files/figure-html/fig-cost-function-eb-1.png" class="img-fluid figure-img" style="width:80.0%"></p>
+<figcaption class="figure-caption">Figure&nbsp;3.3: <strong>?(caption)</strong></figcaption>
+</figure>
+</div>
+</div>
+</div>
+
+
+</section>
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  let localAlternateSentinel = 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } else {
+    toggleColorMode(false);
+  }
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./02-theory.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Theory</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./98-next-steps.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Next Steps</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>

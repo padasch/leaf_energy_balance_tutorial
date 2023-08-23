@@ -56,7 +56,26 @@ div.sourceCode
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -66,18 +85,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./01-introduction.html" rel="next">
+<link href="./01-motivation.html" rel="next">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark.min.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -182,8 +201,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./01-introduction.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
+  <a href="./01-motivation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Motivation</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -194,26 +213,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./03-implementation.html" class="sidebar-item-text sidebar-link">
+  <a href="./03-algorithm.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Algorithm</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./04-sensitivity_analysis.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">04-sensitivity_analysis.html</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./05-test_case.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Test Cases</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="./98-next-steps.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Next Steps</span></span></a>
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Next Steps</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -278,7 +285,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="about" class="level1 unnumbered">
 <h1 class="unnumbered">About</h1>
-<p>This is an online tutorial to simulate a leaf’s energy balance to different drivers.</p>
+<p>The field of thermoregulation is fundamental to photosynthesis but the lack of understanding and process-based modelling of leaf temperature regulation creates a knowledge gap worthy of investigation. Moreover, by exploiting EEO principles, we can create a model that accounts for the interplay of thermal acclimation and thermoregulation. Understanding this interplay is an unresolved but highly relevant question because it gives insights into the processes a plant may use to cope with a rising temperatures <span class="citation" data-cites="cavaleri2020cold">(<a href="references.html#ref-cavaleri2020cold" role="doc-biblioref">Cavaleri, 2020</a>)</span>.</p>
+<p>This tutorial provides the scientific basis and code impementation to model a leaf’s temperature based on thermodynamic theory and eco-evolutionary optimality theory. <a href="01-motivation.html"><span>Chapter&nbsp;1</span></a> gives insight into the current debate on leaf thermoregulation and makes the statement how eco-evolutionary optimality theory may provide a solution to this issue. In <a href="03-algorithm.html"><span>Chapter&nbsp;3</span></a>, a numerical algorithm is presented alongside a sensitivity analysis showing the strenghts and weaknesses of the current implemenation. In <a href="98-next-steps.html"><span>Chapter&nbsp;4</span></a>, further improvements of the algorithm and ideas for potential test-cases to evaluate the model are provided.</p>
 </section>
 <section id="requirements" class="level1">
 <h1>Requirements</h1>
@@ -303,7 +311,7 @@ time zone: Europe/Zurich
 tzcode source: internal
 
 attached base packages:
-[1] stats     graphics  grDevices utils     datasets  methods   base     
+[1] stats     graphics  grDevices datasets  utils     methods   base     
 
 other attached packages:
  [1] conflicted_1.2.0 quarto_1.2       rpmodel_1.2.0    patchwork_1.1.3 
@@ -312,14 +320,14 @@ other attached packages:
 [13] ggplot2_3.4.3    tidyverse_2.0.0  here_1.0.1      
 
 loaded via a namespace (and not attached):
- [1] utf8_1.2.3        generics_0.1.3    stringi_1.7.12    hms_1.1.3        
- [5] digest_0.6.33     magrittr_2.0.3    evaluate_0.21     grid_4.3.1       
- [9] timechange_0.2.0  fastmap_1.1.1     rprojroot_2.0.3   jsonlite_1.8.7   
-[13] processx_3.8.2    ps_1.7.5          fansi_1.0.4       scales_1.2.1     
-[17] cli_3.6.1         rlang_1.1.1       munsell_0.5.0     cachem_1.0.8     
-[21] withr_2.5.0       yaml_2.3.7        tools_4.3.1       tzdb_0.4.0       
-[25] memoise_2.0.1     colorspace_2.1-0  vctrs_0.6.3       R6_2.5.1         
-[29] lifecycle_1.0.3   htmlwidgets_1.6.2 pkgconfig_2.0.3   pillar_1.9.0     
+ [1] utf8_1.2.3        generics_0.1.3    renv_0.17.3       stringi_1.7.12   
+ [5] hms_1.1.3         digest_0.6.33     magrittr_2.0.3    evaluate_0.21    
+ [9] grid_4.3.1        timechange_0.2.0  fastmap_1.1.1     rprojroot_2.0.3  
+[13] jsonlite_1.8.7    processx_3.8.2    ps_1.7.5          fansi_1.0.4      
+[17] scales_1.2.1      cli_3.6.1         rlang_1.1.1       munsell_0.5.0    
+[21] cachem_1.0.8      withr_2.5.0       yaml_2.3.7        tools_4.3.1      
+[25] tzdb_0.4.0        memoise_2.0.1     colorspace_2.1-0  vctrs_0.6.3      
+[29] R6_2.5.1          lifecycle_1.0.3   pkgconfig_2.0.3   pillar_1.9.0     
 [33] later_1.3.1       gtable_0.3.3      glue_1.6.2        Rcpp_1.0.11      
 [37] xfun_0.40         tidyselect_1.2.0  rstudioapi_0.15.0 knitr_1.43       
 [41] htmltools_0.5.6   rmarkdown_2.24    compiler_4.3.1   </code></pre>
@@ -347,7 +355,7 @@ time zone: Europe/Zurich
 tzcode source: internal
 
 attached base packages:
-[1] stats     graphics  grDevices utils     datasets  methods   base     
+[1] stats     graphics  grDevices datasets  utils     methods   base     
 
 other attached packages:
  [1] conflicted_1.2.0 quarto_1.2       rpmodel_1.2.0    patchwork_1.1.3 
@@ -363,10 +371,10 @@ loaded via a namespace (and not attached):
 [17] scales_1.2.1      cli_3.6.1         rlang_1.1.1       munsell_0.5.0    
 [21] cachem_1.0.8      withr_2.5.0       yaml_2.3.7        tools_4.3.1      
 [25] tzdb_0.4.0        memoise_2.0.1     colorspace_2.1-0  vctrs_0.6.3      
-[29] R6_2.5.1          lifecycle_1.0.3   htmlwidgets_1.6.2 pkgconfig_2.0.3  
-[33] pillar_1.9.0      later_1.3.1       gtable_0.3.3      glue_1.6.2       
-[37] Rcpp_1.0.11       xfun_0.40         tidyselect_1.2.0  rstudioapi_0.15.0
-[41] knitr_1.43        htmltools_0.5.6   rmarkdown_2.24    compiler_4.3.1   
+[29] R6_2.5.1          lifecycle_1.0.3   pkgconfig_2.0.3   pillar_1.9.0     
+[33] later_1.3.1       gtable_0.3.3      glue_1.6.2        Rcpp_1.0.11      
+[37] xfun_0.40         tidyselect_1.2.0  rstudioapi_0.15.0 knitr_1.43       
+[41] htmltools_0.5.6   rmarkdown_2.24    compiler_4.3.1   
 
 # Project ============================
 Project path: "~/repos/padasch/leaf_energy_balance_tutorial"
@@ -375,329 +383,151 @@ Project path: "~/repos/padasch/leaf_energy_balance_tutorial"
 * The project is already synchronized with the lockfile.
 
 # Packages ===========================
-                      Library Source    Lockfile Source Path Dependency
-AsioHeaders          1.22.1-2   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-BH                   1.81.0-1   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-BayesianTools           0.1.8   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-Brobdingnag             1.2-9   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-DBI                     1.1.3   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
-DHARMa                  0.4.6   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-DT                       0.28   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-Formula                 1.2-5   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-GenSA                   1.1.9   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-IDPmisc                1.1.20   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-KernSmooth            2.23-21   CRAN        &lt;NA&gt;   &lt;NA&gt;  [2]       &lt;NA&gt;
-MASS                   7.3-60   CRAN        &lt;NA&gt;   &lt;NA&gt;  [2]       &lt;NA&gt;
-MODISTools              1.1.4   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-Matrix                1.5-4.1   CRAN        &lt;NA&gt;   &lt;NA&gt;  [2]       &lt;NA&gt;
-Metrics                 0.1.4   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-ModelMetrics          1.2.2.2   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-R.cache                0.16.0   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-R.methodsS3             1.8.2   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-R.oo                   1.25.0   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-R.utils                2.12.2   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-R6                      2.5.1   CRAN       2.5.1   CRAN  [1]   indirect
-RApiSerialize           0.1.2   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-RColorBrewer            1.1-3   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
-RSpectra               0.16-1   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-Rcgmin              2022-4.30   CRAN   2022-4.30   CRAN  [1]   indirect
-Rcpp                   1.0.11   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
-RcppArmadillo      0.12.4.1.0   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-RcppEigen           0.3.3.9.3   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-RcppParallel            5.1.7   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-RcppRoll                0.3.0   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-RcppTOML                0.2.2   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-RcppThread              2.1.5   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-Rvmmin            2018-4.17.1   CRAN 2018-4.17.1   CRAN  [1]   indirect
-SQUAREM                2021.1   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-TTR                    0.24.3   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-anytime                 0.3.9   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-ape                     5.7-1   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-askpass                   1.1   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
-assertthat              0.2.1   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-audio                  0.1-10   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-backports               1.4.1   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
-base64enc               0.1-3   CRAN       0.1-3   CRAN  [1]   indirect
-beepr                     1.3   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-bit                     4.0.5   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
-bit64                   4.0.5   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
-blob                    1.2.4   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
-bookdown                 0.34   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-boot                 1.3-28.1   CRAN        &lt;NA&gt;   &lt;NA&gt;  [2]       &lt;NA&gt;
-brew                    1.0-8   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-bridgesampling          1.1-2   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-brio                    1.1.3   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-broom                   1.0.5   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
-bslib                   0.5.1   CRAN       0.5.1   CRAN  [1]   indirect
-cachem                  1.0.8   CRAN       1.0.8   CRAN  [1]   indirect
-callr                   3.7.3   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
-caret                  6.0-94   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-cellranger              1.1.0   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
-checkmate               2.2.0   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-class                  7.3-22   CRAN        &lt;NA&gt;   &lt;NA&gt;  [2]       &lt;NA&gt;
-classInt                0.4-9   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-cli                     3.6.1   CRAN       3.6.1   CRAN  [1]   indirect
-clipr                   0.8.0   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
-clock                   0.7.0   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-clue                   0.3-64   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-cluster                 2.1.4   CRAN        &lt;NA&gt;   &lt;NA&gt;  [2]       &lt;NA&gt;
-coda                   0.19-4   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-codetools              0.2-19   CRAN        &lt;NA&gt;   &lt;NA&gt;  [2]       &lt;NA&gt;
-collections             0.3.7   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-colorspace              2.1-0   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
-commonmark              1.9.0   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-conflicted              1.2.0   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
-cowplot                 1.1.1   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-cpp11                   0.4.6   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
-crayon                  1.5.2   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
-credentials             1.3.2   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-crosstalk               1.2.0   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-curl                    5.0.2   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
-cyclocomp               1.1.0   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-data.table             1.14.8   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
-dbplyr                  2.3.3   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
-desc                    1.4.2   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-diagram                 1.6.5   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-diffobj                 0.3.5   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-digest                 0.6.33   CRAN      0.6.33   CRAN  [1]   indirect
-doParallel             1.0.17   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-dplyr                   1.1.2   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
-dtplyr                  1.3.1   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
-dtw                    1.23-1   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-dtwclust               5.5.12   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-e1071                  1.7-13   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-ellipse                 0.5.0   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-ellipsis                0.3.2   CRAN       0.3.2   CRAN  [1]   indirect
-emulator               1.2-21   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-evaluate                 0.21   CRAN        0.21   CRAN  [1]   indirect
-expm                  0.999-7   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-fansi                   1.0.4   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
-farver                  2.1.1   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
-fastmap                 1.1.1   CRAN       1.1.1   CRAN  [1]   indirect
-flexclust               1.4-1   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-fontawesome             0.5.1   CRAN       0.5.1   CRAN  [1]   indirect
-forcats                 1.0.0   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
-foreach                 1.5.2   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-forecast                 8.21   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-foreign                0.8-84   CRAN        &lt;NA&gt;   &lt;NA&gt;  [2]       &lt;NA&gt;
-fracdiff                1.5-2   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-fs                      1.6.3   CRAN       1.6.3   CRAN  [1]   indirect
-furrr                   0.3.1   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-future                 1.33.0   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-future.apply           1.11.0   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-gap                     1.5-1   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-gap.datasets            0.0.5   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-gargle                  1.5.2   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
-generics                0.1.3   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
-gert                    1.9.2   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-ggplot2                 3.4.3   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
-ggrepel                 0.9.3   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-ggridges                0.5.4   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-gh                      1.4.0   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-gitcreds                0.1.2   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-globals                0.16.2   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-glue                    1.6.2   CRAN       1.6.2   CRAN  [1]   indirect
-gmm                       1.8   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-googledrive             2.1.1   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
-googlesheets4           1.1.1   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
-gower                   1.0.1   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-grDevices                &lt;NA&gt;   &lt;NA&gt;        &lt;NA&gt;   &lt;NA&gt;  [2]   indirect
-graphics                 &lt;NA&gt;   &lt;NA&gt;        &lt;NA&gt;   &lt;NA&gt;  [2]   indirect
-gridExtra                 2.3   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-gtable                  0.3.3   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
-hardhat                 1.3.0   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-haven                   2.5.3   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
-here                    1.0.1   CRAN       1.0.1   CRAN  [1]     direct
-hexbin                 1.28.3   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-highr                    0.10   CRAN        0.10   CRAN  [1]   indirect
-hms                     1.1.3   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
-htmltools               0.5.6   CRAN       0.5.6   CRAN  [1]   indirect
-htmlwidgets             1.6.2   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-httpuv                 1.6.11   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-httr                    1.4.7   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
-httr2                   0.2.3   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-hwsdr                     1.0   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-ids                     1.0.1   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
-iml                    0.11.1   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-ini                     0.3.1   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-ipred                  0.9-14   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-isoband                 0.2.7   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
-iterators              1.0.14   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-jquerylib               0.1.4   CRAN       0.1.4   CRAN  [1]   indirect
-jsonlite                1.8.7   CRAN       1.8.7   CRAN  [1]   indirect
-knitr                    1.43   CRAN        1.43   CRAN  [1]     direct
-labeling                0.4.2   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
-languageserver         0.3.15   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-later                   1.3.1   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
-lattice                0.21-8   CRAN        &lt;NA&gt;   &lt;NA&gt;  [2]       &lt;NA&gt;
-lava                  1.7.2.1   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-lazyeval                0.2.2   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-leaflet                 2.1.2   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-leaflet.providers       1.9.0   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-lifecycle               1.0.3   CRAN       1.0.3   CRAN  [1]   indirect
-lintr                   3.0.2   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-listenv                 0.9.0   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-lme4                   1.1-34   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-lmtest                 0.9-40   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-lubridate               1.9.2   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
-magrittr                2.0.3   CRAN       2.0.3   CRAN  [1]   indirect
-markdown                  1.7   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-memoise                 2.0.1   CRAN       2.0.1   CRAN  [1]   indirect
-methods                  &lt;NA&gt;   &lt;NA&gt;        &lt;NA&gt;   &lt;NA&gt;  [2]   indirect
-mgcv                   1.8-42   CRAN        &lt;NA&gt;   &lt;NA&gt;  [2]       &lt;NA&gt;
-mime                     0.12   CRAN        0.12   CRAN  [1]   indirect
-miniUI                0.1.1.1   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-minqa                   1.2.5   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-modelr                 0.1.11   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
-modeltools             0.2-23   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-msm                       1.7   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-multidplyr              0.1.3   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-munsell                 0.5.0   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
-mvtnorm                 1.2-2   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-ncdf4                    1.21   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-nlme                  3.1-162   CRAN        &lt;NA&gt;   &lt;NA&gt;  [2]       &lt;NA&gt;
-nloptr                  2.0.3   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-nnet                   7.3-19   CRAN        &lt;NA&gt;   &lt;NA&gt;  [2]       &lt;NA&gt;
-numDeriv           2016.8-1.1   CRAN  2016.8-1.1   CRAN  [1]   indirect
-numbers                 0.8-5   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-openssl                 2.1.0   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
-optextras           2019-12.4   CRAN   2019-12.4   CRAN  [1]   indirect
-optimr             2019-12.16   CRAN  2019-12.16   CRAN  [1]     direct
-pROC                   1.18.4   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-packrat                 0.9.1   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
-padr                    0.6.2   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-pagedown                 0.20   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-pandoc                  0.1.0   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-parallelly             1.36.0   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-patchwork               1.1.3   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
-pdp                     0.8.1   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-pillar                  1.9.0   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
-pkgconfig               2.0.3   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
-pkgload               1.3.2.1   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-plotly                 4.10.2   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-plyr                    1.8.8   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-png                     0.1-8   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-praise                  1.0.0   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-prediction             0.3.14   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-prettyunits             1.1.1   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
-processx                3.8.2   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
-prodlim            2023.03.31   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-progress                1.2.2   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
-progressr              0.14.0   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-promises              1.2.0.1   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-proxy                  0.4-27   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-ps                      1.7.5   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
-purrr                   1.0.2   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
-qgam                    1.3.4   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-qs                     0.25.5   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-quadprog                1.5-8   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-quantmod               0.4.24   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-quarto                    1.2   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
-ragg                    1.2.5   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
-ranger                 0.15.1   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-rappdirs                0.3.3   CRAN       0.3.3   CRAN  [1]   indirect
-raster                 3.6-20   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-readr                   2.1.4   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
-readxl                  1.4.3   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
-recipes                 1.0.7   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-rematch                 1.0.1   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
-rematch2                2.1.2   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
-remotes                 2.4.2   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-renv                   0.17.3   CRAN      0.17.3   CRAN  [1]     direct
-repr                    1.1.6   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-reprex                  2.0.2   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
-reshape2                1.4.4   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-reticulate               1.30   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-rex                     1.2.1   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-rlang                   1.1.1   CRAN       1.1.1   CRAN  [1]   indirect
-rmarkdown                2.24   CRAN        2.24   CRAN  [1]     direct
-roxygen2                7.2.3   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-rpart                  4.1.19   CRAN        &lt;NA&gt;   &lt;NA&gt;  [2]       &lt;NA&gt;
-rpart.plot              3.1.1   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-rpmodel                 1.2.0   CRAN       1.2.0   CRAN  [1]     direct
-rprojroot               2.0.3   CRAN       2.0.3   CRAN  [1]   indirect
-rsample                 1.1.1   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-rsconnect               1.0.1   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
-rstudioapi             0.15.0   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
-rvest                   1.0.3   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
-s2                      1.1.4   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-sandwich                3.0-2   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-sass                    0.4.7   CRAN       0.4.7   CRAN  [1]   indirect
-scales                  1.2.1   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
-scico                   1.5.0   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-selectr                 0.4-2   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
-sensitivity            1.28.1   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-servr                    0.27   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-sessioninfo             1.2.2   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-setRNG               2022.4-1   CRAN    2022.4-1   CRAN  [1]   indirect
-sf                     1.0-13   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-shape                   1.4.6   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-shiny                 1.7.4.1   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-shinyBS                0.61.1   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-shinyjs                 2.1.0   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-skimr                   2.1.5   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-slider                  0.3.0   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-sourcetools           0.1.7-1   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-sp                      2.0-0   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-spatial                7.3-16   CRAN        &lt;NA&gt;   &lt;NA&gt;  [2]       &lt;NA&gt;
-stats                    &lt;NA&gt;   &lt;NA&gt;        &lt;NA&gt;   &lt;NA&gt;  [2]   indirect
-stringfish             0.15.8   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-stringi                1.7.12   CRAN      1.7.12   CRAN  [1]   indirect
-stringr                 1.5.0   CRAN       1.5.0   CRAN  [1]   indirect
-styler                 1.10.1   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-survival                3.5-5   CRAN        &lt;NA&gt;   &lt;NA&gt;  [2]       &lt;NA&gt;
-sys                     3.4.2   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
-systemfonts             1.0.4   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
-terra                  1.7-39   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-testthat               3.1.10   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-textshaping             0.3.6   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
-tibble                  3.2.1   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
-tictoc                    1.2   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-tidyr                   1.3.0   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
-tidyselect              1.2.0   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
-tidyverse               2.0.0   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
-timeDate             4022.108   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-timechange              0.2.0   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
-timetk                  2.8.3   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-tinytex                  0.46   CRAN        0.46   CRAN  [1]   indirect
-tmvtnorm                  1.5   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-tools                    &lt;NA&gt;   &lt;NA&gt;        &lt;NA&gt;   &lt;NA&gt;  [2]   indirect
-tseries               0.10-54   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-tsfeatures                1.1   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-tzdb                    0.4.0   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
-units                   0.8-2   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-urca                    1.3-3   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-usethis                 2.2.2   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-utf8                    1.2.3   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
-utils                    &lt;NA&gt;   &lt;NA&gt;        &lt;NA&gt;   &lt;NA&gt;  [2]   indirect
-uuid                    1.1-0   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
-vctrs                   0.6.3   CRAN       0.6.3   CRAN  [1]   indirect
-vip                     0.3.2   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-viridis                 0.6.4   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-viridisLite             0.4.2   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
-visdat                  0.6.0   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-vroom                   1.6.3   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
-waldo                   0.5.1   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-warp                    0.2.0   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-websocket               1.4.1   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-whisker                 0.4.1   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-whoami                  1.3.0   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-withr                   2.5.0   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
-wk                      0.7.3   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-xfun                     0.40   CRAN        0.40   CRAN  [1]   indirect
-xml2                    1.3.5   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
-xmlparsedata            1.0.5   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-xtable                  1.8-4   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-xts                    0.13.1   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-yaml                    2.3.7   CRAN       2.3.7   CRAN  [1]   indirect
-yardstick               1.2.0   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-ymlthis                 0.1.7   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-zip                     2.3.0   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-zoo                    1.8-12   CRAN        &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
+                  Library Source    Lockfile Source Path Dependency
+DBI                 1.1.3   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
+KernSmooth        2.23-21   CRAN        &lt;NA&gt;   &lt;NA&gt;  [2]       &lt;NA&gt;
+MASS               7.3-60   CRAN        &lt;NA&gt;   &lt;NA&gt;  [2]       &lt;NA&gt;
+Matrix            1.5-4.1   CRAN        &lt;NA&gt;   &lt;NA&gt;  [2]       &lt;NA&gt;
+R6                  2.5.1   CRAN       2.5.1   CRAN  [1]   indirect
+RColorBrewer        1.1-3   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
+Rcgmin          2022-4.30   CRAN   2022-4.30   CRAN  [1]   indirect
+Rcpp               1.0.11   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
+Rvmmin        2018-4.17.1   CRAN 2018-4.17.1   CRAN  [1]   indirect
+askpass               1.1   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
+backports           1.4.1   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
+base64enc           0.1-3   CRAN       0.1-3   CRAN  [1]   indirect
+bit                 4.0.5   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
+bit64               4.0.5   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
+blob                1.2.4   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
+boot             1.3-28.1   CRAN        &lt;NA&gt;   &lt;NA&gt;  [2]       &lt;NA&gt;
+broom               1.0.5   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
+bslib               0.5.1   CRAN       0.5.1   CRAN  [1]   indirect
+cachem              1.0.8   CRAN       1.0.8   CRAN  [1]   indirect
+callr               3.7.3   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
+cellranger          1.1.0   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
+class              7.3-22   CRAN        &lt;NA&gt;   &lt;NA&gt;  [2]       &lt;NA&gt;
+cli                 3.6.1   CRAN       3.6.1   CRAN  [1]   indirect
+clipr               0.8.0   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
+cluster             2.1.4   CRAN        &lt;NA&gt;   &lt;NA&gt;  [2]       &lt;NA&gt;
+codetools          0.2-19   CRAN        &lt;NA&gt;   &lt;NA&gt;  [2]       &lt;NA&gt;
+colorspace          2.1-0   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
+commonmark          1.9.0   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
+conflicted          1.2.0   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
+cpp11               0.4.6   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
+crayon              1.5.2   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
+curl                5.0.2   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
+data.table         1.14.8   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
+dbplyr              2.3.3   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
+digest             0.6.33   CRAN      0.6.33   CRAN  [1]   indirect
+dplyr               1.1.2   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
+dtplyr              1.3.1   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
+ellipsis            0.3.2   CRAN       0.3.2   CRAN  [1]   indirect
+evaluate             0.21   CRAN        0.21   CRAN  [1]   indirect
+fansi               1.0.4   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
+farver              2.1.1   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
+fastmap             1.1.1   CRAN       1.1.1   CRAN  [1]   indirect
+fontawesome         0.5.1   CRAN       0.5.1   CRAN  [1]   indirect
+forcats             1.0.0   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
+foreign            0.8-84   CRAN        &lt;NA&gt;   &lt;NA&gt;  [2]       &lt;NA&gt;
+fs                  1.6.3   CRAN       1.6.3   CRAN  [1]   indirect
+gargle              1.5.2   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
+generics            0.1.3   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
+ggplot2             3.4.3   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
+glue                1.6.2   CRAN       1.6.2   CRAN  [1]   indirect
+googledrive         2.1.1   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
+googlesheets4       1.1.1   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
+grDevices            &lt;NA&gt;   &lt;NA&gt;        &lt;NA&gt;   &lt;NA&gt;  [2]   indirect
+graphics             &lt;NA&gt;   &lt;NA&gt;        &lt;NA&gt;   &lt;NA&gt;  [2]   indirect
+gtable              0.3.3   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
+haven               2.5.3   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
+here                1.0.1   CRAN       1.0.1   CRAN  [1]     direct
+highr                0.10   CRAN        0.10   CRAN  [1]   indirect
+hms                 1.1.3   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
+htmltools           0.5.6   CRAN       0.5.6   CRAN  [1]   indirect
+httr                1.4.7   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
+ids                 1.0.1   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
+isoband             0.2.7   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
+jquerylib           0.1.4   CRAN       0.1.4   CRAN  [1]   indirect
+jsonlite            1.8.7   CRAN       1.8.7   CRAN  [1]   indirect
+knitr                1.43   CRAN        1.43   CRAN  [1]     direct
+labeling            0.4.2   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
+later               1.3.1   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
+lattice            0.21-8   CRAN        &lt;NA&gt;   &lt;NA&gt;  [2]       &lt;NA&gt;
+lifecycle           1.0.3   CRAN       1.0.3   CRAN  [1]   indirect
+lubridate           1.9.2   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
+magrittr            2.0.3   CRAN       2.0.3   CRAN  [1]   indirect
+markdown              1.7   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
+memoise             2.0.1   CRAN       2.0.1   CRAN  [1]   indirect
+methods              &lt;NA&gt;   &lt;NA&gt;        &lt;NA&gt;   &lt;NA&gt;  [2]   indirect
+mgcv               1.8-42   CRAN        &lt;NA&gt;   &lt;NA&gt;  [2]       &lt;NA&gt;
+mime                 0.12   CRAN        0.12   CRAN  [1]   indirect
+modelr             0.1.11   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
+munsell             0.5.0   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
+nlme              3.1-162   CRAN        &lt;NA&gt;   &lt;NA&gt;  [2]       &lt;NA&gt;
+nnet               7.3-19   CRAN        &lt;NA&gt;   &lt;NA&gt;  [2]       &lt;NA&gt;
+numDeriv       2016.8-1.1   CRAN  2016.8-1.1   CRAN  [1]   indirect
+openssl             2.1.0   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
+optextras       2019-12.4   CRAN   2019-12.4   CRAN  [1]   indirect
+optimr         2019-12.16   CRAN  2019-12.16   CRAN  [1]     direct
+packrat             0.9.1   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
+patchwork           1.1.3   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
+pillar              1.9.0   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
+pkgconfig           2.0.3   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
+prettyunits         1.1.1   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
+processx            3.8.2   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
+progress            1.2.2   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
+ps                  1.7.5   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
+purrr               1.0.2   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
+quarto                1.2   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
+ragg                1.2.5   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
+rappdirs            0.3.3   CRAN       0.3.3   CRAN  [1]   indirect
+readr               2.1.4   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
+readxl              1.4.3   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
+rematch             1.0.1   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
+rematch2            2.1.2   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
+renv               0.17.3   CRAN      0.17.3   CRAN  [1]     direct
+reprex              2.0.2   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
+rlang               1.1.1   CRAN       1.1.1   CRAN  [1]   indirect
+rmarkdown            2.24   CRAN        2.24   CRAN  [1]     direct
+rpart              4.1.19   CRAN        &lt;NA&gt;   &lt;NA&gt;  [2]       &lt;NA&gt;
+rpmodel             1.2.0   CRAN       1.2.0   CRAN  [1]     direct
+rprojroot           2.0.3   CRAN       2.0.3   CRAN  [1]   indirect
+rsconnect           1.0.1   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
+rstudioapi         0.15.0   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
+rvest               1.0.3   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
+sass                0.4.7   CRAN       0.4.7   CRAN  [1]   indirect
+scales              1.2.1   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
+selectr             0.4-2   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
+setRNG           2022.4-1   CRAN    2022.4-1   CRAN  [1]   indirect
+spatial            7.3-16   CRAN        &lt;NA&gt;   &lt;NA&gt;  [2]       &lt;NA&gt;
+stats                &lt;NA&gt;   &lt;NA&gt;        &lt;NA&gt;   &lt;NA&gt;  [2]   indirect
+stringi            1.7.12   CRAN      1.7.12   CRAN  [1]   indirect
+stringr             1.5.0   CRAN       1.5.0   CRAN  [1]   indirect
+survival            3.5-5   CRAN        &lt;NA&gt;   &lt;NA&gt;  [2]       &lt;NA&gt;
+sys                 3.4.2   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
+systemfonts         1.0.4   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
+textshaping         0.3.6   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
+tibble              3.2.1   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
+tidyr               1.3.0   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
+tidyselect          1.2.0   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
+tidyverse           2.0.0   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
+timechange          0.2.0   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
+tinytex              0.46   CRAN        0.46   CRAN  [1]   indirect
+tools                &lt;NA&gt;   &lt;NA&gt;        &lt;NA&gt;   &lt;NA&gt;  [2]   indirect
+tzdb                0.4.0   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
+utf8                1.2.3   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
+utils                &lt;NA&gt;   &lt;NA&gt;        &lt;NA&gt;   &lt;NA&gt;  [2]   indirect
+uuid                1.1-0   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
+vctrs               0.6.3   CRAN       0.6.3   CRAN  [1]   indirect
+viridisLite         0.4.2   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
+vroom               1.6.3   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
+withr               2.5.0   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
+xfun                 0.40   CRAN        0.40   CRAN  [1]   indirect
+xml2                1.3.5   CRAN        &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
+yaml                2.3.7   CRAN       2.3.7   CRAN  [1]   indirect
 
 [1]: /Users/pascal/repos/padasch/leaf_energy_balance_tutorial/renv/library/R-4.3/aarch64-apple-darwin20
 [2]: /Users/pascal/Library/Caches/org.R-project.R/R/renv/sandbox/R-4.3/aarch64-apple-darwin20/84ba8b13 
-[3]: /Library/Frameworks/R.framework/Versions/4.3-arm64/Resources/library                              
 
 # ABI ================================
 * No ABI conflicts were detected in the set of installed packages.
@@ -720,21 +550,23 @@ List of 11
  $ vcs.manage.ignores       : logi TRUE
 
 # Options ============================
-List of 7
+List of 9
  $ defaultPackages                     : chr [1:6] "datasets" "utils" "grDevices" "graphics" ...
  $ download.file.method                : NULL
  $ download.file.extra                 : NULL
  $ install.packages.compile.from.source: chr "interactive"
  $ pkgType                             : chr "both"
- $ repos                               : Named chr "@CRAN@"
+ $ repos                               : Named chr "https://cran.rstudio.com"
   ..- attr(*, "names")= chr "CRAN"
+ $ renv.consent                        : logi TRUE
+ $ renv.project.path                   : chr "/Users/pascal/repos/padasch/leaf_energy_balance_tutorial"
  $ renv.verbose                        : logi TRUE
 
 # Environment Variables ==============
 HOME                        = /Users/pascal
 LANG                        = en_US.UTF-8
 MAKE                        = make
-R_LIBS                      = &lt;NA&gt;
+R_LIBS                      = /Users/pascal/repos/padasch/leaf_energy_balance_tutorial/renv/library/R-4.3/aarch64-apple-darwin20:/Users/pascal/Library/Caches/org.R-project.R/R/renv/sandbox/R-4.3/aarch64-apple-darwin20/84ba8b13
 R_LIBS_SITE                 = /Library/Frameworks/R.framework/Resources/site-library
 R_LIBS_USER                 = /Users/pascal/repos/padasch/leaf_energy_balance_tutorial/renv/library/R-4.3/aarch64-apple-darwin20:/Users/pascal/Library/Caches/org.R-project.R/R/renv/sandbox/R-4.3/aarch64-apple-darwin20/84ba8b13
 RENV_DEFAULT_R_ENVIRON      = &lt;NA&gt;
@@ -748,34 +580,33 @@ RENV_PROJECT                = /Users/pascal/repos/padasch/leaf_energy_balance_tu
 
 # PATH ===============================
 - /Users/pascal/anaconda3/bin
-- /usr/local/gfortran/bin
-- /Library/Frameworks/R.framework/Resources
 - /usr/local/bin
 - /System/Cryptexes/App/usr/bin
 - /usr/bin
 - /bin
 - /usr/sbin
 - /sbin
-- /Library/TeX/texbin
-- /Applications/quarto/bin
 - /var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin
 - /var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin
 - /var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin
-- /Users/pascal/anaconda3/bin
-- /usr/local/gfortran/bin
-- /Library/Frameworks/R.framework/Resources
-- /Users/pascal/anaconda3/condabin
+- /Applications/quarto/bin
+- /Library/TeX/texbin
 - /Users/pascal/Applications/quarto/bin
 - /usr/texbin
 - /Applications/RStudio.app/Contents/Resources/app/bin/postback
 
 # Cache ==============================
-There are a total of 413 packages installed in the renv cache.
+There are a total of 416 packages installed in the renv cache.
 Cache path: "~/Library/Caches/org.R-project.R/R/renv/cache/v5/R-4.3/aarch64-apple-darwin20"</code></pre>
 </div>
 </div>
 
 
+<div id="refs" class="references csl-bib-body hanging-indent" data-line-spacing="2" role="list" style="display: none">
+<div id="ref-cavaleri2020cold" class="csl-entry" role="listitem">
+Cavaleri, M. A. (2020). Cold<span>-</span>blooded forests in a warming world. <em>New Phytologist</em>, <em>228</em>(5), 1455–1457. <a href="https://doi.org/10.1111/nph.16916">https://doi.org/10.1111/nph.16916</a>
+</div>
+</div>
 </section>
 
 </main> <!-- /main -->
@@ -888,7 +719,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       return localAlternateSentinel;
     }
   }
-  let localAlternateSentinel = 'alternate';
+  let localAlternateSentinel = 'default';
   // Dark / light mode switch
   window.quartoToggleColorScheme = () => {
     // Read the current dark / light value 
@@ -1131,8 +962,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   <div class="nav-page nav-page-previous">
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./01-introduction.html" class="pagination-link">
-        <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./01-motivation.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Motivation</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

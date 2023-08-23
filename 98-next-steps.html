@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Leaf Energy Balance Tutorial - 6&nbsp; Next Steps</title>
+<title>Leaf Energy Balance Tutorial - 4&nbsp; Next Steps</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,7 +20,26 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -31,18 +50,18 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
 <link href="./99-variables.html" rel="next">
-<link href="./05-test_case.html" rel="prev">
+<link href="./03-algorithm.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark.min.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -64,6 +83,8 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <link rel="stylesheet" href="styles.css">
 </head>
@@ -119,7 +140,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./98-next-steps.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Next Steps</span></a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./98-next-steps.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Next Steps</span></a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -147,8 +168,8 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./01-introduction.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
+  <a href="./01-motivation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Motivation</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -159,26 +180,14 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./03-implementation.html" class="sidebar-item-text sidebar-link">
+  <a href="./03-algorithm.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Algorithm</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./04-sensitivity_analysis.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">04-sensitivity_analysis.html</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./05-test_case.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Test Cases</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="./98-next-steps.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Next Steps</span></span></a>
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Next Steps</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -199,14 +208,22 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#refining-numerical-p-model" id="toc-refining-numerical-p-model" class="nav-link active" data-scroll-target="#refining-numerical-p-model"><span class="header-section-number">4.1</span> Refining Numerical P-Model</a></li>
+  <li><a href="#refining-energy-balance-model" id="toc-refining-energy-balance-model" class="nav-link" data-scroll-target="#refining-energy-balance-model"><span class="header-section-number">4.2</span> Refining Energy Balance Model</a></li>
+  <li><a href="#test-cases-for-model-evaluation" id="toc-test-cases-for-model-evaluation" class="nav-link" data-scroll-target="#test-cases-for-model-evaluation"><span class="header-section-number">4.3</span> Test Cases for Model Evaluation</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span id="sec-next-steps" class="quarto-section-identifier"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Next Steps</span></span></h1>
+<h1 class="title"><span id="sec-next-steps" class="quarto-section-identifier"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Next Steps</span></span></h1>
 </div>
 
 
@@ -221,23 +238,76 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
+<p>This tutorial provides the basic understanding and code to run the numerical P-Model coupled to an energy balance model. As shown in <a href="03-algorithm.html"><span>Chapter&nbsp;3</span></a>, there are a few short-comings to the model that can be addressed as listed below.</p>
+<section id="refining-numerical-p-model" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="refining-numerical-p-model"><span class="header-section-number">4.1</span> Refining Numerical P-Model</h2>
+<p>The optimization criteria in <a href="02-theory.html#eq-rcc">Equation&nbsp;<span>2.10</span></a> seems to fail to optimize <span class="math inline">\(J_{max}\)</span> and has other peculiarities to it. To resolve this issue one could work on the following tasks:</p>
 <ul>
-<li><p>Use different formulations for the cost function (relative costs, total costs)</p></li>
-<li><p>Getting different results when using different starting values for the optimization of traits</p></li>
-<li><p>Implement another optimization algorithm and compare performances</p></li>
-<li><p>Try to implement the cost for Jmax as well</p>
+<li><p>The entire formulation for the cost criteria could be revised. Here are a few starting points:</p>
 <ul>
-<li>Note: This could become tricky because of it having too little</li>
+<li><p>Instead of optimizing gross assimilation, the traits could be optimized with respect to the assimilation rate they constitute (<span class="math inline">\(A_c\)</span> for <span class="math inline">\(V_{cmax}\)</span>, <span class="math inline">\(A_j\)</span> for <span class="math inline">\(J_{max}\)</span>)</p></li>
+<li><p>Instead of taking the relative carbon costs, one could take the absolute costs.</p></li>
+<li><p>Instead of using a cost-minimization approach, one could use a profit-maximization approach <span class="citation" data-cites="joshi2022unified">(<a href="references.html#ref-joshi2022unified" role="doc-biblioref">Joshi et al., 2022</a>)</span>.</p></li>
+<li><p>Higher leaf temperatures directly affect respiration, which is not considered yet. But according to <span class="citation" data-cites="michaletz2016energetic">Michaletz et al. (<a href="references.html#ref-michaletz2016energetic" role="doc-biblioref">2016</a>)</span> plants may purposefully ramp up their transpiration to avoid the carbon loss due to lethal temperature stress. Thus, one could consider net assimilation (gross assimilation - respiration) instead.</p></li>
 </ul></li>
-<li><p>Sketch an algorithm to account for an instantaneous energy balance model</p></li>
-<li><p>Potential Test Casta</p>
+<li><p>Earlier tests - not included in this tutorial - showed that the initially assumed value for optimization (the starting values for vcmax, jmax, gs in <code>optimize_traits_and_costs()</code>) can lead to different optimal values. An optimization problem should be independent of initialization conditions, so this chaotic behaviour could be investigated.</p></li>
+<li><p>The current model only applies to long-term acclimation conditions. One could couple an instantaneous photosynthesis model (see {rpmodel} package) to predict on shorter timescales. However, to couple an energy balance model to the instantaneous photosynthesis model, one would first need a numerical formulation of the latter.</p></li>
+</ul>
+</section>
+<section id="refining-energy-balance-model" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="refining-energy-balance-model"><span class="header-section-number">4.2</span> Refining Energy Balance Model</h2>
 <ul>
-<li>Lin et al data</li>
-<li></li>
-</ul></li>
+<li><p>Not all parameters used in the current implementation may stay constant. For example, a leaf’s emissivity may depart from the chosen 0.95. One could add such variables to the function’s input and run a sensitivity analysis.</p></li>
+<li><p>The current energy balance model is based on the Penman-Monteith equation but one could use the simpler Priestly-Taylor equation as well (e.g.&nbsp;as compared in <span class="citation" data-cites="dong2017biophysical">Dong et al. (<a href="references.html#ref-dong2017biophysical" role="doc-biblioref">2017</a>)</span>).</p></li>
+<li><p>The current energy balance model is based on the {plantecophys} package <span class="citation" data-cites="duursma2015plantecophys">(<a href="references.html#ref-duursma2015plantecophys" role="doc-biblioref">Duursma, 2015</a>)</span>. One could also implement and test the more exhaustive model implemented in the {tealeaves} package <span class="citation" data-cites="muir2019tealeaves">(<a href="references.html#ref-muir2019tealeaves" role="doc-biblioref">Muir, 2019</a>)</span>.</p></li>
+</ul>
+</section>
+<section id="test-cases-for-model-evaluation" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="test-cases-for-model-evaluation"><span class="header-section-number">4.3</span> Test Cases for Model Evaluation</h2>
+<ul>
+<li><p><span class="math inline">\(V_{cmax}\)</span> and <span class="math inline">\(J_{max}\)</span>: One could use global leaf-measurements from <span class="citation" data-cites="peng2021global">Peng et al. (<a href="references.html#ref-peng2021global" role="doc-biblioref">2021</a>)</span> to evaluate the prediction of <span class="math inline">\(V_{cmax}\)</span> and <span class="math inline">\(J_{max}\)</span> by the numerical P-Model. Also, using this data one could revise the cost factor <span class="math inline">\(c\)</span> following the methods by <span class="citation" data-cites="wang2017universal">Wang et al. (<a href="references.html#ref-wang2017universal" role="doc-biblioref">2017</a>)</span>.</p></li>
+<li><p><strong>Land Surface Temperatures:</strong> To evaluate the prediction of leaf temperatures, one could use MODIS Land Surface Temperature data over dense ecosystems (high leaf area index) at FLUXNET sites without water stress (see <span class="citation" data-cites="stocker2018quantifying">Stocker et al. (<a href="references.html#ref-stocker2018quantifying" role="doc-biblioref">2018</a>)</span>).</p></li>
+<li><p><strong>Long-Term Leaf Temperature Measurements:</strong> To evaluate whether the predicted leaf temperature resembles an optimal long-term elaf temperature, one could use long time-series of leaf temperature measurements from e.g.&nbsp;thermal imaging <span class="citation" data-cites="still2022no">(<a href="references.html#ref-still2022no" role="doc-biblioref">Still et al., 2022</a>)</span>. Another data source could be the photosynthesis-weighted leaf temperature that can be inferred from <span class="math inline">\(^{18}\)</span>O isotopes<span class="citation" data-cites="helliker2008subtropical">(<a href="references.html#ref-helliker2008subtropical" role="doc-biblioref">Helliker &amp; Richter, 2008</a>)</span>.</p></li>
+<li><p><span class="math inline">\(^{13}\)</span><strong>C Isotopes:</strong> To evaluate the prediction of the long-term ratio of internal to ambient CO<span class="math inline">\(_2\)</span> concentrations (<span class="math inline">\(\chi\)</span>), one could repeat the analyses done in <span class="citation" data-cites="stocker2020pmodel">Stocker et al. (<a href="references.html#ref-stocker2020pmodel" role="doc-biblioref">2020</a>)</span>. This could also be used to revise the cost factor <span class="math inline">\(\beta\)</span>.</p></li>
 </ul>
 
 
+<div id="refs" class="references csl-bib-body hanging-indent" data-line-spacing="2" role="list" style="display: none">
+<div id="ref-dong2017biophysical" class="csl-entry" role="listitem">
+Dong, N., Prentice, I. C., Harrison, S. P., Song, Q. H., Zhang, Y. P., &amp; Sykes, M. (2017). Biophysical homoeostasis of leaf temperature: A neglected process for vegetation and land<span>-</span>surface modelling. <em>Global Ecology and Biogeography</em>, <em>26</em>(9), 998–1007. <a href="https://doi.org/10.1111/geb.12614">https://doi.org/10.1111/geb.12614</a>
+</div>
+<div id="ref-duursma2015plantecophys" class="csl-entry" role="listitem">
+Duursma, R. A. (2015). Plantecophys - An R Package for Analysing and Modelling Leaf Gas Exchange Data. <em>PLOS ONE</em>, <em>10</em>(11), e0143346. <a href="https://doi.org/bkmj">https://doi.org/bkmj</a>
+</div>
+<div id="ref-helliker2008subtropical" class="csl-entry" role="listitem">
+Helliker, B. R., &amp; Richter, S. L. (2008). Subtropical to boreal convergence of tree-leaf temperatures. <em>Nature</em>, <em>454</em>(7203), 511–514. <a href="https://doi.org/10.1038/nature07031">https://doi.org/10.1038/nature07031</a>
+</div>
+<div id="ref-joshi2022unified" class="csl-entry" role="listitem">
+Joshi, J., Stocker, B. D., Hofhansl, F., Zhou, S., Dieckmann, U., &amp; Prentice, I. C. (2022). Towards a unified theory of plant photosynthesis and hydraulics. <em>Nature Plants</em>. <a href="https://doi.org/10.1038/s41477-022-01244-5">https://doi.org/10.1038/s41477-022-01244-5</a>
+</div>
+<div id="ref-michaletz2016energetic" class="csl-entry" role="listitem">
+Michaletz, S. T., Weiser, M. D., McDowell, N. G., Zhou, J., Kaspari, M., Helliker, B. R., &amp; Enquist, B. J. (2016). The energetic and carbon economic origins of leaf thermoregulation. <em>Nature Plants</em>, <em>2</em>(9), 16129. <a href="https://doi.org/10.1038/nplants.2016.129">https://doi.org/10.1038/nplants.2016.129</a>
+</div>
+<div id="ref-muir2019tealeaves" class="csl-entry" role="listitem">
+Muir, C. D. (2019). tealeaves: an R package for modelling leaf temperature using energy budgets. <em>AoB PLANTS</em>, <em>11</em>(6), plz054. <a href="https://doi.org/10.1093/aobpla/plz054">https://doi.org/10.1093/aobpla/plz054</a>
+</div>
+<div id="ref-peng2021global" class="csl-entry" role="listitem">
+Peng, Y., Bloomfield, K. J., Cernusak, L. A., Domingues, T. F., &amp; Colin Prentice, I. (2021). Global climate and nutrient controls of photosynthetic capacity. <em>Communications Biology</em>, <em>4</em>(1), 462. <a href="https://doi.org/10.1038/s42003-021-01985-7">https://doi.org/10.1038/s42003-021-01985-7</a>
+</div>
+<div id="ref-still2022no" class="csl-entry" role="listitem">
+Still, C. J., Page, G., Rastogi, B., Griffith, D. M., Aubrecht, D. M., Kim, Y., Burns, S. P., Hanson, C. V., Kwon, H., Hawkins, L., Meinzer, F. C., Sevanto, S., Roberts, D., Goulden, M., Pau, S., Detto, M., Helliker, B., &amp; Richardson, A. D. (2022). No evidence of canopy-scale leaf thermoregulation to cool leaves below air temperature across a range of forest ecosystems. <em>Proceedings of the National Academy of Sciences</em>, <em>119</em>(38), e2205682119. <a href="https://doi.org/10.1073/pnas.2205682119">https://doi.org/10.1073/pnas.2205682119</a>
+</div>
+<div id="ref-stocker2020pmodel" class="csl-entry" role="listitem">
+Stocker, B. D., Wang, H., Smith, N. G., Harrison, S. P., Keenan, T. F., Sandoval, D., Davis, T., &amp; Prentice, I. C. (2020). P-model v1.0: an optimality-based light use efficiency model for simulating ecosystem gross primary production. <em>Geoscientific Model Development</em>, <em>13</em>(3), 1545–1581. <a href="https://doi.org/10.5194/gmd-13-1545-2020">https://doi.org/10.5194/gmd-13-1545-2020</a>
+</div>
+<div id="ref-stocker2018quantifying" class="csl-entry" role="listitem">
+Stocker, B. D., Zscheischler, J., Keenan, T. F., Prentice, I. C., Peñuelas, J., &amp; Seneviratne, S. I. (2018). Quantifying soil moisture impacts on light use efficiency across biomes. <em>New Phytologist</em>, <em>218</em>(4), 14301449. <a href="https://doi.org/gg3sk4">https://doi.org/gg3sk4</a>
+</div>
+<div id="ref-wang2017universal" class="csl-entry" role="listitem">
+Wang, H., Prentice, I. C., Keenan, T. F., Davis, T. W., Wright, I. J., Cornwell, W. K., Evans, B. J., &amp; Peng, C. (2017). Towards a universal model for carbon dioxide uptake by plants. <em>Nature Plants</em>, <em>3</em>(9), 734–741. <a href="https://doi.org/10.1038/s41477-017-0006-8">https://doi.org/10.1038/s41477-017-0006-8</a>
+</div>
+</div>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -349,7 +419,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       return localAlternateSentinel;
     }
   }
-  let localAlternateSentinel = 'alternate';
+  let localAlternateSentinel = 'default';
   // Dark / light mode switch
   window.quartoToggleColorScheme = () => {
     // Read the current dark / light value 
@@ -590,8 +660,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./05-test_case.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Test Cases</span></span>
+      <a href="./03-algorithm.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Algorithm</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">

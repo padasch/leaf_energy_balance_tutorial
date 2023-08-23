@@ -49,19 +49,19 @@ div.csl-indent {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./03-implementation.html" rel="next">
-<link href="./01-introduction.html" rel="prev">
+<link href="./03-algorithm.html" rel="next">
+<link href="./01-motivation.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark.min.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -168,8 +168,8 @@ div.csl-indent {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./01-introduction.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
+  <a href="./01-motivation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Motivation</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -180,26 +180,14 @@ div.csl-indent {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./03-implementation.html" class="sidebar-item-text sidebar-link">
+  <a href="./03-algorithm.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Algorithm</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./04-sensitivity_analysis.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">04-sensitivity_analysis.html</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./05-test_case.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Test Cases</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="./98-next-steps.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Next Steps</span></span></a>
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Next Steps</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -224,17 +212,16 @@ div.csl-indent {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#instantaneous-photosynthesis" id="toc-instantaneous-photosynthesis" class="nav-link active" data-scroll-target="#instantaneous-photosynthesis"><span class="header-section-number">2.0.1</span> Instantaneous Photosynthesis</a></li>
-  <li><a href="#acclimated-photosynthesis" id="toc-acclimated-photosynthesis" class="nav-link" data-scroll-target="#acclimated-photosynthesis"><span class="header-section-number">2.0.2</span> Acclimated Photosynthesis</a></li>
-  <li><a href="#drivers" id="toc-drivers" class="nav-link" data-scroll-target="#drivers"><span class="header-section-number">2.0.3</span> Drivers</a></li>
-  <li><a href="#relevance-of-predicting-leaf-temperatures" id="toc-relevance-of-predicting-leaf-temperatures" class="nav-link" data-scroll-target="#relevance-of-predicting-leaf-temperatures"><span class="header-section-number">3</span> Relevance of Predicting Leaf Temperatures</a></li>
-  <li><a href="#sec-leb" id="toc-sec-leb" class="nav-link" data-scroll-target="#sec-leb"><span class="header-section-number">4</span> A Leaf’s Energy Balance</a></li>
-  <li><a href="#the-p-model" id="toc-the-p-model" class="nav-link" data-scroll-target="#the-p-model"><span class="header-section-number">5</span> The P-Model</a>
+  <li><a href="#photosynthesis" id="toc-photosynthesis" class="nav-link active" data-scroll-target="#photosynthesis"><span class="header-section-number">2.1</span> Photosynthesis</a>
+  <ul>
+  <li><a href="#instantaneous-photosynthesis" id="toc-instantaneous-photosynthesis" class="nav-link" data-scroll-target="#instantaneous-photosynthesis"><span class="header-section-number">2.1.1</span> Instantaneous Photosynthesis</a></li>
+  <li><a href="#acclimated-photosynthesis" id="toc-acclimated-photosynthesis" class="nav-link" data-scroll-target="#acclimated-photosynthesis"><span class="header-section-number">2.1.2</span> Acclimated Photosynthesis</a>
   <ul class="collapse">
-  <li><a href="#background" id="toc-background" class="nav-link" data-scroll-target="#background"><span class="header-section-number">5.1</span> Background</a></li>
-  <li><a href="#an-analytic-approach" id="toc-an-analytic-approach" class="nav-link" data-scroll-target="#an-analytic-approach"><span class="header-section-number">5.2</span> An Analytic Approach</a></li>
-  <li><a href="#a-numeric-approach" id="toc-a-numeric-approach" class="nav-link" data-scroll-target="#a-numeric-approach"><span class="header-section-number">5.3</span> A Numeric Approach</a></li>
+  <li><a href="#the-original-p-model" id="toc-the-original-p-model" class="nav-link" data-scroll-target="#the-original-p-model"><span class="header-section-number">2.1.2.1</span> The Original P-Model</a></li>
+  <li><a href="#a-numerical-approach" id="toc-a-numerical-approach" class="nav-link" data-scroll-target="#a-numerical-approach"><span class="header-section-number">2.1.2.2</span> A Numerical Approach</a></li>
   </ul></li>
+  </ul></li>
+  <li><a href="#sec-leb" id="toc-sec-leb" class="nav-link" data-scroll-target="#sec-leb"><span class="header-section-number">2.2</span> Energy Balance</a></li>
   </ul>
 </nav>
     </div>
@@ -258,141 +245,115 @@ div.csl-indent {
 
 </header>
 
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Tip
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Visualizations and functions for the equations below are given in the Chapter Implementation</p>
-</div>
-</div>
-<section id="instantaneous-photosynthesis" class="level3" data-number="2.0.1">
-<h3 data-number="2.0.1" class="anchored" data-anchor-id="instantaneous-photosynthesis"><span class="header-section-number">2.0.1</span> Instantaneous Photosynthesis</h3>
+<section id="photosynthesis" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="photosynthesis"><span class="header-section-number">2.1</span> Photosynthesis</h2>
+<section id="instantaneous-photosynthesis" class="level3" data-number="2.1.1">
+<h3 data-number="2.1.1" class="anchored" data-anchor-id="instantaneous-photosynthesis"><span class="header-section-number">2.1.1</span> Instantaneous Photosynthesis</h3>
 <p>Photosynthesis is the process by which plants use the energy from sunlight to turn CO<span class="math inline">\(_2\)</span> and H<span class="math inline">\(_2\)</span>O into biomass and O<span class="math inline">\(_2\)</span>. A commonly used photosynthesis model, the Farquhar-vonCaemmerer-Berry Model <span class="citation" data-cites="berry1980photosynthetic">(<a href="references.html#ref-berry1980photosynthetic" role="doc-biblioref">Berry &amp; Bjorkman, 1980</a>)</span> describes gross photosynthesis (<span class="math inline">\(A_{gross}\)</span>) as the smaller of two reactions:</p>
-<p><span class="math display">\[
+<p><span id="eq-agross"><span class="math display">\[
 A_{gross} = \text{min}(A_c,\; A_j)
-\]</span></p>
+\tag{2.1}\]</span></span></p>
 <p><span class="math inline">\(A_c\)</span> is the carboxylation-limited photosynthesis rate. Carboxylation is the reaction of CO<span class="math inline">\(_2\)</span> with the enzyme key photosynthesis enzyme Rubisco. Therefore, the maximum rate of carboxylation (<span class="math inline">\(V_{cmax}\)</span>) directly controls <span class="math inline">\(A_c\)</span>. Additionally, <span class="math inline">\(A_c\)</span> is constrained depends on the amount of CO<span class="math inline">\(_2\)</span> that is available in the leaf (<span class="math inline">\(c_i\)</span>), and is constrained by additional enzyme-dynamics that we skip for now (given by the Michaelis-Menten Konstant <span class="math inline">\(K\)</span> and the photorespiration <span class="math inline">\(\Gamma^*\)</span>). <span class="math inline">\(A_c\)</span> is defined as:</p>
-<p><span class="math display">\[
+<p><span id="eq-ac"><span class="math display">\[
 A_c = V_{cmax}\frac{c_i - \Gamma^*}{c_i-K}\
-\]</span></p>
+\tag{2.2}\]</span></span></p>
 <p><span class="math inline">\(A_j\)</span> is the RuBP-photosynthesis rate. RuBP is another crucial enzyme in the photosynthesic cycle and its regeneration depends on the electron transport coming from harvesting the incoming light. Thus, this photosynthesis rate is also often called “electron transport-limited rate”. <span class="math inline">\(A_j\)</span> is therefore directly dependent on <span class="math inline">\(J\)</span>, the electron transport rate, as shown below:</p>
-<p><span class="math display">\[
+<p><span id="eq-aj"><span class="math display">\[
 A_j = \frac{J}{4}\frac{c_i-\Gamma^*}{c_i+2\Gamma^*}
-\]</span></p>
+\tag{2.3}\]</span></span></p>
 <p>The electron transport rate is further defined by a saturating function, whereby <span class="math inline">\(J\)</span> increases with the absorbed light (<span class="math inline">\(I_{abs\)</span>) up to an maximum electron transport rate <span class="math inline">\(J_{max}\)</span>:</p>
-<p><span class="math display">\[
+<p><span id="eq-j"><span class="math display">\[
 J=\frac{4 \varphi I_{abs}}{\sqrt{1+\left(\dfrac{4 \varphi I_{abs}}{J_{max}}\right)^{2}}}
-\]</span></p>
+\tag{2.4}\]</span></span></p>
 <p>Here, <span class="math inline">\(\varphi\)</span> is the quantum yield efficiency of photosynthesis and describes how many moles of carbon are bound per mole of electrons. Technically, eight electrons are necessary to bind one CO<span class="math inline">\(_2\)</span>, so the quantum yield efficiency is often set to 0.125 (but may vary in reality due to abiotic and biotic conditions).</p>
-<p>Key to take away from this short primer is that we require three variables: <span class="math inline">\(c_i\)</span>, <span class="math inline">\(V_{cmax}\)</span>, <span class="math inline">\(J_{max}\)</span>. It is known that these variables vary highly across plant species and ecosystems, which is why many modelers use empirical data to prescribe these values <span class="citation" data-cites="rogers2014use">(<a href="references.html#ref-rogers2014use" role="doc-biblioref">Rogers, 2014</a>)</span>. However, recent research showed that these variables are quite predictable from climatic data because plants seem to acclimate (i.e., adjust) their physiology to their growth environment in a similar matter around the globe <span class="citation" data-cites="peng2021global">(<a href="references.html#ref-peng2021global" role="doc-biblioref">Peng et al., 2021</a>)</span>.</p>
+<p>For now, this is all we need to know about how to model the instantaneous response of photosynthesis, meaning how photosynthesis responds to immediate (think of milliseconds and faster) changes in temperature, light, and so on. Key to take away from this short primer is that a photosynthesis model requires the three variables: <span class="math inline">\(c_i\)</span>, <span class="math inline">\(V_{cmax}\)</span>, <span class="math inline">\(J_{max}\)</span>. We know from the literature these leaf traits are not fixed in time and that plants adjust them over time. This means that plants acclimate to their environment by changing their physiology based on the environmental condition they experience over weeks <span class="citation" data-cites="smith2013plant">(<a href="references.html#ref-smith2013plant" role="doc-biblioref">Smith &amp; Dukes, 2013</a>)</span>. As described below, this knowledge helps us to predict long-term average leaf traits from which we can then derive the instantaneous response of photosynthesis.</p>
 <p>Before we get to the acclimated part, we must also understand how CO<span class="math inline">\(_2\)</span> actually enters a leaf. All gaseous exchange with the atmosphere goes through small openings in a leaf, called the stomata, which are actively opened and closed by the leaf itself. As stomatas open CO<span class="math inline">\(_2\)</span> enters and H<span class="math inline">\(_2\)</span>O leaves the leaf. This is a classic diffusion, which is controlled by the diffusivity of the compound in question and the gradient in compound concentration in the leaf and in the atmosphere. Using Fick’s law, the transpiration of H<span class="math inline">\(_2\)</span>O is:</p>
-<p><span class="math display">\[
+<p><span id="eq-evapo"><span class="math display">\[
 E = g_s 1.6D
-\]</span></p>
-<p>Here, <span class="math inline">\(E\)</span> is the transpiration of water, <span class="math inline">\(D\)</span> is the vapor pressure deficit (the difference between actual and saturated water vapor pressure), <span class="math inline">\(g_s\)</span> is the stomatal conductance of CO<span class="math inline">\(_2\)</span> (the <span class="math inline">\(1.6\)</span> are to transform the H<span class="math inline">\(_2\)</span>O flux into units of CO<span class="math inline">\(_2\)</span>). This stomatal conductance can then be used in a separate stomatal conductance model that predicts how <span class="math inline">\(c_i\)</span> varies</p>
+\tag{2.5}\]</span></span></p>
+<p>Here, <span class="math inline">\(E\)</span> is the transpiration of water, <span class="math inline">\(D\)</span> is the vapor pressure deficit (the difference between actual and saturated water vapor pressure), <span class="math inline">\(g_s\)</span> is the stomatal conductance of CO<span class="math inline">\(_2\)</span> (the <span class="math inline">\(1.6\)</span> are to transform the H<span class="math inline">\(_2\)</span>O flux into units of CO<span class="math inline">\(_2\)</span>).</p>
 </section>
-<section id="acclimated-photosynthesis" class="level3" data-number="2.0.2">
-<h3 data-number="2.0.2" class="anchored" data-anchor-id="acclimated-photosynthesis"><span class="header-section-number">2.0.2</span> Acclimated Photosynthesis</h3>
-<section id="the-original-p-model" class="level4" data-number="2.0.2.1">
-<h4 data-number="2.0.2.1" class="anchored" data-anchor-id="the-original-p-model"><span class="header-section-number">2.0.2.1</span> The original P-Model</h4>
-<p>To predict the three key variables mentioned above, we use the “P-Model” (the “P” stands for “Productivity”) formulation that was originally published by <span class="citation" data-cites="prentice2014balancing">Prentice et al. (<a href="references.html#ref-prentice2014balancing" role="doc-biblioref">2014</a>)</span>. The model is based on two eco-evolutionary optimality principles. The <strong>Coordination Hypothesis</strong> states that a leave coordinates its physiology so that during midday conditions (high light, high temperature) neither photosynthesis rate is limiting:</p>
-<p><span class="math display">\[
+<section id="acclimated-photosynthesis" class="level3" data-number="2.1.2">
+<h3 data-number="2.1.2" class="anchored" data-anchor-id="acclimated-photosynthesis"><span class="header-section-number">2.1.2</span> Acclimated Photosynthesis</h3>
+<section id="the-original-p-model" class="level4" data-number="2.1.2.1">
+<h4 data-number="2.1.2.1" class="anchored" data-anchor-id="the-original-p-model"><span class="header-section-number">2.1.2.1</span> The Original P-Model</h4>
+<p>To predict the three key variables mentioned above, we use the “P-Model” (the “P” stands for “Productivity”) formulation that was originally published by <span class="citation" data-cites="prentice2014balancing">Prentice et al. (<a href="references.html#ref-prentice2014balancing" role="doc-biblioref">2014</a>)</span>. The P-Model makes assumption that the plants optimize their physiology towards average long-term climatic conditions. This means that over a timescale of days to weeks, plants acclimate to their environment. Making this assumption allows to predict acclimated values of <span class="math inline">\(c_i\)</span>, <span class="math inline">\(V_{cmax}\)</span>, <span class="math inline">\(J_{max}\)</span> across ecosystems and species, knowing nothing else but the climatic condition of that ecosystem.</p>
+<p>The <strong>Coordination Hypothesis</strong> states that a leave coordinates its physiology so that during midday conditions (high light, high temperature) neither photosynthesis rate is limiting <span class="citation" data-cites="maire2012coordination">(<a href="references.html#ref-maire2012coordination" role="doc-biblioref">Maire et al., 2012</a>)</span>:</p>
+<p><span id="eq-coord"><span class="math display">\[
 A_{gross} = A_c = A_j
-\]</span></p>
-<p>The <strong>Least-Cost Hypothesis</strong> applies the economic principle of resource optimization to a plant. To maintain its product (biomass, here <span class="math inline">\(A_{gross}\)</span>), a plant needs to balance its carbon resource investments for building its “infrastructure” to bind CO<span class="math inline">\(_2\)</span> and to maintain a matching supply of H<span class="math inline">\(_2\)</span>O. In other words, there must exists an optimal ratio of internal to atmospheric CO<span class="math inline">\(_2\)</span> concentrations (<span class="math inline">\(\chi\)</span>), so that the marginal costs for maintaining electron transport and carboxylation are minimal:</p>
-<p><span class="math display">\[
+\tag{2.6}\]</span></span></p>
+<p>The <strong>Least-Cost Hypothesis</strong> applies the economic principle of resource optimization to a plant. To maintain its product (biomass, here <span class="math inline">\(A_{gross}\)</span>), a plant needs to balance its carbon resource investments for building its “infrastructure” to bind CO<span class="math inline">\(_2\)</span> and to maintain a matching supply of H<span class="math inline">\(_2\)</span>O <span class="citation" data-cites="prentice2014balancing">(<a href="references.html#ref-prentice2014balancing" role="doc-biblioref">Prentice et al., 2014</a>)</span>. In other words, there must exists an optimal ratio of internal to atmospheric CO<span class="math inline">\(_2\)</span> concentrations (<span class="math inline">\(\chi\)</span>), so that the marginal costs for maintaining electron transport and carboxylation are minimal:</p>
+<p><span id="eq-leastcost"><span class="math display">\[
 a \frac{\partial(E / A_{gross})}{\partial \chi}+b \frac{\partial\left(V_{cmax} / A_{gross}\right)}{\partial \chi} = 0
-\]</span></p>
+\tag{2.7}\]</span></span></p>
 <p>Here, <span class="math inline">\(a\)</span> is the marginal cost to maintain a given water transport rate, <span class="math inline">\(b\)</span> is the marginal cost to maintain a given carboxylation transport rate. Accounting for the temperature dependency of water (<span class="math inline">\(\eta^*\)</span>), we can express the marginal costs as a ratio - the ratio between the marginal costs of maintaining carboxylation over maintaining water transport:</p>
-<p><span class="math display">\[
+<p><span id="eq-beta"><span class="math display">\[
 \beta = b/a \,\eta^*
-\]</span></p>
-<p>Applying these two principles predicts <span class="math inline">\(V_{cmax}\)</span> and <span class="math inline">\(g_{s}\)</span> jointly and how they vary with climatic conditions for <span class="math inline">\(I_{abs}\)</span>, CO<span class="math inline">\(_{2}\)</span>, <span class="math inline">\(D\)</span>, air temperature (<span class="math inline">\(T\)</span>), and atmospheric pressure (<span class="math inline">\(P_{atm}\)</span>).</p>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Tip
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>A detailed explanation and derivation of the P-Model, including accounting for the marginal costs of maintaining electron transport, is given in <span class="citation" data-cites="stocker2020pmodel">B. D. Stocker et al. (<a href="references.html#ref-stocker2020pmodel" role="doc-biblioref">2020</a>)</span> and available as code in <span class="citation" data-cites="stocker2021rpmodel">B. Stocker &amp; Hufkens (<a href="references.html#ref-stocker2021rpmodel" role="doc-biblioref">2021</a>)</span>.</p>
-</div>
-</div>
+\tag{2.8}\]</span></span></p>
+<p>Following the rationale of the cost minimization, the P-Model further uses the criteria that a leaf also minimizes the marginal carbon cost (<span class="math inline">\(c\)</span>) for maintaining its electron transport capacity:</p>
+<p><span id="eq-jmaxcost"><span class="math display">\[
+\frac{\partial A}{\partial J_{\max }}=c
+\tag{2.9}\]</span></span></p>
+<p>Applying these equations predicts <span class="math inline">\(V_{cmax}\)</span>, <span class="math inline">\(g_{s}\)</span>, and <span class="math inline">\(J_{max}\)</span>jointly and how they vary with climatic conditions for absorbed sunlight (<span class="math inline">\(I_{abs}\)</span>), ambient CO<span class="math inline">\(_{2}\)</span> (<span class="math inline">\(c_a\)</span>), vapor pressure deficit (<span class="math inline">\(D\)</span>), air temperature (<span class="math inline">\(T\)</span>), and atmospheric pressure (<span class="math inline">\(P_{atm}\)</span>). Note that a detailed explanation and derivation of the P-Model is given in <span class="citation" data-cites="stocker2020pmodel">B. D. Stocker et al. (<a href="references.html#ref-stocker2020pmodel" role="doc-biblioref">2020</a>)</span> and available as code in the {rpmodel} package <span class="citation" data-cites="stocker2021rpmodel">(<a href="references.html#ref-stocker2021rpmodel" role="doc-biblioref">B. Stocker &amp; Hufkens, 2021</a>)</span>.</p>
 </section>
-<section id="a-numerical-approach" class="level4" data-number="2.0.2.2">
-<h4 data-number="2.0.2.2" class="anchored" data-anchor-id="a-numerical-approach"><span class="header-section-number">2.0.2.2</span> A numerical approach</h4>
+<section id="a-numerical-approach" class="level4" data-number="2.1.2.2">
+<h4 data-number="2.1.2.2" class="anchored" data-anchor-id="a-numerical-approach"><span class="header-section-number">2.1.2.2</span> A Numerical Approach</h4>
+<p>The short-coming of the analytical approach to the P-Model describe above is that it takes air temperatures to predict the acclimated traits and cannot account for any de-coupling of leaf and air temperatures. Also, since <span class="math inline">\(g_s\)</span> is coupled jointly with the other traits, it cannot vary independently to potentially modify the leaf temperature so that the total carbon costs are minimzed. To resolve this issue, we can create a numerical minimization problem where each leaf trait is optimized separately - and through the liberation of <span class="math inline">\(g_s\)</span>, we can couple an energy balance to additionally optimize a leaf’s temperature. Following the rationale of the Least-Cost Hypothesis, we use here the following optimization problem:</p>
+<p><span id="eq-rcc"><span class="math display">\[
+\frac{\beta \;V_{cmax} + 1.6\;D\;g_s + c \;J_{max} }{A_{gross}} = min.
+\tag{2.10}\]</span></span></p>
+<p>Note that we are now lacking a formulation for <span class="math inline">\(A_{gross}\)</span>. However, we can use Fick’s Law again and set the carbon flux equal to assimilation:</p>
+<p><span id="eq-ac-or-aj"><span class="math display">\[
+A_c \text { or } A_j=g s\left(c_a-c_i\right)
+\tag{2.11}\]</span></span></p>
+<p>Inserting <span class="math inline">\(A_c\)</span> or <span class="math inline">\(A_c\)</span> creates a quadratic equation that can be solved for in <span class="math inline">\(c_i\)</span> with the general form:</p>
+<p><span id="eq-quad"><span class="math display">\[
+0=a c_i^2+b c_i+c
+\tag{2.12}\]</span></span></p>
+<p>For <span class="math inline">\(A_c\)</span>, this gives:</p>
+<p><span id="eq-quad-ac"><span class="math display">\[
+A_c=g_s\left(c_a-c_i\right)=V_{c \max } \frac{c_i-\Gamma^*}{c_i+K}
+\tag{2.13}\]</span></span> with the parameters:</p>
+<p><span id="eq-quad-ac-param"><span class="math display">\[
+a=-g_s \quad b=g_s c_a-g_s K-V_{c \max } \quad c=\Gamma^* V_{c \max }+g_s c_a K
+\tag{2.14}\]</span></span> For <span class="math inline">\(A_j\)</span>, this gives: <span id="eq-quad-aj"><span class="math display">\[
+A_j=g_s\left(c_a-c_i\right)=\frac{J}{4} \frac{c_i+\Gamma^*}{c_i+2 \Gamma^*}
+\tag{2.15}\]</span></span> with the parameters: <span id="eq-quad-aj-param"><span class="math display">\[
+a=-g_s \quad b=g_s c_a-2 \Gamma^* g_s-J / 4 \quad c=2 \Gamma^* g_s c_a+\Gamma^* J / 4
+\tag{2.16}\]</span></span></p>
 </section>
 </section>
-<section id="drivers" class="level3" data-number="2.0.3">
-<h3 data-number="2.0.3" class="anchored" data-anchor-id="drivers"><span class="header-section-number">2.0.3</span> Drivers</h3>
-<!--# TODO -->
-<ul>
-<li>NEXT: I left off realizing that the whole instantaneous photosynthesis explanation is probably no necessary here… And I found it hard to explain what we actually need to know and what we are actually doing…</li>
-</ul>
 </section>
-<section id="relevance-of-predicting-leaf-temperatures" class="level1" data-number="3">
-<h1 data-number="3"><span class="header-section-number">3</span> Relevance of Predicting Leaf Temperatures</h1>
-<ul>
-<li><p>Explain ongoing discussion on leaf temperature and thermoregulation</p></li>
-<li><p>Recent publications</p>
-<ul>
-<li><p>Vinod2023</p></li>
-<li><p>Ghuo2023</p></li>
-<li><p>Michaletz paper</p></li>
-<li><p>Still2020</p></li>
-<li></li>
-</ul></li>
-</ul>
-</section>
-<section id="sec-leb" class="level1" data-number="4">
-<h1 data-number="4"><span class="header-section-number">4</span> A Leaf’s Energy Balance</h1>
+<section id="sec-leb" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="sec-leb"><span class="header-section-number">2.2</span> Energy Balance</h2>
+<p>Essentially, a leaf’s temperature results from the ingoing minus the outgoing energy.</p>
 <ul>
 <li><p>A leaf’s energy balance is governed by incoming and outgoing radiation.</p></li>
 <li><p>Add Figure</p></li>
 <li><p>Add some equations to make it fancy</p></li>
 </ul>
-</section>
-<section id="the-p-model" class="level1" data-number="5">
-<h1 data-number="5"><span class="header-section-number">5</span> The P-Model</h1>
-<section id="background" class="level2" data-number="5.1">
-<h2 data-number="5.1" class="anchored" data-anchor-id="background"><span class="header-section-number">5.1</span> Background</h2>
-<p>The P-Model - the “P” stands for “Productivity) - is a photosynthesis model that predicts the acclimation of key photosynthetic traits based on eco-evolutionary optimality principles. Specifically, it rests on two principles: The Coordination Hypothesis by <span class="citation" data-cites="maire2012coordination">Maire et al. (<a href="references.html#ref-maire2012coordination" role="doc-biblioref">2012</a>)</span> stating that a leaf coordinates its two limiting</p>
-</section>
-<section id="an-analytic-approach" class="level2" data-number="5.2">
-<h2 data-number="5.2" class="anchored" data-anchor-id="an-analytic-approach"><span class="header-section-number">5.2</span> An Analytic Approach</h2>
-<ul>
-<li><p>Make clear that this is only the optimally achieved leaf temperature and not the instantaneous one</p></li>
-<li><p>But state that this explicitly includes the regulation of thermoregulation and thermal acclimation</p></li>
-</ul>
-</section>
-<section id="a-numeric-approach" class="level2" data-number="5.3">
-<h2 data-number="5.3" class="anchored" data-anchor-id="a-numeric-approach"><span class="header-section-number">5.3</span> A Numeric Approach</h2>
+<p>A leaf’s temperature is controlled by its gain and loss of energy. The total incoming energy of a leaf is the sum of absorbed solar short-wave and absorbed thermal long-wave radiation. The outgoing energy consists of the long-wave thermal radiation by the leaf, the sensible heat flux (i.e., thermal convection) and the latent heat flux (i.e., energy consumed by vaporization or released from dew of water). Under steady-state conditions, a constant leaf temperature exists at which incoming and outgoing energy are equal.</p>
+<p>The energy balance model implemented in this tutorial is based on the model published in the {plantecophys} package <span class="citation" data-cites="duursma2015plantecophys">(<a href="references.html#ref-duursma2015plantecophys" role="doc-biblioref">Duursma, 2015</a>)</span>. It is based on the model published by <span class="citation" data-cites="leuning1995leaf">Leuning et al. (<a href="references.html#ref-leuning1995leaf" role="doc-biblioref">1995</a>)</span> and <span class="citation" data-cites="wang1998twoleaf">Wang &amp; Leuning (<a href="references.html#ref-wang1998twoleaf" role="doc-biblioref">1998</a>)</span>, where more in-depth descriptions can be found.</p>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" data-line-spacing="2" role="list" style="display: none">
 <div id="ref-berry1980photosynthetic" class="csl-entry" role="listitem">
 Berry, J., &amp; Bjorkman, O. (1980). Photosynthetic Response and Adaptation to Temperature in Higher Plants. <em>Annual Review of Plant Physiology</em>, <em>31</em>(1), 491–543. <a href="https://doi.org/10.1146/annurev.pp.31.060180.002423">https://doi.org/10.1146/annurev.pp.31.060180.002423</a>
 </div>
+<div id="ref-duursma2015plantecophys" class="csl-entry" role="listitem">
+Duursma, R. A. (2015). Plantecophys - An R Package for Analysing and Modelling Leaf Gas Exchange Data. <em>PLOS ONE</em>, <em>10</em>(11), e0143346. <a href="https://doi.org/bkmj">https://doi.org/bkmj</a>
+</div>
+<div id="ref-leuning1995leaf" class="csl-entry" role="listitem">
+Leuning, R., Kelliher, F. M., Pury, D. G. G., &amp; Schulze, E.-D. (1995). Leaf nitrogen, photosynthesis, conductance and transpiration: scaling from leaves to canopies. <em>Plant, Cell and Environment</em>, <em>18</em>(10), 1183–1200. <a href="https://doi.org/10.1111/j.1365-3040.1995.tb00628.x">https://doi.org/10.1111/j.1365-3040.1995.tb00628.x</a>
+</div>
 <div id="ref-maire2012coordination" class="csl-entry" role="listitem">
 Maire, V., Martre, P., Kattge, J., Gastal, F., Esser, G., Fontaine, S., &amp; Soussana, J.-F. (2012). The Coordination of Leaf Photosynthesis Links C and N Fluxes in C3 Plant Species. <em>PLoS ONE</em>, <em>7</em>(6), e38345. <a href="https://doi.org/10.1371/journal.pone.0038345">https://doi.org/10.1371/journal.pone.0038345</a>
 </div>
-<div id="ref-peng2021global" class="csl-entry" role="listitem">
-Peng, Y., Bloomfield, K. J., Cernusak, L. A., Domingues, T. F., &amp; Colin Prentice, I. (2021). Global climate and nutrient controls of photosynthetic capacity. <em>Communications Biology</em>, <em>4</em>(1), 462. <a href="https://doi.org/10.1038/s42003-021-01985-7">https://doi.org/10.1038/s42003-021-01985-7</a>
-</div>
 <div id="ref-prentice2014balancing" class="csl-entry" role="listitem">
-Prentice, I. C., Dong, N., Gleason, M. S., Maire, V., &amp; Wright, J. I. (2014). Balancing the costs of carbon gain and water transport: Testing a new theoretical framework for plant functional ecology. <em>Ecology Letters</em>, <em>17</em>(1), 8291. <a href="https://doi.org/gf9w4m">https://doi.org/gf9w4m</a>
+Prentice, I. C., Dong, N., Gleason, M. S., Maire, V., &amp; Wright, J. I. (2014). Balancing the costs of carbon gain and water transport: Testing a new theoretical framework for plant functional ecology. <em>Ecology Letters</em>, <em>17</em>(1), 82–91. <a href="https://doi.org/gf9w4m">https://doi.org/gf9w4m</a>
 </div>
-<div id="ref-rogers2014use" class="csl-entry" role="listitem">
-Rogers, A. (2014). The use and misuse of Vcmax in Earth System Models. <em>Photosynthesis Research</em>, <em>119</em>(1-2), 15–29. <a href="https://doi.org/10.1007/s11120-013-9818-1">https://doi.org/10.1007/s11120-013-9818-1</a>
+<div id="ref-smith2013plant" class="csl-entry" role="listitem">
+Smith, N. G., &amp; Dukes, J. S. (2013). Plant respiration and photosynthesis in global<span>-</span>scale models: Incorporating acclimation to temperature and CO2. <em>Global Change Biology</em>, <em>19</em>(1), 4563. <a href="https://doi.org/f4gv3p">https://doi.org/f4gv3p</a>
 </div>
 <div id="ref-stocker2020pmodel" class="csl-entry" role="listitem">
 Stocker, B. D., Wang, H., Smith, N. G., Harrison, S. P., Keenan, T. F., Sandoval, D., Davis, T., &amp; Prentice, I. C. (2020). P-model v1.0: an optimality-based light use efficiency model for simulating ecosystem gross primary production. <em>Geoscientific Model Development</em>, <em>13</em>(3), 1545–1581. <a href="https://doi.org/10.5194/gmd-13-1545-2020">https://doi.org/10.5194/gmd-13-1545-2020</a>
@@ -400,8 +361,10 @@ Stocker, B. D., Wang, H., Smith, N. G., Harrison, S. P., Keenan, T. F., Sandoval
 <div id="ref-stocker2021rpmodel" class="csl-entry" role="listitem">
 Stocker, B., &amp; Hufkens, K. (2021). <em>Rpmodel v1.2.0: R package implementing the p-model</em>. Zenodo. <a href="https://doi.org/10.5281/ZENODO.3359706">https://doi.org/10.5281/ZENODO.3359706</a>
 </div>
+<div id="ref-wang1998twoleaf" class="csl-entry" role="listitem">
+Wang, Y.-P., &amp; Leuning, R. (1998). A two-leaf model for canopy conductance, photosynthesis and partitioning of available energy I: <em>Agricultural and Forest Meteorology</em>, <em>91</em>(1-2), 89–111. <a href="https://doi.org/10.1016/S0168-1923(98)00061-6">https://doi.org/10.1016/S0168-1923(98)00061-6</a>
 </div>
-</section>
+</div>
 </section>
 
 </main> <!-- /main -->
@@ -514,7 +477,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       return localAlternateSentinel;
     }
   }
-  let localAlternateSentinel = 'alternate';
+  let localAlternateSentinel = 'default';
   // Dark / light mode switch
   window.quartoToggleColorScheme = () => {
     // Read the current dark / light value 
@@ -755,12 +718,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./01-introduction.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span>
+      <a href="./01-motivation.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Motivation</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./03-implementation.html" class="pagination-link">
+      <a href="./03-algorithm.html" class="pagination-link">
         <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Algorithm</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
