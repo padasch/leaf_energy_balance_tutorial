@@ -241,7 +241,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </ul></li>
   <li><a href="#coupled-model" id="toc-coupled-model" class="nav-link" data-scroll-target="#coupled-model"><span class="header-section-number">3.2.3</span> Coupled Model</a>
   <ul class="collapse">
-  <li><a href="#comparison-w-vs-wo" id="toc-comparison-w-vs-wo" class="nav-link" data-scroll-target="#comparison-w-vs-wo"><span class="header-section-number">3.2.3.1</span> Comparison w vs w/o</a></li>
+  <li><a href="#model-comparison" id="toc-model-comparison" class="nav-link" data-scroll-target="#model-comparison"><span class="header-section-number">3.2.3.1</span> Model Comparison</a></li>
   <li><a href="#cost-function-1" id="toc-cost-function-1" class="nav-link" data-scroll-target="#cost-function-1"><span class="header-section-number">3.2.3.2</span> Cost Function</a></li>
   </ul></li>
   </ul></li>
@@ -464,13 +464,13 @@ optimize_traits_and_costs()
     vcmax_start = NA, jmax_start = NA, gs_start = NA, ...) 
 {
     ppfd &lt;- ppfd * 3600 * 24
-    vcmax_start &lt;- 20
-    jmax_start &lt;- 20
-    gs_start &lt;- 0.3
+    vcmax_start &lt;- 5
+    jmax_start &lt;- 10
+    gs_start &lt;- 0.05
     out_optim &lt;- optimr::optimr(par = c(vcmax_start, jmax_start, 
-        gs_start), upper = c(vcmax_start * 1000, jmax_start * 
-        1000, gs_start * 100), lower = c(vcmax_start/1000, jmax_start/1000, 
-        gs_start/100), fn = calculate_traits_and_costs, method = "L-BFGS-B", 
+        gs_start), upper = c(vcmax_start * 100, jmax_start * 
+        100, gs_start * 10), lower = c(vcmax_start/100, jmax_start/100, 
+        gs_start/10), fn = calculate_traits_and_costs, method = "L-BFGS-B", 
         control = list(maxit = 1000), tc_air = tc_air, vpd_air = vpd_air, 
         patm = patm, co2 = co2, ppfd = ppfd, kphio = kphio, include_energy_balance = include_energy_balance, 
         maximize = TRUE, return_all = FALSE, ...)
@@ -590,9 +590,9 @@ optimize_traits_and_costs()
 <div class="cell-output-display">
 <table class="table table-sm table-striped small">
 <colgroup>
+<col style="width: 4%">
 <col style="width: 5%">
-<col style="width: 5%">
-<col style="width: 5%">
+<col style="width: 4%">
 <col style="width: 5%">
 <col style="width: 5%">
 <col style="width: 5%">
@@ -605,7 +605,7 @@ optimize_traits_and_costs()
 <col style="width: 5%">
 <col style="width: 7%">
 <col style="width: 13%">
-<col style="width: 3%">
+<col style="width: 4%">
 <col style="width: 4%">
 </colgroup>
 <thead>
@@ -631,20 +631,20 @@ optimize_traits_and_costs()
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: right;">77.95291</td>
-<td style="text-align: right;">417.2889</td>
-<td style="text-align: right;">1.456419</td>
-<td style="text-align: right;">0.6858447</td>
-<td style="text-align: right;">27.79729</td>
-<td style="text-align: right;">18.54416</td>
-<td style="text-align: right;">1.85e-05</td>
-<td style="text-align: right;">1.86e-05</td>
-<td style="text-align: right;">27.79729</td>
-<td style="text-align: right;">27.79325</td>
-<td style="text-align: right;">402.6706</td>
-<td style="text-align: right;">983.3292</td>
-<td style="text-align: right;">3.713537</td>
-<td style="text-align: right;">867.3698</td>
+<td style="text-align: right;">56.2433</td>
+<td style="text-align: right;">115.6884</td>
+<td style="text-align: right;">1.04943</td>
+<td style="text-align: right;">0.6855523</td>
+<td style="text-align: right;">27.78543</td>
+<td style="text-align: right;">13.37452</td>
+<td style="text-align: right;">1.34e-05</td>
+<td style="text-align: right;">1.34e-05</td>
+<td style="text-align: right;">27.78543</td>
+<td style="text-align: right;">27.76809</td>
+<td style="text-align: right;">290.1463</td>
+<td style="text-align: right;">709.4754</td>
+<td style="text-align: right;">1.029534</td>
+<td style="text-align: right;">865.9457</td>
 <td style="text-align: left;">FALSE</td>
 <td style="text-align: right;">25</td>
 <td style="text-align: right;">25</td>
@@ -663,15 +663,15 @@ optimize_traits_and_costs()
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="co"># Get reference dataframe</span></span>
 <span id="cb8-2"><a href="#cb8-2"></a>n_steps <span class="ot">&lt;-</span> <span class="dv">50</span></span>
-<span id="cb8-3"><a href="#cb8-3"></a>df_base <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">.rows =</span> n_steps)</span>
+<span id="cb8-3"><a href="#cb8-3"></a>df_base_cc <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">.rows =</span> n_steps)</span>
 <span id="cb8-4"><a href="#cb8-4"></a></span>
-<span id="cb8-5"><a href="#cb8-5"></a>df_base<span class="sc">$</span>vcmax      <span class="ot">&lt;-</span> <span class="fu">rep</span>(vcmax, n_steps)</span>
-<span id="cb8-6"><a href="#cb8-6"></a>df_base<span class="sc">$</span>jmax       <span class="ot">&lt;-</span> <span class="fu">rep</span>(jmax, n_steps)</span>
-<span id="cb8-7"><a href="#cb8-7"></a>df_base<span class="sc">$</span>gs         <span class="ot">&lt;-</span> <span class="fu">rep</span>(gs, n_steps)</span>
-<span id="cb8-8"><a href="#cb8-8"></a>df_base<span class="sc">$</span>cost_total <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, n_steps)</span>
-<span id="cb8-9"><a href="#cb8-9"></a>df_base<span class="sc">$</span>cost_vcmax <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, n_steps)</span>
-<span id="cb8-10"><a href="#cb8-10"></a>df_base<span class="sc">$</span>cost_jmax  <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, n_steps)</span>
-<span id="cb8-11"><a href="#cb8-11"></a>df_base<span class="sc">$</span>cost_gs    <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, n_steps)</span>
+<span id="cb8-5"><a href="#cb8-5"></a>df_base_cc<span class="sc">$</span>vcmax      <span class="ot">&lt;-</span> <span class="fu">rep</span>(vcmax, n_steps)</span>
+<span id="cb8-6"><a href="#cb8-6"></a>df_base_cc<span class="sc">$</span>jmax       <span class="ot">&lt;-</span> <span class="fu">rep</span>(jmax, n_steps)</span>
+<span id="cb8-7"><a href="#cb8-7"></a>df_base_cc<span class="sc">$</span>gs         <span class="ot">&lt;-</span> <span class="fu">rep</span>(gs, n_steps)</span>
+<span id="cb8-8"><a href="#cb8-8"></a>df_base_cc<span class="sc">$</span>cost_total <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, n_steps)</span>
+<span id="cb8-9"><a href="#cb8-9"></a>df_base_cc<span class="sc">$</span>cost_vcmax <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, n_steps)</span>
+<span id="cb8-10"><a href="#cb8-10"></a>df_base_cc<span class="sc">$</span>cost_jmax  <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, n_steps)</span>
+<span id="cb8-11"><a href="#cb8-11"></a>df_base_cc<span class="sc">$</span>cost_gs    <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, n_steps)</span>
 <span id="cb8-12"><a href="#cb8-12"></a></span>
 <span id="cb8-13"><a href="#cb8-13"></a>df_cc <span class="ot">&lt;-</span> <span class="fu">tibble</span>()</span>
 <span id="cb8-14"><a href="#cb8-14"></a></span>
@@ -720,21 +720,21 @@ optimize_traits_and_costs()
 <span id="cb8-57"><a href="#cb8-57"></a></span>
 <span id="cb8-58"><a href="#cb8-58"></a><span class="do">## Run function</span></span>
 <span id="cb8-59"><a href="#cb8-59"></a><span class="co"># Vcmax</span></span>
-<span id="cb8-60"><a href="#cb8-60"></a>df_tmp <span class="ot">&lt;-</span> df_base</span>
+<span id="cb8-60"><a href="#cb8-60"></a>df_tmp <span class="ot">&lt;-</span> df_base_cc</span>
 <span id="cb8-61"><a href="#cb8-61"></a>df_tmp<span class="sc">$</span>vcmax <span class="ot">&lt;-</span> <span class="fu">seq</span>(vcmax<span class="sc">/</span><span class="dv">10</span>, vcmax<span class="sc">*</span><span class="dv">10</span>, <span class="at">length.out =</span> n_steps)</span>
 <span id="cb8-62"><a href="#cb8-62"></a></span>
 <span id="cb8-63"><a href="#cb8-63"></a>df_tmp  <span class="ot">&lt;-</span> <span class="fu">loop_carbon_costs</span>(df_tmp, <span class="st">"vcmax"</span>)</span>
 <span id="cb8-64"><a href="#cb8-64"></a>df_cc   <span class="ot">&lt;-</span> <span class="fu">rbind</span>(df_cc, df_tmp)</span>
 <span id="cb8-65"><a href="#cb8-65"></a></span>
 <span id="cb8-66"><a href="#cb8-66"></a><span class="co"># Jmax</span></span>
-<span id="cb8-67"><a href="#cb8-67"></a>df_tmp <span class="ot">&lt;-</span> df_base</span>
+<span id="cb8-67"><a href="#cb8-67"></a>df_tmp <span class="ot">&lt;-</span> df_base_cc</span>
 <span id="cb8-68"><a href="#cb8-68"></a>df_tmp<span class="sc">$</span>jmax <span class="ot">&lt;-</span> <span class="fu">seq</span>(jmax<span class="sc">/</span><span class="dv">10</span>, jmax<span class="sc">*</span><span class="dv">10</span>, <span class="at">length.out =</span> n_steps)</span>
 <span id="cb8-69"><a href="#cb8-69"></a></span>
 <span id="cb8-70"><a href="#cb8-70"></a>df_tmp  <span class="ot">&lt;-</span> <span class="fu">loop_carbon_costs</span>(df_tmp, <span class="st">"jmax"</span>)</span>
 <span id="cb8-71"><a href="#cb8-71"></a>df_cc   <span class="ot">&lt;-</span> <span class="fu">rbind</span>(df_cc, df_tmp)</span>
 <span id="cb8-72"><a href="#cb8-72"></a></span>
 <span id="cb8-73"><a href="#cb8-73"></a><span class="co"># gs</span></span>
-<span id="cb8-74"><a href="#cb8-74"></a>df_tmp <span class="ot">&lt;-</span> df_base</span>
+<span id="cb8-74"><a href="#cb8-74"></a>df_tmp <span class="ot">&lt;-</span> df_base_cc</span>
 <span id="cb8-75"><a href="#cb8-75"></a>df_tmp<span class="sc">$</span>gs <span class="ot">&lt;-</span> <span class="fu">seq</span>(gs<span class="sc">/</span><span class="dv">10</span>, gs<span class="sc">*</span><span class="dv">10</span>, <span class="at">length.out =</span> n_steps)</span>
 <span id="cb8-76"><a href="#cb8-76"></a></span>
 <span id="cb8-77"><a href="#cb8-77"></a>df_tmp  <span class="ot">&lt;-</span> <span class="fu">loop_carbon_costs</span>(df_tmp, <span class="st">"gs"</span>)</span>
@@ -1051,64 +1051,69 @@ The energy balance variables at this state are: </code></pre>
 <span id="cb19-60"><a href="#cb19-60"></a>    <span class="at">tc_air =</span> tc_air,</span>
 <span id="cb19-61"><a href="#cb19-61"></a>    <span class="at">tc_leaf =</span> df_tmp<span class="sc">$</span>tc_air)</span>
 <span id="cb19-62"><a href="#cb19-62"></a></span>
-<span id="cb19-63"><a href="#cb19-63"></a>df_tmp <span class="ot">&lt;-</span> <span class="fu">run_fun</span>(df_tmp, <span class="st">"tc_air"</span>)</span>
-<span id="cb19-64"><a href="#cb19-64"></a>df_abio <span class="ot">&lt;-</span> <span class="fu">rbind</span>(df_abio, df_tmp)</span>
+<span id="cb19-63"><a href="#cb19-63"></a><span class="co"># Removing negative vpd values</span></span>
+<span id="cb19-64"><a href="#cb19-64"></a><span class="co"># df_tmp &lt;- mutate(df_tmp, vpd_air = ifelse(vpd_air &lt; 0, 10, vpd_air))</span></span>
 <span id="cb19-65"><a href="#cb19-65"></a></span>
-<span id="cb19-66"><a href="#cb19-66"></a><span class="co"># PPFD</span></span>
-<span id="cb19-67"><a href="#cb19-67"></a>df_tmp <span class="ot">&lt;-</span> df_base</span>
-<span id="cb19-68"><a href="#cb19-68"></a>df_tmp<span class="sc">$</span>ppfd  <span class="ot">&lt;-</span> <span class="fu">seq</span>(ppfd<span class="sc">/</span><span class="dv">10</span>, ppfd<span class="sc">*</span><span class="dv">10</span>, <span class="at">length.out =</span> n_steps)</span>
-<span id="cb19-69"><a href="#cb19-69"></a></span>
-<span id="cb19-70"><a href="#cb19-70"></a>df_tmp <span class="ot">&lt;-</span> <span class="fu">run_fun</span>(df_tmp, <span class="st">"ppfd"</span>)</span>
-<span id="cb19-71"><a href="#cb19-71"></a>df_abio <span class="ot">&lt;-</span> <span class="fu">rbind</span>(df_abio, df_tmp)</span>
+<span id="cb19-66"><a href="#cb19-66"></a>df_tmp <span class="ot">&lt;-</span> <span class="fu">run_fun</span>(df_tmp, <span class="st">"tc_air"</span>)</span>
+<span id="cb19-67"><a href="#cb19-67"></a>df_abio <span class="ot">&lt;-</span> <span class="fu">rbind</span>(df_abio, df_tmp)</span>
+<span id="cb19-68"><a href="#cb19-68"></a></span>
+<span id="cb19-69"><a href="#cb19-69"></a><span class="co"># PPFD</span></span>
+<span id="cb19-70"><a href="#cb19-70"></a>df_tmp <span class="ot">&lt;-</span> df_base</span>
+<span id="cb19-71"><a href="#cb19-71"></a>df_tmp<span class="sc">$</span>ppfd  <span class="ot">&lt;-</span> <span class="fu">seq</span>(ppfd<span class="sc">/</span><span class="dv">10</span>, ppfd<span class="sc">*</span><span class="dv">10</span>, <span class="at">length.out =</span> n_steps)</span>
 <span id="cb19-72"><a href="#cb19-72"></a></span>
-<span id="cb19-73"><a href="#cb19-73"></a><span class="co"># Atmospheric pressure</span></span>
-<span id="cb19-74"><a href="#cb19-74"></a>df_tmp <span class="ot">&lt;-</span> df_base</span>
-<span id="cb19-75"><a href="#cb19-75"></a>df_tmp<span class="sc">$</span>patm  <span class="ot">&lt;-</span> <span class="fu">seq</span>(patm<span class="sc">/</span><span class="dv">10</span>, patm<span class="sc">*</span><span class="dv">10</span>, <span class="at">length.out =</span> n_steps)</span>
-<span id="cb19-76"><a href="#cb19-76"></a></span>
-<span id="cb19-77"><a href="#cb19-77"></a>df_tmp <span class="ot">&lt;-</span> <span class="fu">run_fun</span>(df_tmp, <span class="st">"patm"</span>)</span>
-<span id="cb19-78"><a href="#cb19-78"></a>df_abio <span class="ot">&lt;-</span> <span class="fu">rbind</span>(df_abio, df_tmp)</span>
+<span id="cb19-73"><a href="#cb19-73"></a>df_tmp <span class="ot">&lt;-</span> <span class="fu">run_fun</span>(df_tmp, <span class="st">"ppfd"</span>)</span>
+<span id="cb19-74"><a href="#cb19-74"></a>df_abio <span class="ot">&lt;-</span> <span class="fu">rbind</span>(df_abio, df_tmp)</span>
+<span id="cb19-75"><a href="#cb19-75"></a></span>
+<span id="cb19-76"><a href="#cb19-76"></a><span class="co"># Atmospheric pressure</span></span>
+<span id="cb19-77"><a href="#cb19-77"></a>df_tmp <span class="ot">&lt;-</span> df_base</span>
+<span id="cb19-78"><a href="#cb19-78"></a>df_tmp<span class="sc">$</span>patm  <span class="ot">&lt;-</span> <span class="fu">seq</span>(patm<span class="sc">/</span><span class="dv">10</span>, patm<span class="sc">*</span><span class="dv">10</span>, <span class="at">length.out =</span> n_steps)</span>
 <span id="cb19-79"><a href="#cb19-79"></a></span>
-<span id="cb19-80"><a href="#cb19-80"></a><span class="co"># Wind</span></span>
-<span id="cb19-81"><a href="#cb19-81"></a>df_tmp <span class="ot">&lt;-</span> df_base</span>
-<span id="cb19-82"><a href="#cb19-82"></a>df_tmp<span class="sc">$</span>wind  <span class="ot">&lt;-</span> <span class="fu">seq</span>(wind<span class="sc">/</span><span class="dv">10</span>, wind<span class="sc">*</span><span class="dv">10</span>, <span class="at">length.out =</span> n_steps)</span>
-<span id="cb19-83"><a href="#cb19-83"></a></span>
-<span id="cb19-84"><a href="#cb19-84"></a>df_tmp <span class="ot">&lt;-</span> <span class="fu">run_fun</span>(df_tmp, <span class="st">"wind"</span>)</span>
-<span id="cb19-85"><a href="#cb19-85"></a>df_abio <span class="ot">&lt;-</span> <span class="fu">rbind</span>(df_abio, df_tmp)</span>
+<span id="cb19-80"><a href="#cb19-80"></a>df_tmp <span class="ot">&lt;-</span> <span class="fu">run_fun</span>(df_tmp, <span class="st">"patm"</span>)</span>
+<span id="cb19-81"><a href="#cb19-81"></a>df_abio <span class="ot">&lt;-</span> <span class="fu">rbind</span>(df_abio, df_tmp)</span>
+<span id="cb19-82"><a href="#cb19-82"></a></span>
+<span id="cb19-83"><a href="#cb19-83"></a><span class="co"># Wind</span></span>
+<span id="cb19-84"><a href="#cb19-84"></a>df_tmp <span class="ot">&lt;-</span> df_base</span>
+<span id="cb19-85"><a href="#cb19-85"></a>df_tmp<span class="sc">$</span>wind  <span class="ot">&lt;-</span> <span class="fu">seq</span>(wind<span class="sc">/</span><span class="dv">10</span>, wind<span class="sc">*</span><span class="dv">10</span>, <span class="at">length.out =</span> n_steps)</span>
 <span id="cb19-86"><a href="#cb19-86"></a></span>
-<span id="cb19-87"><a href="#cb19-87"></a><span class="do">### BIOTIC VARIABLES</span></span>
-<span id="cb19-88"><a href="#cb19-88"></a><span class="co"># Stomatal Conductance</span></span>
-<span id="cb19-89"><a href="#cb19-89"></a>df_tmp <span class="ot">&lt;-</span> df_base</span>
-<span id="cb19-90"><a href="#cb19-90"></a>df_tmp<span class="sc">$</span>gs  <span class="ot">&lt;-</span> <span class="fu">seq</span>(gs<span class="sc">/</span><span class="dv">10</span>, gs<span class="sc">*</span><span class="dv">10</span>, <span class="at">length.out =</span> n_steps)</span>
-<span id="cb19-91"><a href="#cb19-91"></a></span>
-<span id="cb19-92"><a href="#cb19-92"></a>df_tmp <span class="ot">&lt;-</span> <span class="fu">run_fun</span>(df_tmp, <span class="st">"gs"</span>)</span>
-<span id="cb19-93"><a href="#cb19-93"></a>df_bio <span class="ot">&lt;-</span> <span class="fu">rbind</span>(df_bio, df_tmp)</span>
+<span id="cb19-87"><a href="#cb19-87"></a>df_tmp <span class="ot">&lt;-</span> <span class="fu">run_fun</span>(df_tmp, <span class="st">"wind"</span>)</span>
+<span id="cb19-88"><a href="#cb19-88"></a>df_abio <span class="ot">&lt;-</span> <span class="fu">rbind</span>(df_abio, df_tmp)</span>
+<span id="cb19-89"><a href="#cb19-89"></a></span>
+<span id="cb19-90"><a href="#cb19-90"></a><span class="do">### BIOTIC VARIABLES</span></span>
+<span id="cb19-91"><a href="#cb19-91"></a><span class="co"># Stomatal Conductance</span></span>
+<span id="cb19-92"><a href="#cb19-92"></a>df_tmp <span class="ot">&lt;-</span> df_base</span>
+<span id="cb19-93"><a href="#cb19-93"></a>df_tmp<span class="sc">$</span>gs  <span class="ot">&lt;-</span> <span class="fu">seq</span>(gs<span class="sc">/</span><span class="dv">10</span>, gs<span class="sc">*</span><span class="dv">10</span>, <span class="at">length.out =</span> n_steps)</span>
 <span id="cb19-94"><a href="#cb19-94"></a></span>
-<span id="cb19-95"><a href="#cb19-95"></a><span class="co"># Leaf Size</span></span>
-<span id="cb19-96"><a href="#cb19-96"></a>df_tmp <span class="ot">&lt;-</span> df_base</span>
-<span id="cb19-97"><a href="#cb19-97"></a>df_tmp<span class="sc">$</span>leaf_size  <span class="ot">&lt;-</span> <span class="fu">seq</span>(leaf_size<span class="sc">/</span><span class="dv">10</span>, leaf_size<span class="sc">*</span><span class="dv">10</span>, <span class="at">length.out =</span> n_steps)</span>
-<span id="cb19-98"><a href="#cb19-98"></a></span>
-<span id="cb19-99"><a href="#cb19-99"></a>df_tmp <span class="ot">&lt;-</span> <span class="fu">run_fun</span>(df_tmp, <span class="st">"leaf_size"</span>)</span>
-<span id="cb19-100"><a href="#cb19-100"></a>df_bio <span class="ot">&lt;-</span> <span class="fu">rbind</span>(df_bio, df_tmp)</span>
+<span id="cb19-95"><a href="#cb19-95"></a>df_tmp <span class="ot">&lt;-</span> <span class="fu">run_fun</span>(df_tmp, <span class="st">"gs"</span>)</span>
+<span id="cb19-96"><a href="#cb19-96"></a>df_bio <span class="ot">&lt;-</span> <span class="fu">rbind</span>(df_bio, df_tmp)</span>
+<span id="cb19-97"><a href="#cb19-97"></a></span>
+<span id="cb19-98"><a href="#cb19-98"></a><span class="co"># Leaf Size</span></span>
+<span id="cb19-99"><a href="#cb19-99"></a>df_tmp <span class="ot">&lt;-</span> df_base</span>
+<span id="cb19-100"><a href="#cb19-100"></a>df_tmp<span class="sc">$</span>leaf_size  <span class="ot">&lt;-</span> <span class="fu">seq</span>(leaf_size<span class="sc">/</span><span class="dv">10</span>, leaf_size<span class="sc">*</span><span class="dv">10</span>, <span class="at">length.out =</span> n_steps)</span>
 <span id="cb19-101"><a href="#cb19-101"></a></span>
-<span id="cb19-102"><a href="#cb19-102"></a><span class="co"># Leaf absorptance</span></span>
-<span id="cb19-103"><a href="#cb19-103"></a>df_tmp <span class="ot">&lt;-</span> df_base</span>
-<span id="cb19-104"><a href="#cb19-104"></a>df_tmp<span class="sc">$</span>leaf_abs  <span class="ot">&lt;-</span> <span class="fu">seq</span>(leaf_abs<span class="sc">/</span><span class="dv">10</span>, leaf_abs<span class="sc">*</span><span class="dv">10</span>, <span class="at">length.out =</span> n_steps)</span>
-<span id="cb19-105"><a href="#cb19-105"></a></span>
-<span id="cb19-106"><a href="#cb19-106"></a>df_tmp <span class="ot">&lt;-</span> <span class="fu">run_fun</span>(df_tmp, <span class="st">"leaf_abs"</span>)</span>
-<span id="cb19-107"><a href="#cb19-107"></a>df_bio <span class="ot">&lt;-</span> <span class="fu">rbind</span>(df_bio, df_tmp)</span>
+<span id="cb19-102"><a href="#cb19-102"></a>df_tmp <span class="ot">&lt;-</span> <span class="fu">run_fun</span>(df_tmp, <span class="st">"leaf_size"</span>)</span>
+<span id="cb19-103"><a href="#cb19-103"></a>df_bio <span class="ot">&lt;-</span> <span class="fu">rbind</span>(df_bio, df_tmp)</span>
+<span id="cb19-104"><a href="#cb19-104"></a></span>
+<span id="cb19-105"><a href="#cb19-105"></a><span class="co"># Leaf absorptance</span></span>
+<span id="cb19-106"><a href="#cb19-106"></a>df_tmp <span class="ot">&lt;-</span> df_base</span>
+<span id="cb19-107"><a href="#cb19-107"></a>df_tmp<span class="sc">$</span>leaf_abs  <span class="ot">&lt;-</span> <span class="fu">seq</span>(leaf_abs<span class="sc">/</span><span class="dv">10</span>, leaf_abs<span class="sc">*</span><span class="dv">10</span>, <span class="at">length.out =</span> n_steps)</span>
 <span id="cb19-108"><a href="#cb19-108"></a></span>
-<span id="cb19-109"><a href="#cb19-109"></a><span class="co"># Stomatal Ratio</span></span>
-<span id="cb19-110"><a href="#cb19-110"></a>df_tmp <span class="ot">&lt;-</span> df_base <span class="sc">|&gt;</span> <span class="fu">slice</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>)</span>
-<span id="cb19-111"><a href="#cb19-111"></a>df_tmp<span class="sc">$</span>stomata_ratio  <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>)</span>
-<span id="cb19-112"><a href="#cb19-112"></a></span>
-<span id="cb19-113"><a href="#cb19-113"></a>df_tmp <span class="ot">&lt;-</span> <span class="fu">run_fun</span>(df_tmp, <span class="st">"stomata_ratio"</span>)</span>
-<span id="cb19-114"><a href="#cb19-114"></a>df_bio <span class="ot">&lt;-</span> <span class="fu">rbind</span>(df_bio, df_tmp)</span>
+<span id="cb19-109"><a href="#cb19-109"></a>df_tmp <span class="ot">&lt;-</span> <span class="fu">run_fun</span>(df_tmp, <span class="st">"leaf_abs"</span>)</span>
+<span id="cb19-110"><a href="#cb19-110"></a>df_bio <span class="ot">&lt;-</span> <span class="fu">rbind</span>(df_bio, df_tmp)</span>
+<span id="cb19-111"><a href="#cb19-111"></a></span>
+<span id="cb19-112"><a href="#cb19-112"></a><span class="co"># Stomatal Ratio</span></span>
+<span id="cb19-113"><a href="#cb19-113"></a>df_tmp <span class="ot">&lt;-</span> df_base <span class="sc">|&gt;</span> <span class="fu">slice</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>)</span>
+<span id="cb19-114"><a href="#cb19-114"></a>df_tmp<span class="sc">$</span>stomata_ratio  <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>)</span>
 <span id="cb19-115"><a href="#cb19-115"></a></span>
-<span id="cb19-116"><a href="#cb19-116"></a>df_abio<span class="sc">$</span>name <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(df_abio<span class="sc">$</span>name)</span>
-<span id="cb19-117"><a href="#cb19-117"></a>df_bio<span class="sc">$</span>name <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(df_bio<span class="sc">$</span>name)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb19-116"><a href="#cb19-116"></a>df_tmp <span class="ot">&lt;-</span> <span class="fu">run_fun</span>(df_tmp, <span class="st">"stomata_ratio"</span>)</span>
+<span id="cb19-117"><a href="#cb19-117"></a>df_bio <span class="ot">&lt;-</span> <span class="fu">rbind</span>(df_bio, df_tmp)</span>
+<span id="cb19-118"><a href="#cb19-118"></a></span>
+<span id="cb19-119"><a href="#cb19-119"></a>df_abio<span class="sc">$</span>name <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(df_abio<span class="sc">$</span>name)</span>
+<span id="cb19-120"><a href="#cb19-120"></a>df_bio<span class="sc">$</span>name <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(df_bio<span class="sc">$</span>name)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <div class="cell" data-layout-align="center">
+<details>
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1"></a>df_abio <span class="sc">|&gt;</span> </span>
 <span id="cb20-2"><a href="#cb20-2"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
 <span id="cb20-3"><a href="#cb20-3"></a>  <span class="fu">aes</span>(<span class="at">x =</span> value,</span>
@@ -1122,6 +1127,7 @@ The energy balance variables at this state are: </code></pre>
 <span id="cb20-11"><a href="#cb20-11"></a>       <span class="at">y =</span> <span class="st">"T_leaf [ºC]"</span>,</span>
 <span id="cb20-12"><a href="#cb20-12"></a>       <span class="at">x =</span> <span class="st">"Variable value"</span>) <span class="sc">+</span></span>
 <span id="cb20-13"><a href="#cb20-13"></a>  <span class="fu">theme_classic</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -1129,6 +1135,8 @@ The energy balance variables at this state are: </code></pre>
 </figure>
 </div>
 </div>
+<details>
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1"></a>df_bio <span class="sc">|&gt;</span> </span>
 <span id="cb21-2"><a href="#cb21-2"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
 <span id="cb21-3"><a href="#cb21-3"></a>  <span class="fu">aes</span>(<span class="at">x =</span> value,</span>
@@ -1142,6 +1150,7 @@ The energy balance variables at this state are: </code></pre>
 <span id="cb21-11"><a href="#cb21-11"></a>       <span class="at">y =</span> <span class="st">"T_leaf [ºC]"</span>,</span>
 <span id="cb21-12"><a href="#cb21-12"></a>       <span class="at">x =</span> <span class="st">"Variable value"</span>) <span class="sc">+</span></span>
 <span id="cb21-13"><a href="#cb21-13"></a>  <span class="fu">theme_classic</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -1157,16 +1166,16 @@ The energy balance variables at this state are: </code></pre>
 <span id="cb22-2"><a href="#cb22-2"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
 <span id="cb22-3"><a href="#cb22-3"></a>  <span class="fu">aes</span>(<span class="at">x =</span> value,</span>
 <span id="cb22-4"><a href="#cb22-4"></a>      <span class="at">y =</span> tc_diff) <span class="sc">+</span></span>
-<span id="cb22-5"><a href="#cb22-5"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
-<span id="cb22-6"><a href="#cb22-6"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb22-7"><a href="#cb22-7"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>name, </span>
-<span id="cb22-8"><a href="#cb22-8"></a>             <span class="at">scales =</span> <span class="st">"free_x"</span>) <span class="sc">+</span></span>
-<span id="cb22-9"><a href="#cb22-9"></a>  <span class="fu">ylim</span>(<span class="sc">-</span><span class="fl">7.5</span>, <span class="fl">7.5</span>) <span class="sc">+</span></span>
-<span id="cb22-10"><a href="#cb22-10"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Sensitivity of delta T to abiotic drivers"</span>,</span>
-<span id="cb22-11"><a href="#cb22-11"></a>       <span class="at">subtitle =</span> <span class="st">"Below dotted line means the leaf is cooler"</span>,</span>
-<span id="cb22-12"><a href="#cb22-12"></a>       <span class="at">y =</span> <span class="st">"T_leaf - T_air [ºC]"</span>,</span>
-<span id="cb22-13"><a href="#cb22-13"></a>       <span class="at">x =</span> <span class="st">"Variable value"</span>) <span class="sc">+</span></span>
-<span id="cb22-14"><a href="#cb22-14"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>, <span class="at">lty =</span> <span class="st">"dotted"</span>) <span class="sc">+</span></span>
+<span id="cb22-5"><a href="#cb22-5"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>, <span class="at">lty =</span> <span class="st">"dotted"</span>) <span class="sc">+</span></span>
+<span id="cb22-6"><a href="#cb22-6"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb22-7"><a href="#cb22-7"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb22-8"><a href="#cb22-8"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>name, </span>
+<span id="cb22-9"><a href="#cb22-9"></a>             <span class="at">scales =</span> <span class="st">"free_x"</span>) <span class="sc">+</span></span>
+<span id="cb22-10"><a href="#cb22-10"></a>  <span class="fu">ylim</span>(<span class="sc">-</span><span class="fl">7.5</span>, <span class="fl">7.5</span>) <span class="sc">+</span></span>
+<span id="cb22-11"><a href="#cb22-11"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Sensitivity of delta T to abiotic drivers"</span>,</span>
+<span id="cb22-12"><a href="#cb22-12"></a>       <span class="at">subtitle =</span> <span class="st">"Below dotted line means the leaf is cooler"</span>,</span>
+<span id="cb22-13"><a href="#cb22-13"></a>       <span class="at">y =</span> <span class="st">"T_leaf - T_air [ºC]"</span>,</span>
+<span id="cb22-14"><a href="#cb22-14"></a>       <span class="at">x =</span> <span class="st">"Variable value"</span>) <span class="sc">+</span></span>
 <span id="cb22-15"><a href="#cb22-15"></a>  <span class="fu">theme_classic</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
@@ -1182,12 +1191,12 @@ The energy balance variables at this state are: </code></pre>
 <span id="cb23-2"><a href="#cb23-2"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
 <span id="cb23-3"><a href="#cb23-3"></a>  <span class="fu">aes</span>(<span class="at">x =</span> value,</span>
 <span id="cb23-4"><a href="#cb23-4"></a>      <span class="at">y =</span> tc_diff) <span class="sc">+</span></span>
-<span id="cb23-5"><a href="#cb23-5"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
-<span id="cb23-6"><a href="#cb23-6"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb23-7"><a href="#cb23-7"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>name, </span>
-<span id="cb23-8"><a href="#cb23-8"></a>             <span class="at">scales =</span> <span class="st">"free_x"</span>) <span class="sc">+</span></span>
-<span id="cb23-9"><a href="#cb23-9"></a>  <span class="fu">ylim</span>(<span class="sc">-</span><span class="fl">7.5</span>, <span class="fl">7.5</span>) <span class="sc">+</span></span>
-<span id="cb23-10"><a href="#cb23-10"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>, <span class="at">lty =</span> <span class="st">"dotted"</span>) <span class="sc">+</span></span>
+<span id="cb23-5"><a href="#cb23-5"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>, <span class="at">lty =</span> <span class="st">"dotted"</span>) <span class="sc">+</span></span>
+<span id="cb23-6"><a href="#cb23-6"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb23-7"><a href="#cb23-7"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb23-8"><a href="#cb23-8"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>name, </span>
+<span id="cb23-9"><a href="#cb23-9"></a>             <span class="at">scales =</span> <span class="st">"free_x"</span>) <span class="sc">+</span></span>
+<span id="cb23-10"><a href="#cb23-10"></a>  <span class="fu">ylim</span>(<span class="sc">-</span><span class="fl">7.5</span>, <span class="fl">7.5</span>) <span class="sc">+</span></span>
 <span id="cb23-11"><a href="#cb23-11"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Sensitivity of delta T to biotic drivers"</span>,</span>
 <span id="cb23-12"><a href="#cb23-12"></a>       <span class="at">subtitle =</span> <span class="st">"Below dotted line means the leaf is cooler"</span>,</span>
 <span id="cb23-13"><a href="#cb23-13"></a>       <span class="at">y =</span> <span class="st">"T_leaf - T_air [ºC]"</span>,</span>
@@ -1221,22 +1230,22 @@ The energy balance variables at this state are: </code></pre>
 <table class="table table-sm table-striped small">
 <colgroup>
 <col style="width: 5%">
+<col style="width: 5%">
+<col style="width: 4%">
 <col style="width: 4%">
 <col style="width: 5%">
-<col style="width: 5%">
-<col style="width: 5%">
-<col style="width: 5%">
-<col style="width: 5%">
-<col style="width: 5%">
-<col style="width: 5%">
-<col style="width: 5%">
-<col style="width: 6%">
+<col style="width: 4%">
+<col style="width: 4%">
+<col style="width: 4%">
+<col style="width: 4%">
+<col style="width: 4%">
+<col style="width: 7%">
 <col style="width: 6%">
 <col style="width: 5%">
 <col style="width: 7%">
 <col style="width: 13%">
-<col style="width: 3%">
-<col style="width: 5%">
+<col style="width: 4%">
+<col style="width: 4%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -1261,30 +1270,30 @@ The energy balance variables at this state are: </code></pre>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: right;">4.54e-05</td>
-<td style="text-align: right;">0.00036</td>
-<td style="text-align: right;">0.0002014</td>
-<td style="text-align: right;">40.42388</td>
-<td style="text-align: right;">0.9973817</td>
-<td style="text-align: right;">2.14e-05</td>
-<td style="text-align: right;">2.14e-05</td>
-<td style="text-align: right;">2.14e-05</td>
-<td style="text-align: right;">40.42388</td>
-<td style="text-align: right;">40.42386</td>
-<td style="text-align: right;">29.50253</td>
-<td style="text-align: right;">572.0753</td>
-<td style="text-align: right;">3.203276</td>
-<td style="text-align: right;">327.5584</td>
+<td style="text-align: right;">5.14e-05</td>
+<td style="text-align: right;">0.0001156</td>
+<td style="text-align: right;">1.2e-06</td>
+<td style="text-align: right;">29.1954</td>
+<td style="text-align: right;">0.7203405</td>
+<td style="text-align: right;">1.4e-05</td>
+<td style="text-align: right;">1.4e-05</td>
+<td style="text-align: right;">1.4e-05</td>
+<td style="text-align: right;">29.1954</td>
+<td style="text-align: right;">29.1941</td>
+<td style="text-align: right;">308.9236</td>
+<td style="text-align: right;">647.9079</td>
+<td style="text-align: right;">1.028749</td>
+<td style="text-align: right;">794.2763</td>
 <td style="text-align: left;">TRUE</td>
 <td style="text-align: right;">25</td>
-<td style="text-align: right;">18.04351</td>
+<td style="text-align: right;">23.6968</td>
 </tr>
 </tbody>
 </table>
 </div>
 </div>
-<section id="comparison-w-vs-wo" class="level4" data-number="3.2.3.1">
-<h4 data-number="3.2.3.1" class="anchored" data-anchor-id="comparison-w-vs-wo"><span class="header-section-number">3.2.3.1</span> Comparison w vs w/o</h4>
+<section id="model-comparison" class="level4" data-number="3.2.3.1">
+<h4 data-number="3.2.3.1" class="anchored" data-anchor-id="model-comparison"><span class="header-section-number">3.2.3.1</span> Model Comparison</h4>
 <p>Below is a demonstration for the predictions of the numerical P-Model with and without the energy balance coupled. We see that given the same conditions, the coupled model predicts higher leaf than air temperatures across a range of air temperatures. Additionally, we see that the coupled model simulates an opening of the stomata whereby the predicted stomatal conductance is up to three times what the non-coupled model predicts. Since the leaf is warmer, and following the idea of optimality, the predicted values for <span class="math inline">\(V_{cmax}\)</span> tend to be smaller.</p>
 <div class="cell" data-layout-align="center">
 <details>
@@ -1300,81 +1309,83 @@ The energy balance variables at this state are: </code></pre>
 <span id="cb25-9"><a href="#cb25-9"></a>    <span class="at">tc_air =</span> tc_air,</span>
 <span id="cb25-10"><a href="#cb25-10"></a>    <span class="at">tc_leaf =</span> df_tmp<span class="sc">$</span>tc_air)</span>
 <span id="cb25-11"><a href="#cb25-11"></a></span>
-<span id="cb25-12"><a href="#cb25-12"></a><span class="co"># With and Without EB</span></span>
-<span id="cb25-13"><a href="#cb25-13"></a>df_with_eb <span class="ot">&lt;-</span> df_tmp</span>
-<span id="cb25-14"><a href="#cb25-14"></a>df_wout_eb <span class="ot">&lt;-</span> df_tmp</span>
-<span id="cb25-15"><a href="#cb25-15"></a></span>
-<span id="cb25-16"><a href="#cb25-16"></a><span class="co"># Run loop</span></span>
-<span id="cb25-17"><a href="#cb25-17"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(df_tmp)) {</span>
-<span id="cb25-18"><a href="#cb25-18"></a>  </span>
-<span id="cb25-19"><a href="#cb25-19"></a>  <span class="co"># cat("\n Working on", i, "/", nrow(df_tmp))</span></span>
-<span id="cb25-20"><a href="#cb25-20"></a>  </span>
-<span id="cb25-21"><a href="#cb25-21"></a>  df_with_eb<span class="sc">$</span>data[i] <span class="ot">&lt;-</span> </span>
-<span id="cb25-22"><a href="#cb25-22"></a>    <span class="fu">optimize_traits_and_costs</span>(</span>
-<span id="cb25-23"><a href="#cb25-23"></a>      <span class="at">tc_air  =</span> df_with_eb<span class="sc">$</span>tc_air[i],</span>
-<span id="cb25-24"><a href="#cb25-24"></a>      <span class="at">vpd_air =</span> df_with_eb<span class="sc">$</span>vpd_air[i],</span>
-<span id="cb25-25"><a href="#cb25-25"></a>      <span class="at">ppfd    =</span> df_with_eb<span class="sc">$</span>ppfd[i],</span>
-<span id="cb25-26"><a href="#cb25-26"></a>      <span class="at">patm    =</span> df_with_eb<span class="sc">$</span>patm[i],</span>
-<span id="cb25-27"><a href="#cb25-27"></a>      <span class="at">co2     =</span> df_with_eb<span class="sc">$</span>co2[i],</span>
-<span id="cb25-28"><a href="#cb25-28"></a>      <span class="at">kphio   =</span> df_with_eb<span class="sc">$</span>kphio[i],</span>
-<span id="cb25-29"><a href="#cb25-29"></a>      <span class="at">include_energy_balance =</span> <span class="cn">TRUE</span></span>
-<span id="cb25-30"><a href="#cb25-30"></a>      ) <span class="sc">|&gt;</span> <span class="fu">list</span>()</span>
-<span id="cb25-31"><a href="#cb25-31"></a>  </span>
-<span id="cb25-32"><a href="#cb25-32"></a>  df_wout_eb<span class="sc">$</span>data[i] <span class="ot">&lt;-</span> </span>
-<span id="cb25-33"><a href="#cb25-33"></a>    <span class="fu">optimize_traits_and_costs</span>(</span>
-<span id="cb25-34"><a href="#cb25-34"></a>      <span class="at">tc_air  =</span> df_wout_eb<span class="sc">$</span>tc_air[i],</span>
-<span id="cb25-35"><a href="#cb25-35"></a>      <span class="at">vpd_air =</span> df_wout_eb<span class="sc">$</span>vpd_air[i],</span>
-<span id="cb25-36"><a href="#cb25-36"></a>      <span class="at">ppfd    =</span> df_wout_eb<span class="sc">$</span>ppfd[i],</span>
-<span id="cb25-37"><a href="#cb25-37"></a>      <span class="at">patm    =</span> df_wout_eb<span class="sc">$</span>patm[i],</span>
-<span id="cb25-38"><a href="#cb25-38"></a>      <span class="at">co2     =</span> df_wout_eb<span class="sc">$</span>co2[i],</span>
-<span id="cb25-39"><a href="#cb25-39"></a>      <span class="at">kphio   =</span> df_wout_eb<span class="sc">$</span>kphio[i],</span>
-<span id="cb25-40"><a href="#cb25-40"></a>      <span class="at">include_energy_balance =</span> <span class="cn">FALSE</span></span>
-<span id="cb25-41"><a href="#cb25-41"></a>      ) <span class="sc">|&gt;</span> <span class="fu">list</span>()</span>
-<span id="cb25-42"><a href="#cb25-42"></a>}</span>
-<span id="cb25-43"><a href="#cb25-43"></a></span>
-<span id="cb25-44"><a href="#cb25-44"></a><span class="co"># Finish up dataframes</span></span>
-<span id="cb25-45"><a href="#cb25-45"></a></span>
-<span id="cb25-46"><a href="#cb25-46"></a>vars_tc <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"tc_air"</span>, <span class="st">"tc_leaf"</span>, <span class="st">"tc_diff"</span>)</span>
-<span id="cb25-47"><a href="#cb25-47"></a>vars_pm <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"vcmax"</span>, <span class="st">"jmax"</span>, <span class="st">"gs"</span>, <span class="st">"chi"</span>)</span>
+<span id="cb25-12"><a href="#cb25-12"></a><span class="co"># Removing negative vpd values</span></span>
+<span id="cb25-13"><a href="#cb25-13"></a><span class="co">#df_tmp &lt;- mutate(df_tmp, vpd_air = ifelse(vpd_air &lt; 0, 10, vpd_air))</span></span>
+<span id="cb25-14"><a href="#cb25-14"></a></span>
+<span id="cb25-15"><a href="#cb25-15"></a><span class="co"># With and Without EB</span></span>
+<span id="cb25-16"><a href="#cb25-16"></a>df_with_eb <span class="ot">&lt;-</span> df_tmp</span>
+<span id="cb25-17"><a href="#cb25-17"></a>df_wout_eb <span class="ot">&lt;-</span> df_tmp</span>
+<span id="cb25-18"><a href="#cb25-18"></a></span>
+<span id="cb25-19"><a href="#cb25-19"></a><span class="co"># Run loop</span></span>
+<span id="cb25-20"><a href="#cb25-20"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(df_tmp)) {</span>
+<span id="cb25-21"><a href="#cb25-21"></a>  </span>
+<span id="cb25-22"><a href="#cb25-22"></a>  <span class="co"># cat("\n Working on", i, "/", nrow(df_tmp))</span></span>
+<span id="cb25-23"><a href="#cb25-23"></a>  </span>
+<span id="cb25-24"><a href="#cb25-24"></a>  df_with_eb<span class="sc">$</span>data[i] <span class="ot">&lt;-</span> </span>
+<span id="cb25-25"><a href="#cb25-25"></a>    <span class="fu">optimize_traits_and_costs</span>(</span>
+<span id="cb25-26"><a href="#cb25-26"></a>      <span class="at">tc_air  =</span> df_with_eb<span class="sc">$</span>tc_air[i],</span>
+<span id="cb25-27"><a href="#cb25-27"></a>      <span class="at">vpd_air =</span> df_with_eb<span class="sc">$</span>vpd_air[i],</span>
+<span id="cb25-28"><a href="#cb25-28"></a>      <span class="at">ppfd    =</span> df_with_eb<span class="sc">$</span>ppfd[i],</span>
+<span id="cb25-29"><a href="#cb25-29"></a>      <span class="at">patm    =</span> df_with_eb<span class="sc">$</span>patm[i],</span>
+<span id="cb25-30"><a href="#cb25-30"></a>      <span class="at">co2     =</span> df_with_eb<span class="sc">$</span>co2[i],</span>
+<span id="cb25-31"><a href="#cb25-31"></a>      <span class="at">kphio   =</span> df_with_eb<span class="sc">$</span>kphio[i],</span>
+<span id="cb25-32"><a href="#cb25-32"></a>      <span class="at">include_energy_balance =</span> <span class="cn">TRUE</span></span>
+<span id="cb25-33"><a href="#cb25-33"></a>      ) <span class="sc">|&gt;</span> <span class="fu">list</span>()</span>
+<span id="cb25-34"><a href="#cb25-34"></a>  </span>
+<span id="cb25-35"><a href="#cb25-35"></a>  df_wout_eb<span class="sc">$</span>data[i] <span class="ot">&lt;-</span> </span>
+<span id="cb25-36"><a href="#cb25-36"></a>    <span class="fu">optimize_traits_and_costs</span>(</span>
+<span id="cb25-37"><a href="#cb25-37"></a>      <span class="at">tc_air  =</span> df_wout_eb<span class="sc">$</span>tc_air[i],</span>
+<span id="cb25-38"><a href="#cb25-38"></a>      <span class="at">vpd_air =</span> df_wout_eb<span class="sc">$</span>vpd_air[i],</span>
+<span id="cb25-39"><a href="#cb25-39"></a>      <span class="at">ppfd    =</span> df_wout_eb<span class="sc">$</span>ppfd[i],</span>
+<span id="cb25-40"><a href="#cb25-40"></a>      <span class="at">patm    =</span> df_wout_eb<span class="sc">$</span>patm[i],</span>
+<span id="cb25-41"><a href="#cb25-41"></a>      <span class="at">co2     =</span> df_wout_eb<span class="sc">$</span>co2[i],</span>
+<span id="cb25-42"><a href="#cb25-42"></a>      <span class="at">kphio   =</span> df_wout_eb<span class="sc">$</span>kphio[i],</span>
+<span id="cb25-43"><a href="#cb25-43"></a>      <span class="at">include_energy_balance =</span> <span class="cn">FALSE</span></span>
+<span id="cb25-44"><a href="#cb25-44"></a>      ) <span class="sc">|&gt;</span> <span class="fu">list</span>()</span>
+<span id="cb25-45"><a href="#cb25-45"></a>}</span>
+<span id="cb25-46"><a href="#cb25-46"></a></span>
+<span id="cb25-47"><a href="#cb25-47"></a><span class="co"># Finish up dataframes</span></span>
 <span id="cb25-48"><a href="#cb25-48"></a></span>
-<span id="cb25-49"><a href="#cb25-49"></a>df_with_eb <span class="ot">&lt;-</span> </span>
-<span id="cb25-50"><a href="#cb25-50"></a>  df_with_eb <span class="sc">|&gt;</span> </span>
-<span id="cb25-51"><a href="#cb25-51"></a>  <span class="fu">select</span>(data) <span class="sc">|&gt;</span> </span>
-<span id="cb25-52"><a href="#cb25-52"></a>  <span class="fu">unnest</span>(data) <span class="sc">|&gt;</span></span>
-<span id="cb25-53"><a href="#cb25-53"></a>  <span class="fu">select</span>(<span class="fu">any_of</span>(<span class="fu">c</span>(vars_tc, vars_pm))) <span class="sc">|&gt;</span> </span>
-<span id="cb25-54"><a href="#cb25-54"></a>  <span class="fu">mutate</span>(<span class="at">tc_diff =</span> tc_leaf <span class="sc">-</span> tc_air) <span class="sc">|&gt;</span> </span>
-<span id="cb25-55"><a href="#cb25-55"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="sc">!</span><span class="fu">any_of</span>(vars_tc)) <span class="sc">|&gt;</span> </span>
-<span id="cb25-56"><a href="#cb25-56"></a>  <span class="fu">mutate</span>(<span class="at">name =</span> <span class="fu">as.factor</span>(name))</span>
-<span id="cb25-57"><a href="#cb25-57"></a></span>
-<span id="cb25-58"><a href="#cb25-58"></a>df_wout_eb <span class="ot">&lt;-</span> </span>
-<span id="cb25-59"><a href="#cb25-59"></a>  df_wout_eb <span class="sc">|&gt;</span> </span>
-<span id="cb25-60"><a href="#cb25-60"></a>  <span class="fu">select</span>(data) <span class="sc">|&gt;</span> </span>
-<span id="cb25-61"><a href="#cb25-61"></a>  <span class="fu">unnest</span>(data) <span class="sc">|&gt;</span></span>
-<span id="cb25-62"><a href="#cb25-62"></a>  <span class="fu">select</span>(<span class="fu">any_of</span>(<span class="fu">c</span>(vars_tc, vars_pm))) <span class="sc">|&gt;</span> </span>
-<span id="cb25-63"><a href="#cb25-63"></a>  <span class="fu">mutate</span>(<span class="at">tc_diff =</span> tc_leaf <span class="sc">-</span> tc_air) <span class="sc">|&gt;</span> </span>
-<span id="cb25-64"><a href="#cb25-64"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="sc">!</span><span class="fu">any_of</span>(vars_tc)) <span class="sc">|&gt;</span> </span>
-<span id="cb25-65"><a href="#cb25-65"></a>  <span class="fu">mutate</span>(<span class="at">name =</span> <span class="fu">as.factor</span>(name))</span>
-<span id="cb25-66"><a href="#cb25-66"></a></span>
-<span id="cb25-67"><a href="#cb25-67"></a>df_fin <span class="ot">&lt;-</span> </span>
-<span id="cb25-68"><a href="#cb25-68"></a>  <span class="fu">rbind</span>(</span>
-<span id="cb25-69"><a href="#cb25-69"></a>    df_wout_eb <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">energy_balance =</span> <span class="cn">FALSE</span>),</span>
-<span id="cb25-70"><a href="#cb25-70"></a>    df_with_eb <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">energy_balance =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb25-71"><a href="#cb25-71"></a>    )</span>
-<span id="cb25-72"><a href="#cb25-72"></a></span>
-<span id="cb25-73"><a href="#cb25-73"></a>df_fin <span class="sc">|&gt;</span> </span>
-<span id="cb25-74"><a href="#cb25-74"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
-<span id="cb25-75"><a href="#cb25-75"></a>  <span class="fu">aes</span>(<span class="at">y =</span> value,</span>
-<span id="cb25-76"><a href="#cb25-76"></a>      <span class="at">x =</span> tc_air,</span>
-<span id="cb25-77"><a href="#cb25-77"></a>      <span class="at">color =</span> energy_balance) <span class="sc">+</span></span>
-<span id="cb25-78"><a href="#cb25-78"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
-<span id="cb25-79"><a href="#cb25-79"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb25-80"><a href="#cb25-80"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>name, </span>
-<span id="cb25-81"><a href="#cb25-81"></a>             <span class="at">scales =</span> <span class="st">"free_y"</span>) <span class="sc">+</span></span>
-<span id="cb25-82"><a href="#cb25-82"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Sensitivity of traits to tc_air"</span>,</span>
-<span id="cb25-83"><a href="#cb25-83"></a>       <span class="at">x =</span> <span class="st">"T_air [ºC]"</span>,</span>
-<span id="cb25-84"><a href="#cb25-84"></a>       <span class="at">y =</span> <span class="st">"Trait Value"</span>) <span class="sc">+</span></span>
-<span id="cb25-85"><a href="#cb25-85"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>, <span class="at">lty =</span> <span class="st">"dotted"</span>) <span class="sc">+</span></span>
-<span id="cb25-86"><a href="#cb25-86"></a>  <span class="fu">theme_classic</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb25-49"><a href="#cb25-49"></a>vars_tc <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"tc_air"</span>, <span class="st">"tc_leaf"</span>, <span class="st">"tc_diff"</span>)</span>
+<span id="cb25-50"><a href="#cb25-50"></a>vars_pm <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"vcmax"</span>, <span class="st">"jmax"</span>, <span class="st">"gs"</span>, <span class="st">"chi"</span>)</span>
+<span id="cb25-51"><a href="#cb25-51"></a></span>
+<span id="cb25-52"><a href="#cb25-52"></a>df_with_eb <span class="ot">&lt;-</span> </span>
+<span id="cb25-53"><a href="#cb25-53"></a>  df_with_eb <span class="sc">|&gt;</span> </span>
+<span id="cb25-54"><a href="#cb25-54"></a>  <span class="fu">select</span>(data) <span class="sc">|&gt;</span> </span>
+<span id="cb25-55"><a href="#cb25-55"></a>  <span class="fu">unnest</span>(data) <span class="sc">|&gt;</span></span>
+<span id="cb25-56"><a href="#cb25-56"></a>  <span class="fu">select</span>(<span class="fu">any_of</span>(<span class="fu">c</span>(vars_tc, vars_pm))) <span class="sc">|&gt;</span> </span>
+<span id="cb25-57"><a href="#cb25-57"></a>  <span class="fu">mutate</span>(<span class="at">tc_diff =</span> tc_leaf <span class="sc">-</span> tc_air) <span class="sc">|&gt;</span> </span>
+<span id="cb25-58"><a href="#cb25-58"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="sc">!</span><span class="fu">any_of</span>(vars_tc)) <span class="sc">|&gt;</span> </span>
+<span id="cb25-59"><a href="#cb25-59"></a>  <span class="fu">mutate</span>(<span class="at">name =</span> <span class="fu">as.factor</span>(name))</span>
+<span id="cb25-60"><a href="#cb25-60"></a></span>
+<span id="cb25-61"><a href="#cb25-61"></a>df_wout_eb <span class="ot">&lt;-</span> </span>
+<span id="cb25-62"><a href="#cb25-62"></a>  df_wout_eb <span class="sc">|&gt;</span> </span>
+<span id="cb25-63"><a href="#cb25-63"></a>  <span class="fu">select</span>(data) <span class="sc">|&gt;</span> </span>
+<span id="cb25-64"><a href="#cb25-64"></a>  <span class="fu">unnest</span>(data) <span class="sc">|&gt;</span></span>
+<span id="cb25-65"><a href="#cb25-65"></a>  <span class="fu">select</span>(<span class="fu">any_of</span>(<span class="fu">c</span>(vars_tc, vars_pm))) <span class="sc">|&gt;</span> </span>
+<span id="cb25-66"><a href="#cb25-66"></a>  <span class="fu">mutate</span>(<span class="at">tc_diff =</span> tc_leaf <span class="sc">-</span> tc_air) <span class="sc">|&gt;</span> </span>
+<span id="cb25-67"><a href="#cb25-67"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="sc">!</span><span class="fu">any_of</span>(vars_tc)) <span class="sc">|&gt;</span> </span>
+<span id="cb25-68"><a href="#cb25-68"></a>  <span class="fu">mutate</span>(<span class="at">name =</span> <span class="fu">as.factor</span>(name))</span>
+<span id="cb25-69"><a href="#cb25-69"></a></span>
+<span id="cb25-70"><a href="#cb25-70"></a>df_fin <span class="ot">&lt;-</span> </span>
+<span id="cb25-71"><a href="#cb25-71"></a>  <span class="fu">rbind</span>(</span>
+<span id="cb25-72"><a href="#cb25-72"></a>    df_wout_eb <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">energy_balance =</span> <span class="cn">FALSE</span>),</span>
+<span id="cb25-73"><a href="#cb25-73"></a>    df_with_eb <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">energy_balance =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb25-74"><a href="#cb25-74"></a>    )</span>
+<span id="cb25-75"><a href="#cb25-75"></a></span>
+<span id="cb25-76"><a href="#cb25-76"></a>df_fin <span class="sc">|&gt;</span> </span>
+<span id="cb25-77"><a href="#cb25-77"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb25-78"><a href="#cb25-78"></a>  <span class="fu">aes</span>(<span class="at">y =</span> value,</span>
+<span id="cb25-79"><a href="#cb25-79"></a>      <span class="at">x =</span> tc_air,</span>
+<span id="cb25-80"><a href="#cb25-80"></a>      <span class="at">color =</span> energy_balance) <span class="sc">+</span></span>
+<span id="cb25-81"><a href="#cb25-81"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb25-82"><a href="#cb25-82"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb25-83"><a href="#cb25-83"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>name, </span>
+<span id="cb25-84"><a href="#cb25-84"></a>             <span class="at">scales =</span> <span class="st">"free_y"</span>) <span class="sc">+</span></span>
+<span id="cb25-85"><a href="#cb25-85"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Sensitivity of traits to tc_air"</span>,</span>
+<span id="cb25-86"><a href="#cb25-86"></a>       <span class="at">x =</span> <span class="st">"T_air [ºC]"</span>,</span>
+<span id="cb25-87"><a href="#cb25-87"></a>       <span class="at">y =</span> <span class="st">"Trait Value"</span>) <span class="sc">+</span></span>
+<span id="cb25-88"><a href="#cb25-88"></a>  <span class="fu">theme_classic</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
@@ -1392,14 +1403,14 @@ The energy balance variables at this state are: </code></pre>
 <span id="cb26-5"><a href="#cb26-5"></a>  <span class="fu">aes</span>(<span class="at">y =</span> tc_diff,</span>
 <span id="cb26-6"><a href="#cb26-6"></a>      <span class="at">x =</span> tc_air,</span>
 <span id="cb26-7"><a href="#cb26-7"></a>      <span class="at">color =</span> energy_balance) <span class="sc">+</span></span>
-<span id="cb26-8"><a href="#cb26-8"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
-<span id="cb26-9"><a href="#cb26-9"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb26-10"><a href="#cb26-10"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Sensitivity of air-to-leaf temperature difference to tc_air"</span>,</span>
-<span id="cb26-11"><a href="#cb26-11"></a>       <span class="at">subtitle =</span> <span class="st">"Below the dotted line means the leaf is cooler than air"</span>,</span>
-<span id="cb26-12"><a href="#cb26-12"></a>       <span class="at">x =</span> <span class="st">"T_air [ºC]"</span>,</span>
-<span id="cb26-13"><a href="#cb26-13"></a>       <span class="at">y =</span> <span class="st">"T_leaf - T_air [ºC]"</span>) <span class="sc">+</span></span>
-<span id="cb26-14"><a href="#cb26-14"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>, <span class="at">lty =</span> <span class="st">"dotted"</span>) <span class="sc">+</span></span>
-<span id="cb26-15"><a href="#cb26-15"></a>  <span class="fu">ylim</span>(<span class="sc">-</span><span class="fl">0.5</span>, <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb26-8"><a href="#cb26-8"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>, <span class="at">lty =</span> <span class="st">"dotted"</span>) <span class="sc">+</span></span>
+<span id="cb26-9"><a href="#cb26-9"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb26-10"><a href="#cb26-10"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb26-11"><a href="#cb26-11"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Sensitivity of air-to-leaf temperature difference to tc_air"</span>,</span>
+<span id="cb26-12"><a href="#cb26-12"></a>       <span class="at">subtitle =</span> <span class="st">"Below the dotted line means the leaf is cooler than air"</span>,</span>
+<span id="cb26-13"><a href="#cb26-13"></a>       <span class="at">x =</span> <span class="st">"T_air [ºC]"</span>,</span>
+<span id="cb26-14"><a href="#cb26-14"></a>       <span class="at">y =</span> <span class="st">"T_leaf - T_air [ºC]"</span>) <span class="sc">+</span></span>
+<span id="cb26-15"><a href="#cb26-15"></a>  <span class="fu">ylim</span>(<span class="sc">-</span><span class="dv">8</span>, <span class="dv">8</span>) <span class="sc">+</span></span>
 <span id="cb26-16"><a href="#cb26-16"></a>  <span class="fu">theme_classic</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
@@ -1419,15 +1430,15 @@ The energy balance variables at this state are: </code></pre>
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1"></a><span class="co"># Get reference dataframe</span></span>
 <span id="cb27-2"><a href="#cb27-2"></a>n_steps <span class="ot">&lt;-</span> <span class="dv">50</span></span>
-<span id="cb27-3"><a href="#cb27-3"></a>df_base <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">.rows =</span> n_steps)</span>
+<span id="cb27-3"><a href="#cb27-3"></a>df_base_cc <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">.rows =</span> n_steps)</span>
 <span id="cb27-4"><a href="#cb27-4"></a></span>
-<span id="cb27-5"><a href="#cb27-5"></a>df_base<span class="sc">$</span>vcmax      <span class="ot">&lt;-</span> <span class="fu">rep</span>(vcmax, n_steps)</span>
-<span id="cb27-6"><a href="#cb27-6"></a>df_base<span class="sc">$</span>jmax       <span class="ot">&lt;-</span> <span class="fu">rep</span>(jmax, n_steps)</span>
-<span id="cb27-7"><a href="#cb27-7"></a>df_base<span class="sc">$</span>gs         <span class="ot">&lt;-</span> <span class="fu">rep</span>(gs, n_steps)</span>
-<span id="cb27-8"><a href="#cb27-8"></a>df_base<span class="sc">$</span>cost_total <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, n_steps)</span>
-<span id="cb27-9"><a href="#cb27-9"></a>df_base<span class="sc">$</span>cost_vcmax <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, n_steps)</span>
-<span id="cb27-10"><a href="#cb27-10"></a>df_base<span class="sc">$</span>cost_jmax  <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, n_steps)</span>
-<span id="cb27-11"><a href="#cb27-11"></a>df_base<span class="sc">$</span>cost_gs    <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, n_steps)</span>
+<span id="cb27-5"><a href="#cb27-5"></a>df_base_cc<span class="sc">$</span>vcmax      <span class="ot">&lt;-</span> <span class="fu">rep</span>(vcmax, n_steps)</span>
+<span id="cb27-6"><a href="#cb27-6"></a>df_base_cc<span class="sc">$</span>jmax       <span class="ot">&lt;-</span> <span class="fu">rep</span>(jmax, n_steps)</span>
+<span id="cb27-7"><a href="#cb27-7"></a>df_base_cc<span class="sc">$</span>gs         <span class="ot">&lt;-</span> <span class="fu">rep</span>(gs, n_steps)</span>
+<span id="cb27-8"><a href="#cb27-8"></a>df_base_cc<span class="sc">$</span>cost_total <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, n_steps)</span>
+<span id="cb27-9"><a href="#cb27-9"></a>df_base_cc<span class="sc">$</span>cost_vcmax <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, n_steps)</span>
+<span id="cb27-10"><a href="#cb27-10"></a>df_base_cc<span class="sc">$</span>cost_jmax  <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, n_steps)</span>
+<span id="cb27-11"><a href="#cb27-11"></a>df_base_cc<span class="sc">$</span>cost_gs    <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, n_steps)</span>
 <span id="cb27-12"><a href="#cb27-12"></a></span>
 <span id="cb27-13"><a href="#cb27-13"></a>df_cc <span class="ot">&lt;-</span> <span class="fu">tibble</span>()</span>
 <span id="cb27-14"><a href="#cb27-14"></a></span>
@@ -1476,21 +1487,21 @@ The energy balance variables at this state are: </code></pre>
 <span id="cb27-57"><a href="#cb27-57"></a></span>
 <span id="cb27-58"><a href="#cb27-58"></a><span class="do">## Run function</span></span>
 <span id="cb27-59"><a href="#cb27-59"></a><span class="co"># Vcmax</span></span>
-<span id="cb27-60"><a href="#cb27-60"></a>df_tmp <span class="ot">&lt;-</span> df_base</span>
+<span id="cb27-60"><a href="#cb27-60"></a>df_tmp <span class="ot">&lt;-</span> df_base_cc</span>
 <span id="cb27-61"><a href="#cb27-61"></a>df_tmp<span class="sc">$</span>vcmax <span class="ot">&lt;-</span> <span class="fu">seq</span>(vcmax<span class="sc">/</span><span class="dv">10</span>, vcmax<span class="sc">*</span><span class="dv">10</span>, <span class="at">length.out =</span> n_steps)</span>
 <span id="cb27-62"><a href="#cb27-62"></a></span>
 <span id="cb27-63"><a href="#cb27-63"></a>df_tmp  <span class="ot">&lt;-</span> <span class="fu">loop_carbon_costs</span>(df_tmp, <span class="st">"vcmax"</span>)</span>
 <span id="cb27-64"><a href="#cb27-64"></a>df_cc   <span class="ot">&lt;-</span> <span class="fu">rbind</span>(df_cc, df_tmp)</span>
 <span id="cb27-65"><a href="#cb27-65"></a></span>
 <span id="cb27-66"><a href="#cb27-66"></a><span class="co"># Jmax</span></span>
-<span id="cb27-67"><a href="#cb27-67"></a>df_tmp <span class="ot">&lt;-</span> df_base</span>
+<span id="cb27-67"><a href="#cb27-67"></a>df_tmp <span class="ot">&lt;-</span> df_base_cc</span>
 <span id="cb27-68"><a href="#cb27-68"></a>df_tmp<span class="sc">$</span>jmax <span class="ot">&lt;-</span> <span class="fu">seq</span>(jmax<span class="sc">/</span><span class="dv">10</span>, jmax<span class="sc">*</span><span class="dv">10</span>, <span class="at">length.out =</span> n_steps)</span>
 <span id="cb27-69"><a href="#cb27-69"></a></span>
 <span id="cb27-70"><a href="#cb27-70"></a>df_tmp  <span class="ot">&lt;-</span> <span class="fu">loop_carbon_costs</span>(df_tmp, <span class="st">"jmax"</span>)</span>
 <span id="cb27-71"><a href="#cb27-71"></a>df_cc   <span class="ot">&lt;-</span> <span class="fu">rbind</span>(df_cc, df_tmp)</span>
 <span id="cb27-72"><a href="#cb27-72"></a></span>
 <span id="cb27-73"><a href="#cb27-73"></a><span class="co"># gs</span></span>
-<span id="cb27-74"><a href="#cb27-74"></a>df_tmp <span class="ot">&lt;-</span> df_base</span>
+<span id="cb27-74"><a href="#cb27-74"></a>df_tmp <span class="ot">&lt;-</span> df_base_cc</span>
 <span id="cb27-75"><a href="#cb27-75"></a>df_tmp<span class="sc">$</span>gs <span class="ot">&lt;-</span> <span class="fu">seq</span>(gs<span class="sc">/</span><span class="dv">10</span>, gs<span class="sc">*</span><span class="dv">10</span>, <span class="at">length.out =</span> n_steps)</span>
 <span id="cb27-76"><a href="#cb27-76"></a></span>
 <span id="cb27-77"><a href="#cb27-77"></a>df_tmp  <span class="ot">&lt;-</span> <span class="fu">loop_carbon_costs</span>(df_tmp, <span class="st">"gs"</span>)</span>
