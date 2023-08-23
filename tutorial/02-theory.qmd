@@ -112,14 +112,6 @@ $$ {#eq-quad-aj-param}
 
 ## Energy Balance {#sec-leb}
 
-Essentially, a leaf's temperature results from the ingoing minus the outgoing energy.
-
--   A leaf's energy balance is governed by incoming and outgoing radiation.
-
--   Add Figure
-
--   Add some equations to make it fancy
-
 A leaf's temperature is controlled by its gain and loss of energy. The total incoming energy of a leaf is the sum of absorbed solar short-wave and absorbed thermal long-wave radiation. The outgoing energy consists of the long-wave thermal radiation by the leaf, the sensible heat flux (i.e., thermal convection) and the latent heat flux (i.e., energy consumed by vaporization or released from dew of water). Under steady-state conditions, a constant leaf temperature exists at which incoming and outgoing energy are equal.
 
 The energy balance model implemented in this tutorial is based on the model published in the {plantecophys} package [@duursma2015plantecophys]. It is based on the model published by @leuning1995leaf and @wang1998twoleaf, where more in-depth descriptions can be found.
