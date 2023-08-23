@@ -40,7 +40,7 @@ calculate_traits_and_costs <- function(
   gs    <- par[3]
   
   ## x: Given gs, calculate the leaf temperature
-  if (include_energy_balance == TRUE){
+  if (include_energy_balance == TRUE) {
     tc_leaf <- 
       optimize_leaf_energy_balance(
         tc_air  = tc_air,
@@ -64,7 +64,7 @@ calculate_traits_and_costs <- function(
   ns_star   <- rpmodel::viscosity_h2o(tc_leaf, patm) / rpmodel::viscosity_h2o(25, 101325)
   ca        <- rpmodel::co2_to_ca(co2, patm)
   kphio     <- kphio * rpmodel::ftemp_kphio( tc_leaf, c4 = F)
-  iabs      <- ppfd * fapar
+  iabs      <- ppfd  * fapar
   
   ## 3: Calculate assimilation rates with to-be-optimized jmax, vcmax and gs:
   

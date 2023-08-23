@@ -1,4 +1,4 @@
-# Algorithm
+# Algorithm {#sec-algorithm}
 
 ```{r setup, include=FALSE}
 source(here::here("R/_setup.R"))
@@ -12,13 +12,13 @@ The **numerical P-Model algorithm** solves the optimization problem to find the 
 
 $$
 \frac{\beta \;V_{cmax} + 1.6\;D\;g_s + c \;J_{max} }{A_{gross}} = min.
-$$
+$$ {#eq-rcc2}
 
 The **energy balance algorithm** searches for the leaf temperature that closes the energy budget described in @sec-leb. Certain terms within the energy balance depend on assuming a leaf temperature in the first place. This turns the algorithm into an optimization problem where the goal is to minimze the difference between the initially assumed leaf temperature ($T_{\text{leaf, init}}$) and the leaf temperature that closes the energy balance ($T_{\text{leaf, eb}}$):
 
 $$
 T_{\text{leaf, init}} - T_{\text{leaf, eb}} = min.
-$$
+$$ {#eq-leb-criteria}
 
 The algorithm visualized in @fig-optimization-algorithm reads as follows:
 
@@ -35,26 +35,6 @@ The algorithm visualized in @fig-optimization-algorithm reads as follows:
    If true, return tc_leaf, vcmax, jmax, gs
 ```
 
--   Describe all functions used in here
-
--   Functions needed
-
-    -   Numerical optimization routine for
-
-        -   Leaf Energy Balance
-
-        -   For Vcmax/gs
-
-    -   Cost function
-
-    -   Visualise cost optimization
-
--   Explain nested optimization
-
-    -   Closing the Energy Balance
-
-    -   Cost Minimization
-
 ```{r}
 #| echo: false
 #| label: fig-optimization-algorithm
@@ -68,17 +48,20 @@ knitr::include_graphics("figures/optimization_scheme.svg")
 The individual algorithms described above are based on two functions - one function to calculate the quantitiy to be optimized and one function for handling the optimization. Below are demonstrations for calling the algorithms separately and coupled. All functions can be found in the `R` directory of this repository.
 
 ```{r}
-# Get standard conditions for abiotic and biotic conditions:
+# Get reference values
+## Climate
 tc_air  <- 25     # degC
 tc_leaf <- 30     # degC
 vpd_air <- 2000   # Pa
 patm    <- 101325 # Pa
 co2     <- 400    # ppm
 ppfd    <- 500e-6 # mol/m2/s
+fapar   <- 1      # -
+
+## Traits
 vcmax   <- 50e-6  # mol/m2/s
 jmax    <- 100e-6 # mol/m2/s
 gs      <- 1.5e-6 # mol CO2 /m2/s/Pa
-fapar   <- 1      # -
 kphio   <- 0.087  # -
 beta    <- 146    # -
 c_cost  <- 0.103  # -
@@ -90,9 +73,41 @@ leaf_abs      <-  0.5  # -
 
 ### Numerical P-Model
 
-Below is a demonstration of the numerical P-Model algorithm without considering the leaf energy balance. Comparing the results of the numerical P-Model against the analytical P-Model shows that they achieve a similar $\chi \approx0.68$ but with quite different values for $V_{cmax}$, $J_{cmax}$, and $g_{s}$
+The relevant functions are:
+
+::: {.callout-note collapse="true"}
+## calculate_traits_and_costs()
+
+```{r, echo=FALSE}
+calculate_traits_and_costs
+```
+:::
+
+::: {.callout-note collapse="true"}
+## get_carbon_costs()
+
+```{r, echo=FALSE}
+get_carbon_costs
+```
+:::
+
+::: {.callout-note collapse="true"}
+## optimize_traits_and_costs()
+
+```{r, echo=FALSE}
+optimize_traits_and_costs
+```
+:::
+
+#### Comparison Against Analytical Solution
+
+Below is a demonstration of the numerical P-Model algorithm without considering the leaf energy balance. Comparing the results of the numerical P-Model against the analytical P-Model shows that they achieve a similar $\chi \approx0.68$ but with quite different values for $V_{cmax}$, $J_{cmax}$, and $g_{s}$. This issue is explained further below.
+
+**Output of analytical P-Model:**
 
 ```{r}
+#| code-fold: true
+#| 
 # Analytical P-Model
 rpmodel::rpmodel(
   tc = tc_air, 
@@ -102,10 +117,16 @@ rpmodel::rpmodel(
   ppfd = ppfd, 
   patm = patm, 
   kphio = kphio
-) |> as_tibble() |> knitr::kable()
+) |> as_tibble() |> 
+  mutate(vcmax = vcmax * 1e6, jmax = jmax * 1e6, gs = gs * 1e6, gpp = gpp * 1e6) |> 
+  relocate(vcmax, jmax, gs, chi, ci, gpp) |> knitr::kable()
 ```
 
+**Output of numerical P-Model**
+
 ```{r}
+#| code-fold: true
+#| 
 # Numerical P-Model
 optimize_traits_and_costs(
   tc_air = tc_air,
@@ -113,34 +134,133 @@ optimize_traits_and_costs(
   patm = patm,
   co2 = co2,
   ppfd = ppfd,
-  kphio = kphio
-) |> knitr::kable()
+  kphio = kphio,
+) |>
+  mutate(vcmax = vcmax * 1e6, jmax = jmax * 1e6, gs = gs * 1e6, a_gross = a_gross * 1e6) |> 
+  relocate(vcmax, jmax, gs, chi, ci, a_gross) |> knitr::kable()
 ```
 
-#### Relevant Functions
+#### Cost function
 
-::: {.callout-note collapse="true"}
-## calculate_traits_and_costs()
-```{r, echo=FALSE}
-calculate_traits_and_costs
-```
-:::
+From @eq-rcc, we can tell that the smaller the value for a trait becomes, the smaller the gross assimilation becomes and thus the carbon costs become larger. Above the minimum, the carbon costs become larger because of additional limitations to photosynthesis that do not allow for an even increase in gross assimilation with increasing trait.
 
-::: {.callout-note collapse="true"}
-## get_carbon_costs()
-```{r, echo=FALSE}
-get_carbon_costs
-```
-:::
+In @fig-cost-function, this sensitivity of the carbon costs against varying values of the different traits are displayed. As can be seen, there are distinct minima for the cost of transpiration ($g_s$) and for the cost of carboxylation ($V_{cmax}$). For the cost of electron transport however, there is no distinct minima ($J_{max}$). This occurs because once $J_{max}$ becomes large enough so that $A_j$ is not limiting anymore, it does not play into the cost function anymore. So, the numerical routine simply picks a large enough value for $J_{max}$ to not be limiting but for no clear constraint on the upper end.
 
-::: {.callout-note collapse="true"}
-## optimize_traits_and_costs()
-```{r, echo=FALSE}
-optimize_traits_and_costs
+```{r}
+#| code-fold: true
+#| label: fig-cost-function
+
+# Get reference dataframe
+n_steps <- 50
+df_base <- tibble(.rows = n_steps)
+
+df_base$vcmax      <- rep(vcmax, n_steps)
+df_base$jmax       <- rep(jmax, n_steps)
+df_base$gs         <- rep(gs, n_steps)
+df_base$cost_total <- rep(NA, n_steps)
+df_base$cost_vcmax <- rep(NA, n_steps)
+df_base$cost_jmax  <- rep(NA, n_steps)
+df_base$cost_gs    <- rep(NA, n_steps)
+
+df_cc <- tibble()
+
+# Calculate carbon costs
+loop_carbon_costs <- function(df_in, var) {
+  
+  for (i in 1:nrow(df_in)) {
+    
+    output <- 
+      calculate_traits_and_costs(
+        par = c(df_in$vcmax[i],
+                df_in$jmax[i],
+                df_in$gs[i]),
+        tc_air = tc_air,
+        vpd_air = vpd_air,
+        ppfd = ppfd,
+        co2 = co2,
+        patm = patm,
+        kphio = kphio,
+        include_energy_balance = FALSE,
+        return_all = TRUE,
+        units_out_per_second = TRUE
+      )
+      
+      df_in$cost_total[i] <- output$carbon_costs
+      df_in$cost_vcmax[i] <- output$cost_vcmax
+      df_in$cost_jmax[i]  <- output$cost_jmax
+      df_in$cost_gs[i]    <- output$cost_transp
+      
+  }
+  
+  df_out <- 
+    df_in |> 
+    select(starts_with("cost"), !!var) |> 
+    # pivot_longer(
+    #   cols = starts_with("cost"),
+    #   names_to = "cost_name",
+    #   values_to = "cost_value") |> 
+    pivot_longer(
+      cols = !!var,
+      names_to = "var",
+      values_to = "val")
+  
+  return(df_out)               
+}
+
+## Run function
+# Vcmax
+df_tmp <- df_base
+df_tmp$vcmax <- seq(vcmax/10, vcmax*10, length.out = n_steps)
+
+df_tmp  <- loop_carbon_costs(df_tmp, "vcmax")
+df_cc   <- rbind(df_cc, df_tmp)
+
+# Jmax
+df_tmp <- df_base
+df_tmp$jmax <- seq(jmax/10, jmax*10, length.out = n_steps)
+
+df_tmp  <- loop_carbon_costs(df_tmp, "jmax")
+df_cc   <- rbind(df_cc, df_tmp)
+
+# gs
+df_tmp <- df_base
+df_tmp$gs <- seq(gs/10, gs*10, length.out = n_steps)
+
+df_tmp  <- loop_carbon_costs(df_tmp, "gs")
+df_cc   <- rbind(df_cc, df_tmp)
+
+## Plot it
+df_cc |> 
+  ggplot() +
+  aes(x = val*1e6, y = cost_total) +
+  geom_line() +
+  geom_point() +
+  facet_wrap(~var, scales = "free_x") +
+  labs(title = "Sensitivity of Carbon Costs",
+       x = "Trait value [mu mol/m^2/s]",
+       y = "Carbon Costs") +
+  theme_classic()
 ```
-:::
 
 ### Energy Balance
+
+The relevant functions are:
+
+::: {.callout-note collapse="true"}
+## calculate_leaf_energy_balance()
+
+```{r, echo=FALSE}
+calculate_leaf_energy_balance
+```
+:::
+
+::: {.callout-note collapse="true"}
+## optimize_leaf_energy_balance()
+
+```{r, echo=FALSE}
+optimize_leaf_energy_balance
+```
+:::
 
 Below is a demonstration of the energy balance functions and a sensitivity analysis.
 
@@ -166,7 +286,10 @@ leb_fluxes <-
     patm          = patm,
     return_what   = c("fluxes")
   )
+```
 
+```{r}
+#| code-fold: true
 cat("\nThe squared difference between input tc_leaf and",
     "\nenergy-balance-closure tc_leaf is: ", diff_tcleaf)
 cat("\nThe energy balance variables at this state are: ")
@@ -186,26 +309,14 @@ tc_leaf_eb <-
 cat("Given the environment and gs, tc_leaf is: ", tc_leaf_eb)
 ```
 
-
-#### Relevant Functions 
-
-::: {.callout-note collapse="true"}
-## calculate_leaf_energy_balance()
-```{r, echo=FALSE}
-calculate_leaf_energy_balance
-```
-:::
-
-::: {.callout-note collapse="true"}
-## optimize_leaf_energy_balance()
-```{r, echo=FALSE}
-optimize_leaf_energy_balance
-```
-:::
-
 #### Sensitivity Analysis
 
+Below is a sensitivity analysis of the energy balance model showing how the main drivers of a leaf's temperature
+
 ```{r}
+#| code-fold: true
+
+# Define function first --------------------------------------------------------
 run_fun <- function(df, var) {
   
   for (i in 1:nrow(df)) {
@@ -225,42 +336,37 @@ run_fun <- function(df, var) {
       df$tc_diff[i] = df$tc_leaf[i] - df$tc_air[i]
   }
   
-  df_out <- df |> select(c(!!var, "tc_leaf", "tc_diff")) |> pivot_longer(cols = !!var)
+  df_out <- df |> 
+    select(c(!!var, "tc_leaf", "tc_diff")) |> 
+    pivot_longer(cols = !!var)
   
   return(df_out)
 }
-```
 
-```{r}
-#| code-fold: true 
-
-# Create empty df for plotting
+# Create empty df for plotting  ------------------------------------------------
 df_abio <- tibble()
 df_bio  <- tibble()
 
-# Create base df for sensitivity analysis
+# Create base df for sensitivity analysis  -------------------------------------
 n_steps <- 20
 df_base <- tibble(.rows = n_steps)
-df_base$tc_air    <- rep(tc_air , n_steps)
-df_base$vpd_air   <- rep(vpd_air, n_steps)
-df_base$gs        <- rep(gs     , n_steps)
+df_base$tc_air    <- rep(tc_air  , n_steps)
+df_base$vpd_air   <- rep(vpd_air , n_steps)
+df_base$gs        <- rep(gs      , n_steps)
 df_base$co2       <- rep(co2     , n_steps)
-df_base$ppfd      <- rep(ppfd   , n_steps)
-df_base$patm      <- rep(patm   , n_steps)
-df_base$wind      <- rep(wind, n_steps)
+df_base$ppfd      <- rep(ppfd    , n_steps)
+df_base$patm      <- rep(patm    , n_steps)
+df_base$wind      <- rep(wind    , n_steps)
 df_base$leaf_size <- rep(leaf_size, n_steps)
 df_base$leaf_abs  <- rep(leaf_abs, n_steps)
 df_base$tc_leaf   <- rep(NA, n_steps)
 df_base$tc_diff   <- rep(NA, n_steps)
 df_base$stomata_ratio   <- rep(1, stomata_ratio)
 df_base$kphio     <- rep(kphio, stomata_ratio)
-```
 
+# Run function across all variables  -------------------------------------------
 
-```{r}
-#| code-fold: true 
-
-### ABIOTIC VARIABLES
+### ABIOTIC VARIABLES 
 ## Air temperature and VPD
 df_tmp <- df_base
 df_tmp$tc_air  <- seq(1, 50, length.out = n_steps)
@@ -324,13 +430,12 @@ df_tmp$stomata_ratio  <- c(1, 2)
 
 df_tmp <- run_fun(df_tmp, "stomata_ratio")
 df_bio <- rbind(df_bio, df_tmp)
+
+df_abio$name <- as.factor(df_abio$name)
+df_bio$name <- as.factor(df_bio$name)
 ```
 
 ```{r}
-#| code-fold: true
-df_abio$name <- as.factor(df_abio$name)
-df_bio$name <- as.factor(df_bio$name)
-
 df_abio |> 
   ggplot() +
   aes(x = value,
@@ -341,9 +446,9 @@ df_abio |>
              scales = "free_x") +
   ylim(0, 50) + 
   labs(title = "Sensitivity of tc_leaf to abiotic drivers.",
-       y = "T_leaf",
-       x = "") +
-  theme_linedraw()
+       y = "T_leaf [ºC]",
+       x = "Variable value") +
+  theme_classic()
 
 df_bio |> 
   ggplot() +
@@ -355,13 +460,13 @@ df_bio |>
              scales = "free_x") +
   ylim(0, 50) + 
   labs(title = "Sensitivity of tc_leaf to biotic drivers.",
-       y = "T_leaf",
-       x = "") +
-  theme_linedraw()
+       y = "T_leaf [ºC]",
+       x = "Variable value") +
+  theme_classic()
 ```
 
-
 ```{r}
+#| code-fold: true
 df_abio |> 
   ggplot() +
   aes(x = value,
@@ -373,10 +478,10 @@ df_abio |>
   ylim(-7.5, 7.5) +
   labs(title = "Sensitivity of delta T to abiotic drivers",
        subtitle = "Below dotted line means the leaf is cooler",
-       y = "T_leaf - T_air",
-       x = "") +
+       y = "T_leaf - T_air [ºC]",
+       x = "Variable value") +
   geom_hline(yintercept = 0, lty = "dotted") +
-  theme_linedraw()
+  theme_classic()
 
 df_bio |> 
   ggplot() +
@@ -390,13 +495,15 @@ df_bio |>
   geom_hline(yintercept = 0, lty = "dotted") +
   labs(title = "Sensitivity of delta T to biotic drivers",
        subtitle = "Below dotted line means the leaf is cooler",
-       y = "T_leaf - T_air",
-       x = "") +
-  theme_linedraw()
+       y = "T_leaf - T_air [ºC]",
+       x = "Variable value") +
+  theme_classic()
 ```
 
-
 ### Coupled Model
+
+To call the coupled model, simply set `include_energy_balance == TRUE`.
+
 ```{r}
 optimize_traits_and_costs(
   tc_air  = tc_air,
@@ -409,9 +516,13 @@ optimize_traits_and_costs(
 ) |> knitr::kable()
 ```
 
-#### Sensitivity Analysis
+#### Comparison w vs w/o
+
+Below is a demonstration for the predictions of the numerical P-Model with and without the energy balance coupled. We see that given the same conditions, the coupled model predicts higher leaf than air temperatures across a range of air temperatures. Additionally, we see that the coupled model simulates an opening of the stomata whereby the predicted stomatal conductance is up to three times what the non-coupled model predicts. Since the leaf is warmer, and following the idea of optimality, the predicted values for $V_{cmax}$ tend to be smaller.
 
 ```{r}
+#| code-fold: true
+
 ## Air temperature and VPD
 df_tmp <- df_base
 df_tmp$tc_air  <- seq(1, 50, length.out = n_steps)
@@ -440,7 +551,7 @@ for (i in 1:nrow(df_tmp)) {
       patm    = df_with_eb$patm[i],
       co2     = df_with_eb$co2[i],
       kphio   = df_with_eb$kphio[i],
-      include_energy_balance = FALSE
+      include_energy_balance = TRUE
       ) |> list()
   
   df_wout_eb$data[i] <- 
@@ -451,7 +562,7 @@ for (i in 1:nrow(df_tmp)) {
       patm    = df_wout_eb$patm[i],
       co2     = df_wout_eb$co2[i],
       kphio   = df_wout_eb$kphio[i],
-      include_energy_balance = TRUE
+      include_energy_balance = FALSE
       ) |> list()
 }
 
@@ -494,23 +605,125 @@ df_fin |>
   facet_wrap(~name, 
              scales = "free_y") +
   labs(title = "Sensitivity of traits to tc_air",
-       x = "T_air",
+       x = "T_air [ºC]",
        y = "Trait Value") +
   geom_hline(yintercept = 0, lty = "dotted") +
-  theme_linedraw() 
+  theme_classic() 
 
 df_fin |> 
-  select(tc_air, tc_leaf, energy_balance) |> 
+  select(tc_air, tc_diff, energy_balance) |> 
   distinct() |> 
   ggplot() +
-  aes(y = tc_leaf,
+  aes(y = tc_diff,
       x = tc_air,
       color = energy_balance) +
   geom_line() +
   geom_point() +
-  labs(title = "Sensitivity of traits to tc_air",
-       x = "T_air",
-       y = "T_leaf") +
-  geom_abline(intercept = 0, slope = 1, lty = "dotted") +
-  theme_linedraw() 
+  labs(title = "Sensitivity of air-to-leaf temperature difference to tc_air",
+       subtitle = "Below the dotted line means the leaf is cooler than air",
+       x = "T_air [ºC]",
+       y = "T_leaf - T_air [ºC]") +
+  geom_hline(yintercept = 0, lty = "dotted") +
+  ylim(-0.5, 0.5) +
+  theme_classic() 
+```
+
+#### Cost Function
+
+In @fig-cost-function-eb is a demonstration for the effect the coupled energy balance has on finding a distinct minimum in the carbon costs. Compared to the non-coupled model in @fig-cost-function, we see that there is no distinct minima for either $g_s$ and $V_{cmax}$ - at least at the here investigated resoultion. This may cause convergence problems and lead to random rather than specific optimal values for the given conditions.
+
+```{r}
+#| code-fold: true
+#| label: fig-cost-function-eb
+
+# Get reference dataframe
+n_steps <- 50
+df_base <- tibble(.rows = n_steps)
+
+df_base$vcmax      <- rep(vcmax, n_steps)
+df_base$jmax       <- rep(jmax, n_steps)
+df_base$gs         <- rep(gs, n_steps)
+df_base$cost_total <- rep(NA, n_steps)
+df_base$cost_vcmax <- rep(NA, n_steps)
+df_base$cost_jmax  <- rep(NA, n_steps)
+df_base$cost_gs    <- rep(NA, n_steps)
+
+df_cc <- tibble()
+
+# Calculate carbon costs
+loop_carbon_costs <- function(df_in, var) {
+  
+  for (i in 1:nrow(df_in)) {
+    
+    output <- 
+      calculate_traits_and_costs(
+        par = c(df_in$vcmax[i],
+                df_in$jmax[i],
+                df_in$gs[i]),
+        tc_air = tc_air,
+        vpd_air = vpd_air,
+        ppfd = ppfd,
+        co2 = co2,
+        patm = patm,
+        kphio = kphio,
+        include_energy_balance = TRUE,
+        return_all = TRUE,
+        units_out_per_second = TRUE
+      )
+      
+      df_in$cost_total[i] <- output$carbon_costs
+      df_in$cost_vcmax[i] <- output$cost_vcmax
+      df_in$cost_jmax[i]  <- output$cost_jmax
+      df_in$cost_gs[i]    <- output$cost_transp
+      
+  }
+  
+  df_out <- 
+    df_in |> 
+    select(starts_with("cost"), !!var) |> 
+    # pivot_longer(
+    #   cols = starts_with("cost"),
+    #   names_to = "cost_name",
+    #   values_to = "cost_value") |> 
+    pivot_longer(
+      cols = !!var,
+      names_to = "var",
+      values_to = "val")
+  
+  return(df_out)               
+}
+
+## Run function
+# Vcmax
+df_tmp <- df_base
+df_tmp$vcmax <- seq(vcmax/10, vcmax*10, length.out = n_steps)
+
+df_tmp  <- loop_carbon_costs(df_tmp, "vcmax")
+df_cc   <- rbind(df_cc, df_tmp)
+
+# Jmax
+df_tmp <- df_base
+df_tmp$jmax <- seq(jmax/10, jmax*10, length.out = n_steps)
+
+df_tmp  <- loop_carbon_costs(df_tmp, "jmax")
+df_cc   <- rbind(df_cc, df_tmp)
+
+# gs
+df_tmp <- df_base
+df_tmp$gs <- seq(gs/10, gs*10, length.out = n_steps)
+
+df_tmp  <- loop_carbon_costs(df_tmp, "gs")
+df_cc   <- rbind(df_cc, df_tmp)
+
+## Plot it
+df_cc |> 
+  ggplot() +
+  aes(x = val*1e6, y = cost_total) +
+  geom_line() +
+  geom_point() +
+  facet_wrap(~var, scales = "free_x") +
+  labs(title = "Sensitivity of Carbon Costs (with energy balance)",
+       x = "Trait value [mu mol/m^2/s]",
+       y = "Relative Carbon Costs") +
+  theme_classic()
 ```

@@ -1,18 +1,39 @@
 # Next Steps {#sec-next-steps}
 
--   Use different formulations for the cost function (relative costs, total costs)
+This tutorial provides the basic understanding and code to run the numerical P-Model coupled to an energy balance model. As shown in @sec-algorithm, there are a few short-comings to the model that can be addressed as listed below.
 
--   Getting different results when using different starting values for the optimization of traits
+## Refining Numerical P-Model
 
--   Implement another optimization algorithm and compare performances
+The optimization criteria in @eq-rcc seems to fail to optimize $J_{max}$ and has other peculiarities to it. To resolve this issue one could work on the following tasks:
 
--   Try to implement the cost for Jmax as well
+-   The entire formulation for the cost criteria could be revised. Here are a few starting points:
 
-    -   Note: This could become tricky because of it having too little
+    -   Instead of optimizing gross assimilation, the traits could be optimized with respect to the assimilation rate they constitute ($A_c$ for $V_{cmax}$, $A_j$ for $J_{max}$)
 
--   Sketch an algorithm to account for an instantaneous energy balance model
+    -   Instead of taking the relative carbon costs, one could take the absolute costs.
 
--   Potential Test Casta
+    -   Instead of using a cost-minimization approach, one could use a profit-maximization approach [@joshi2022unified].
 
-    -   Lin et al data
-    -   
+    -   Higher leaf temperatures directly affect respiration, which is not considered yet. But according to @michaletz2016energetic plants may purposefully ramp up their transpiration to avoid the carbon loss due to lethal temperature stress. Thus, one could consider net assimilation (gross assimilation - respiration) instead.
+
+-   Earlier tests - not included in this tutorial - showed that the initially assumed value for optimization (the starting values for vcmax, jmax, gs in `optimize_traits_and_costs()`) can lead to different optimal values. An optimization problem should be independent of initialization conditions, so this chaotic behaviour could be investigated.
+
+-   The current model only applies to long-term acclimation conditions. One could couple an instantaneous photosynthesis model (see {rpmodel} package) to predict on shorter timescales. However, to couple an energy balance model to the instantaneous photosynthesis model, one would first need a numerical formulation of the latter.
+
+## Refining Energy Balance Model
+
+-   Not all parameters used in the current implementation may stay constant. For example, a leaf's emissivity may depart from the chosen 0.95. One could add such variables to the function's input and run a sensitivity analysis.
+
+-   The current energy balance model is based on the Penman-Monteith equation but one could use the simpler Priestly-Taylor equation as well (e.g. as compared in @dong2017biophysical).
+
+-   The current energy balance model is based on the {plantecophys} package [@duursma2015plantecophys]. One could also implement and test the more exhaustive model implemented in the {tealeaves} package [@muir2019tealeaves].
+
+## Test Cases for Model Evaluation
+
+-   $V_{cmax}$ and $J_{max}$: One could use global leaf-measurements from @peng2021global to evaluate the prediction of $V_{cmax}$ and $J_{max}$ by the numerical P-Model. Also, using this data one could revise the cost factor $c$ following the methods by @wang2017universal.
+
+-   **Land Surface Temperatures:** To evaluate the prediction of leaf temperatures, one could use MODIS Land Surface Temperature data over dense ecosystems (high leaf area index) at FLUXNET sites without water stress (see @stocker2018quantifying).
+
+-   **Long-Term Leaf Temperature Measurements:** To evaluate whether the predicted leaf temperature resembles an optimal long-term elaf temperature, one could use long time-series of leaf temperature measurements from e.g. thermal imaging [@still2022no]. Another data source could be the photosynthesis-weighted leaf temperature that can be inferred from $^{18}$O isotopes[@helliker2008subtropical].
+
+-   $^{13}$**C Isotopes:** To evaluate the prediction of the long-term ratio of internal to ambient CO$_2$ concentrations ($\chi$), one could repeat the analyses done in @stocker2020pmodel. This could also be used to revise the cost factor $\beta$.

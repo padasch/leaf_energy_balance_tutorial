@@ -1,9 +1,0 @@
-# Test Cases
-
-## Leaf traits
-
-As a test-case to see whether the numerical P-Model and its coupling with the energy balance model leads to reliable predictions, we are going to predict $V_{cmax}$. Alter 
-
-## Land surface temperature
-
-## Water Isotopes

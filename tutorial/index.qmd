@@ -1,13 +1,14 @@
 # About {.unnumbered}
 
-This is an online tutorial to simulate a leaf's energy balance to different drivers.
+The field of thermoregulation is fundamental to photosynthesis but the lack of understanding and process-based modelling of leaf temperature regulation creates a knowledge gap worthy of investigation. Moreover, by exploiting EEO principles, we can create a model that accounts for the interplay of thermal acclimation and thermoregulation. Understanding this interplay is an unresolved but highly relevant question because it gives insights into the processes a plant may use to cope with a rising temperatures [@cavaleri2020cold].
+
+This tutorial provides the scientific basis and code impementation to model a leaf's temperature based on thermodynamic theory and eco-evolutionary optimality theory. @sec-motivation gives insight into the current debate on leaf thermoregulation and makes the statement how eco-evolutionary optimality theory may provide a solution to this issue. In @sec-algorithm, a numerical algorithm is presented alongside a sensitivity analysis showing the strenghts and weaknesses of the current implemenation. In @sec-next-steps, further improvements of the algorithm and ideas for potential test-cases to evaluate the model are provided.
 
 # Requirements
 
 ```{r include=TRUE}
 source(here::here("R/_setup.R"))
 ```
-
 
 ```{r}
 sessionInfo()

@@ -68,7 +68,7 @@ optimize_traits_and_costs <- function(
     ppfd       = ppfd,
     kphio      = kphio,
     include_energy_balance = include_energy_balance,
-    units_out  = "per-s",
+    units_out_per_second  = TRUE,
     return_all = TRUE,
     ...)
   

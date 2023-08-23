@@ -9,11 +9,9 @@ book:
   page-navigation: true
   chapters:
     - index.qmd
-    - 01-introduction.qmd
+    - 01-motivation.qmd
     - 02-theory.qmd
-    - 03-implementation.qmd
-    - 04-sensitivity_analysis.qmd
-    - 05-test_case.qmd
+    - 03-algorithm.qmd
     - 98-next-steps.qmd
     - 99-variables.qmd
     - references.qmd
@@ -31,10 +29,11 @@ csl: global-change-biology.csl
 format:
   html:
     theme: 
-      dark: darkly
       light: flatly
+      dark: darkly
     css: styles.css
     toc: true
+    toc-depth: 4
     grid: 
       body-width: 1000px
       sidebar-width: 250px
