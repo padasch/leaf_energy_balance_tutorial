@@ -252,6 +252,7 @@ div.csl-indent {
 </ul></li>
 <li><p>Earlier tests - not included in this tutorial - showed that the initially assumed value for optimization (the starting values for vcmax, jmax, gs in <code>optimize_traits_and_costs()</code>) can lead to different optimal values. An optimization problem should be independent of initialization conditions, so this chaotic behaviour could be investigated.</p></li>
 <li><p>The current model only applies to long-term acclimation conditions. One could couple an instantaneous photosynthesis model (see {rpmodel} package) to predict on shorter timescales. However, to couple an energy balance model to the instantaneous photosynthesis model, one would first need a numerical formulation of the latter.</p></li>
+<li><p>The current implementation uses the {optimr} package, which may or may not be suitable. To test whether another optimization algorithm finds a better solution, one could implement the {gensa} package instead.</p></li>
 </ul>
 </section>
 <section id="refining-energy-balance-model" class="level2" data-number="4.2">
