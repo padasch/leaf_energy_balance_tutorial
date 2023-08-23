@@ -1,3 +1,5 @@
 # Leaf Energy Balance Tutorial
 
-This is a tutorial to calculate the energy budget of a leaf alongside an optimization routine to estimate key photosynthesis variables.
+The field of thermoregulation is fundamental to photosynthesis but the lack of understanding and process-based modelling of leaf temperature regulation creates a knowledge gap worthy of investigation. Moreover, by exploiting EEO principles, we can create a model that accounts for the interplay of thermal acclimation and thermoregulation. Understanding this interplay is an unresolved but highly relevant question because it gives insights into the processes a plant may use to cope with a rising temperatures.
+ It starts by giving an insight into the current debate on leaf thermoregulation and makes the statement how eco-evolutionary optimality theory may provide a solution to this issue. Then, it presents a numerical algorithm 
+This tutorial provides the scientific basis and code implementation to model a leaf's temperature based on thermodynamic theory and eco-evolutionary optimality theory.is presented alongside a sensitivity analysis showing the strengths and weaknesses of the current implementation. At the end, the tutorial provides further improvements of the algorithm and ideas for potential test-cases to evaluate the model.
