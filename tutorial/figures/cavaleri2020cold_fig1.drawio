@@ -1,0 +1,55 @@
+<mxfile host="Electron" modified="2023-08-25T13:37:21.411Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/21.6.8 Chrome/114.0.5735.289 Electron/25.5.0 Safari/537.36" etag="HOywJzP-tTcq3JzphENR" version="21.6.8" type="device">
+  <diagram name="Page-1" id="FNsHaPkqiVT7zh16H1_T">
+    <mxGraphModel dx="559" dy="393" grid="1" gridSize="10" guides="0" tooltips="1" connect="0" arrows="0" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="tV8-Ut0xLYDwpBBXpVOI-5" value="" style="endArrow=none;html=1;rounded=0;strokeWidth=3;strokeColor=#A680B8;" parent="1" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="160" y="800" as="sourcePoint" />
+            <mxPoint x="480" y="800" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="tV8-Ut0xLYDwpBBXpVOI-6" value="" style="endArrow=none;html=1;rounded=0;strokeWidth=3;strokeColor=#7EA6E0;exitX=0.003;exitY=0.996;exitDx=0;exitDy=0;exitPerimeter=0;" parent="1" source="tV8-Ut0xLYDwpBBXpVOI-1" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="160" y="880" as="sourcePoint" />
+            <mxPoint x="480" y="640" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="tV8-Ut0xLYDwpBBXpVOI-7" value="" style="endArrow=none;html=1;rounded=0;strokeWidth=3;strokeColor=#FFD966;exitX=-0.001;exitY=0.754;exitDx=0;exitDy=0;exitPerimeter=0;" parent="1" source="tV8-Ut0xLYDwpBBXpVOI-1" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="160" y="800" as="sourcePoint" />
+            <mxPoint x="480" y="720" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="tV8-Ut0xLYDwpBBXpVOI-8" value="" style="endArrow=none;html=1;rounded=0;strokeWidth=3;strokeColor=#EA6B66;exitX=0.247;exitY=0.996;exitDx=0;exitDy=0;exitPerimeter=0;" parent="1" source="tV8-Ut0xLYDwpBBXpVOI-1" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="240" y="880" as="sourcePoint" />
+            <mxPoint x="400" y="640" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="tV8-Ut0xLYDwpBBXpVOI-9" value="Megathermy" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontStyle=1;fontColor=#EA6B66;rotation=-64.2;" parent="1" vertex="1">
+          <mxGeometry x="344" y="670" width="90" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="tV8-Ut0xLYDwpBBXpVOI-11" value="&lt;font color=&quot;#7ea6e0&quot;&gt;Poikilothermy&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontStyle=1;fontColor=#EA6B66;rotation=-45;" parent="1" vertex="1">
+          <mxGeometry x="388" y="682" width="100" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="tV8-Ut0xLYDwpBBXpVOI-12" value="&lt;font color=&quot;#ffd966&quot;&gt;Limited Homeothermy&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontStyle=1;fontColor=#EA6B66;rotation=-26.7;" parent="1" vertex="1">
+          <mxGeometry x="341" y="749" width="150" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="tV8-Ut0xLYDwpBBXpVOI-13" value="&lt;font color=&quot;#a680b8&quot;&gt;Homeostasis&lt;br&gt;(Limited Homeothermy)&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontStyle=1;fontColor=#EA6B66;rotation=0;" parent="1" vertex="1">
+          <mxGeometry x="320" y="800" width="160" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="tV8-Ut0xLYDwpBBXpVOI-16" value="Leaf Temperature" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontStyle=1;rotation=-90;fontSize=18;" parent="1" vertex="1">
+          <mxGeometry x="15" y="785" width="250" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="tV8-Ut0xLYDwpBBXpVOI-17" value="Air Temperature" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontStyle=1;rotation=0;fontSize=18;" parent="1" vertex="1">
+          <mxGeometry x="194" y="960" width="250" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="tV8-Ut0xLYDwpBBXpVOI-1" value="" style="whiteSpace=wrap;html=1;strokeWidth=2;fillColor=none;" parent="1" vertex="1">
+          <mxGeometry x="160" y="640" width="320" height="320" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

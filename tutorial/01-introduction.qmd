@@ -27,8 +27,8 @@ Even though leaf thermoregulation, that is the mechanism by which leaves may cha
 ```{r}
 #| echo: false
 #| label: fig-cavaleri-fig1
-#| fig-cap: "Figure taken from Cavaleri 2020. The Figure visualizes different leaf thermoregulation strategies, indicated by the line's slope (see main text for definitions). "
-knitr::include_graphics("figures/cavaleri2020cold_fig1.png")
+#| fig-cap: "Figure adapted from from Cavaleri (2020). The Figure visualizes different leaf thermoregulation strategies, indicated by the line's slope (see main text for definitions). "
+knitr::include_graphics("figures/cavaleri2020cold_fig1.svg")
 ```
 
 From a physical point of view, a leaf's temperature arises from the amount of energy it receives through short- and long-wave irradiation, and the amount of energy it loses through latent heat, sensible heat, and long-wave radiation (more on this in @sec-theory. Since a leaves do not produce significant heat through biophysical processes, they can primarily modify their leaf temperature through two path ways. Either, they try to avoid incoming energy from sunlight by adjusting their leaf angle. Or, they increase their energy loss via latent heat by opening their stomata to increase transpiration.
