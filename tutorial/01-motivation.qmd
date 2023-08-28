@@ -27,8 +27,8 @@ Even though leaf thermoregulation, that is the mechanism by which leaves may cha
 ```{r}
 #| echo: false
 #| label: fig-cavaleri-fig1
-#| fig-cap: "Figure taken from Cavaleri 2020. The Figure visualizes different leaf thermoregulation strategies, indicated by the line's slope (see main text for definitions). "
-knitr::include_graphics("figures/cavaleri2020cold_fig1.png")
+#| fig-cap: "Figure re-drawn from Cavaleri 2020. The Figure visualizes different leaf thermoregulation strategies, indicated by the line's slope (see main text for definitions). "
+knitr::include_graphics("figures/cavaleri2020cold_fig1.svg")
 ```
 
 From a physical point of view, a leaf's temperature arises from the amount of energy it receives through short- and long-wave irradiation, and the amount of energy it loses through latent heat, sensible heat, and long-wave radiation (more on this in @sec-theory. Since a leaves do not produce significant heat through biophysical processes, they can primarily modify their leaf temperature through two path ways. Either, they try to avoid incoming energy from sunlight by adjusting their leaf angle. Or, they increase their energy loss via latent heat by opening their stomata to increase transpiration.
@@ -50,6 +50,8 @@ Contra "limited homeothermy":
 -   @drake2020no compared leaf-level temperature measurements against re-constructed leaf temperatures from isotopic signatures and found that both methods indicate no thermoregulation in eucalyptus, even under warming treatments.
 
 Related but without stance:
+
+-   @doughty2023tropical analysed tropical canopy temperature by pairing data from remote-sensing, from in-situ thermocouples, and from warming experiments. They found that 0.01% of leaves exceed the critical threshold temperature above which lethal damage occurs (\~46.7ºC). Experimental warming increased this percentage in non-linear manner. Using an empirical model, they estimated that tropical forests can withstand a warming of \~4ºC before potentially reaching a metabolic tipping point.
 
 -   @vinod2023thermal review paper on mechanisms and drivers of thermal sensitivity gradients within forest canopies.
 
