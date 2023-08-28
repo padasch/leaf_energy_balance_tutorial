@@ -1,5 +1,6 @@
 # Function to turn temperature from degree celsius to kelvin
 celsius_to_kelvin <- function(x) {
+  #' @param x Temperature in ºC
   x + 273.15
 }
 

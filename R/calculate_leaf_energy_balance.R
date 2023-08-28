@@ -2,12 +2,12 @@
 #'
 #' @description This function calculates the energy balance of the leaf, given biotic and abiotic drivers. Output options are the difference between input-ed and calculated leaf temperature ("balance") or all calculated energy fluxes. Note: This functions has been taken from the {plantecophys} package and modified for new purposes here.
 #' 
-#' @details Leaf energy balance model is based on the Penman-Monteith equation in appendix of Leuning, R., F. M. Kelliher, D. G. G. Pury, and E.-D. Schulze. 1995. “Leaf Nitrogen, Photosynthesis, Conductance and Transpiration: Scaling from Leaves to Canopies.” <i>Plant, Cell and Environment</i> 18 (10): 1183–1200. https://doi.org/10.1111/j.1365-3040.1995.tb00628.x.
+#' @details This leaf energy balance model was adapted from Duursma, Remko A. 2015. “Plantecophys - An R Package for Analysing and Modelling Leaf Gas Exchange Data.” Edited by Paul C. Struik. <i>PLOS ONE</i> 10 (11): e0143346. https://doi.org/10/bkmj. It is based on the Penman-Monteith equation in appendix of Leuning, R., F. M. Kelliher, D. G. G. Pury, and E.-D. Schulze. 1995. “Leaf Nitrogen, Photosynthesis, Conductance and Transpiration: Scaling from Leaves to Canopies.” <i>Plant, Cell and Environment</i> 18 (10): 1183–1200. https://doi.org/10.1111/j.1365-3040.1995.tb00628.x.
 #'
 #' @param tc_leaf Assumed leaf Temperature [ºC]
 #' @param tc_air  Air Temperature [ºC]
 #' @param gs      Stomatal conductance of CO2 [mol/m2/s]
-#' @param ppfd    Photoactive photon flux density [mol/m2/s]
+#' @param ppfd    Photosynthetically Active Photon Flux Density [mol/m2/s]
 #' @param vpd_air Vapor pressure deficit of the air [Pa]
 #' @param patm    Atmospheric pressure [Pa]
 #' @param wind    Wind speed [m/s]
@@ -16,11 +16,6 @@
 #' @param leaf_abs      Leaf absorptance of solar radiation (range [0,1]) [-]
 #' @param return_what   Output to be returned ("balance" for squared difference between input and calculated leaf temperature, "fluxes" for all energy fluxes calculated by the energy balance)
 #'
-#' @return 
-#' @export energy_balance
-#' @rdname energy_balance
-#'
-#' @examples
 calculate_leaf_energy_balance <- function(
   tc_leaf       = 21.5, 
   tc_air        = 20,

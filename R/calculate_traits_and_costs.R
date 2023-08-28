@@ -1,22 +1,22 @@
 #' Function to be optimized based on carbon costs for photosynthesis
 #'
-#' @param par 
-#' @param tc_leaf 
-#' @param vpd_leaf 
-#' @param ppfd 
-#' @param fapar 
-#' @param co2 
-#' @param patm 
-#' @param kphio 
-#' @param beta 
-#' @param maximize # Whether carbon cost metric should be maximized or not
-#' @param return_all # What to return: carbon costs only or all calculated variables
-#' @param units_out_per_second # Whether output units should be in per-day or per-s
+#' @details To achieve good numerical performance, the input values must be in per-day and not in per-second.
 #'
-#' @return
-#' @export
+#' @param par Input parameters in order: vcmax, jmax, gs [µmol/m^2/d]
+#' @param tc_leaf Leaf temperature [ºC]
+#' @param vpd_leaf Leaf vapor pressure deficit [Pa]
+#' @param ppfd Photosynthetically Active Photon Flux Density [µmol/m^2/s]
+#' @param fapar Fraction absorbed photosynthetically active radiation, set to 1 [-]
+#' @param co2 Atmospheric partial pressure of CO2 [Pa]
+#' @param patm Atmospheric pressure [Pa]
+#' @param kphio Calibrated quantum yield efficiency [-]
+#' @param beta Unit cost ratio for acquiring nitrogen over water [-]
+#' @param maximize Whether carbon cost metric should be maximized or not [TRUE/FALSE]
+#' @param return_all What to return. FALSE = carbon costs only. TRUE = all calculated variables
+#' @param units_out_per_second Whether output units should be in per-day or per-second [TRUE/FALSE]
+#' @param include_energy_balance Whether energy balance model should be coupled [TRUE/FALSE]
+#' @param ... Additional arguments to be piped 
 #'
-#' @examples
 calculate_traits_and_costs <- function(
     par,
     tc_air,
@@ -40,7 +40,7 @@ calculate_traits_and_costs <- function(
   gs    <- par[3]
   
   ## x: Given gs, calculate the leaf temperature
-  if (include_energy_balance == TRUE){
+  if (include_energy_balance == TRUE) {
     tc_leaf <- 
       optimize_leaf_energy_balance(
         tc_air  = tc_air,
@@ -147,6 +147,10 @@ calculate_traits_and_costs <- function(
       cost_type = "relative_carbon_costs"
     )
   
+  ## 7. Get additional variables
+  chi  <- ci / ca
+  iwue <- ca * (1 - chi) / 1.6
+  
   # if (maximize) net_assim <- -carbon_costs
   
   if (return_all) {
@@ -169,12 +173,16 @@ calculate_traits_and_costs <- function(
         jmax = jmax,
         gs = gs,
         ci = ci,
-        chi = ci / ca,
+        chi = chi,
         a_c = a_c,
         a_j = a_j,
         a_gross = a_gross,
         ci_c = ci_c,
         ci_j = ci_j,
+        iwue = iwue,
+        kmm = kmm,
+        gammastar = gammastar,
+        ns_star = ns_star,
         cost_transp = carbon_costs$cost_transp,
         cost_vcmax = carbon_costs$cost_vcmax,
         cost_jmax = carbon_costs$cost_jmax,

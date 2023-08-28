@@ -4,16 +4,13 @@
 #' @param vpd_air Leaf-level vapor-pressure deficit
 #' @param patm Atmospheric pressure [Pa]
 #' @param co2 Atmospheric CO2 concentration [ppm]
-#' @param ppfd Phososynthetic photon flux density [µmol/m2/s]
+#' @param ppfd Photosynthetically Active Photon Flux Density [µmol/m2/s]
 #' @param kphio Parameter for QYE [-]
 #' @param vcmax_start Starting values for vcmax in the optimization routine
 #' @param jmax_start Starting values for jmax in the optimization routine
 #' @param gs_start Starting values for gs in the optimization routine
+#' @param ... Additional arguments to be piped 
 #'
-#' @return
-#' @export
-#'
-#' @examples
 optimize_traits_and_costs <- function(
   tc_air,
   vpd_air,

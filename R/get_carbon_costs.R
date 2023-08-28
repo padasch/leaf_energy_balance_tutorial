@@ -1,6 +1,6 @@
-#' Function to calcaulte the carbon costs for photosynthesis
+#' Function to calculate the carbon costs for photosynthesis
 #'
-#' @param ns_star Relative viscotity of water [-]
+#' @param ns_star Relative viscosity of water [-]
 #' @param gs Stomatal conductance of CO2 [µmol/m2/s]
 #' @param vpd_leaf Vapor pressure deficit at the leaf-level [Pa]
 #' @param beta Unit cost ratio of acquiring nitrogen over water [-]
@@ -11,9 +11,6 @@
 #' @param cost_type Cost type that should be calculated
 #'
 #' @return List with cost for each each process and entire photosynthesis
-#' @export
-#'
-#' @examples
 get_carbon_costs <- function(
     ns_star,
     gs,

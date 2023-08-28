@@ -1,3 +1,14 @@
+#' Optimization of the leaf energy balance temperature difference
+#' 
+#' @details This function minimizes the difference between input and energy-balance-closure leaf temperature calculated in calculation_leaf_energy_balance().
+#'
+#' @param tc_air Leaf temperature [ºC]
+#' @param vpd_air Leaf vapor pressure deficit [Pa]
+#' @param gs Stomatal conductance [µmol CO2 /m^2/s]
+#' @param ppfd Photosynthetically Active Photon Flux Density [µmol/m^2/s]
+#' @param patm Atmospheric pressure [Pa] 
+#' @param ... Additional arguments to be piped 
+#'
 optimize_leaf_energy_balance <- function(
     tc_air,
     vpd_air,
@@ -65,4 +76,4 @@ optimize_leaf_energy_balance <- function(
     #     kphio = kphio,
     #     method_jmaxlim_inst = method_jmaxlim_inst,
     #     method_eb = method_eb)
-    }
+}
