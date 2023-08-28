@@ -16,7 +16,7 @@ The optimization criteria in @eq-rcc seems to fail to optimize $J_{max}$ and has
 
     -   Higher leaf temperatures directly affect respiration, which is not considered yet. But according to @michaletz2016energetic plants may purposefully ramp up their transpiration to avoid the carbon loss due to lethal temperature stress. Thus, one could consider net assimilation (gross assimilation - respiration) instead.
 
--   Earlier tests - not included in this tutorial - showed that the initially assumed value for optimization (the starting values for vcmax, jmax, gs in `optimize_traits_and_costs()`) can lead to different optimal values. An optimization problem should be independent of initialization conditions, so this chaotic behaviour could be investigated.
+-   Earlier tests - not included in this tutorial - showed that the initially assumed value for optimization (the starting values for vcmax, jmax, gs in `optimize_traits_and_costs()`) can lead to different optimal values. An optimization problem should be independent of initialization conditions, so this chaotic behavior could be investigated.
 
 -   The current model only applies to long-term acclimation conditions. One could couple an instantaneous photosynthesis model (see {rpmodel} package) to predict on shorter timescales. However, to couple an energy balance model to the instantaneous photosynthesis model, one would first need a numerical formulation of the latter.
 
@@ -34,8 +34,12 @@ The optimization criteria in @eq-rcc seems to fail to optimize $J_{max}$ and has
 
 -   $V_{cmax}$ and $J_{max}$: One could use global leaf-measurements from @peng2021global to evaluate the prediction of $V_{cmax}$ and $J_{max}$ by the numerical P-Model. Also, using this data one could revise the cost factor $c$ following the methods by @wang2017universal.
 
+    -   To predict $V_{cmax}$ at the canopy-level, one could also implement the methodology by @jiang2020optimalitybased and additionally predict land surface temperatures as explained next.
+
+    -   Note: The cost factor $c$ is hard-coded for now. The P-Model functions would need to be adjusted to create a working calibration routine.
+
 -   **Land Surface Temperatures:** To evaluate the prediction of leaf temperatures, one could use MODIS Land Surface Temperature data over dense ecosystems (high leaf area index) at FLUXNET sites without water stress (see @stocker2018quantifying).
 
--   **Long-Term Leaf Temperature Measurements:** To evaluate whether the predicted leaf temperature resembles an optimal long-term elaf temperature, one could use long time-series of leaf temperature measurements from e.g. thermal imaging [@still2022no]. Another data source could be the photosynthesis-weighted leaf temperature that can be inferred from $^{18}$O isotopes[@helliker2008subtropical].
+-   **Long-Term Leaf Temperature Measurements:** To evaluate whether the predicted leaf temperature resembles an optimal long-term leaf temperature, one could use long time-series of leaf temperature measurements from e.g. thermal imaging [@still2022no]. Another data source could be the photosynthesis-weighted leaf temperature that can be inferred from $^{18}$O isotopes [@helliker2008subtropical].
 
 -   $^{13}$**C Isotopes:** To evaluate the prediction of the long-term ratio of internal to ambient CO$_2$ concentrations ($\chi$), one could repeat the analyses done in @stocker2020pmodel. This could also be used to revise the cost factor $\beta$.

@@ -14,7 +14,7 @@ $$
 \frac{\beta \;V_{cmax} + 1.6\;D\;g_s + c \;J_{max} }{A_{gross}} = min.
 $$ {#eq-rcc2}
 
-The **energy balance algorithm** searches for the leaf temperature that closes the energy budget described in @sec-leb. Certain terms within the energy balance depend on assuming a leaf temperature in the first place. This turns the algorithm into an optimization problem where the goal is to minimze the difference between the initially assumed leaf temperature ($T_{\text{leaf, init}}$) and the leaf temperature that closes the energy balance ($T_{\text{leaf, eb}}$):
+The **energy balance algorithm** searches for the leaf temperature that closes the energy budget described in @sec-leb. Certain terms within the energy balance depend on assuming a leaf temperature in the first place. This turns the algorithm into an optimization problem where the goal is to minimize the difference between the initially assumed leaf temperature ($T_{\text{leaf, init}}$) and the leaf temperature that closes the energy balance ($T_{\text{leaf, eb}}$):
 
 $$
 T_{\text{leaf, init}} - T_{\text{leaf, eb}} = min.
@@ -39,20 +39,22 @@ The algorithm visualized in @fig-optimization-algorithm reads as follows:
 #| echo: false
 #| label: fig-optimization-algorithm
 #| fig-align: center
-#| fig-cap: "Algorithm for calculating optimal traits using the numerical P-Model coupled to a leaf energy balance model. The numerical P-Model parts are in purple. The energy balance model parts are in organge. Note that $J_{max}$ is implemented here for reasons of completeness. The current optimization routine does not properly optimize $J_{max}$."
+#| fig-cap: "Algorithm for calculating optimal traits using the numerical P-Model coupled to a leaf energy balance model. The numerical P-Model parts are in purple. The energy balance model parts are in orange. Note that $J_{max}$ is implemented here for reasons of completeness. The current optimization routine does not properly optimize $J_{max}$."
 knitr::include_graphics("figures/optimization_scheme.svg")
 ```
 
 ## Implementation
 
-The individual algorithms described above are based on two functions - one function to calculate the quantitiy to be optimized and one function for handling the optimization. Below are demonstrations for calling the algorithms separately and coupled. All functions can be found in the `R` directory of this repository.
+The individual algorithms described above are based on two functions - one function to calculate the quantity to be optimized and one function for handling the optimization. Below are demonstrations for calling the algorithms separately and coupled. All functions can be found in the `R` directory of this repository.
+
+First, let's set the variables for standard conditions that are used for example runs and the sensitivity analyses below.
 
 ```{r}
-# Get reference values
+# Get reference values for standard conditions
 ## Climate
 tc_air  <- 25     # degC
 tc_leaf <- 30     # degC
-vpd_air <- 2000   # Pa
+vpd_air <- 1500   # Pa
 patm    <- 101325 # Pa
 co2     <- 400    # ppm
 ppfd    <- 500e-6 # mol/m2/s
@@ -79,7 +81,7 @@ The relevant functions are:
 ## calculate_traits_and_costs()
 
 ```{r, echo=FALSE}
-calculate_traits_and_costs
+writeLines(readLines(here::here("R/calculate_traits_and_costs.R")))
 ```
 :::
 
@@ -87,7 +89,7 @@ calculate_traits_and_costs
 ## get_carbon_costs()
 
 ```{r, echo=FALSE}
-get_carbon_costs
+writeLines(readLines(here::here("R/get_carbon_costs.R")))
 ```
 :::
 
@@ -95,20 +97,19 @@ get_carbon_costs
 ## optimize_traits_and_costs()
 
 ```{r, echo=FALSE}
-optimize_traits_and_costs
+writeLines(readLines(here::here("R/optimize_traits_and_costs.R")))
 ```
 :::
 
 #### Comparison Against Analytical Solution
 
-Below is a demonstration of the numerical P-Model algorithm without considering the leaf energy balance. Comparing the results of the numerical P-Model against the analytical P-Model shows that they achieve a similar $\chi \approx0.68$ but with quite different values for $V_{cmax}$, $J_{cmax}$, and $g_{s}$. This issue is explained further below.
-
-**Output of analytical P-Model:**
+Below is a demonstration of the numerical P-Model algorithm without considering the leaf energy balance. Comparing the results of the numerical P-Model against the analytic P-Model shows that they achieve a similar $\chi \approx0.715$ but with quite different values for $V_{cmax}$, $J_{cmax}$, and $g_{s}$. This issue is explained further below.
 
 ```{r}
 #| code-fold: true
-#| 
-# Analytical P-Model
+#| column: page
+#| label: tbl-output-ana
+#| tbl-cap: "Output of analytic P-Model using standard conditions."
 rpmodel::rpmodel(
   tc = tc_air, 
   vpd = vpd_air, 
@@ -118,15 +119,16 @@ rpmodel::rpmodel(
   patm = patm, 
   kphio = kphio
 ) |> as_tibble() |> 
-  mutate(vcmax = vcmax * 1e6, jmax = jmax * 1e6, gs = gs * 1e6, gpp = gpp * 1e6) |> 
-  relocate(vcmax, jmax, gs, chi, ci, gpp) |> knitr::kable()
+  mutate(vcmax = vcmax * 1e6, jmax = jmax * 1e6, gs = gs * 1e6) |> 
+  relocate(vcmax, jmax, gs, chi, ci) |> knitr::kable()
 ```
-
-**Output of numerical P-Model**
 
 ```{r}
 #| code-fold: true
-#| 
+#| column: page
+#| label: tbl-output-num
+#| tbl-cap: "Output of numerical P-Model using standard conditions."
+
 # Numerical P-Model
 optimize_traits_and_costs(
   tc_air = tc_air,
@@ -136,19 +138,24 @@ optimize_traits_and_costs(
   ppfd = ppfd,
   kphio = kphio,
 ) |>
-  mutate(vcmax = vcmax * 1e6, jmax = jmax * 1e6, gs = gs * 1e6, a_gross = a_gross * 1e6) |> 
-  relocate(vcmax, jmax, gs, chi, ci, a_gross) |> knitr::kable()
+  mutate(vcmax = vcmax * 1e6, jmax = jmax * 1e6, gs = gs * 1e6) |> 
+  relocate(vcmax, jmax, gs, chi, ci) |> knitr::kable()
 ```
 
 #### Cost function
 
 From @eq-rcc, we can tell that the smaller the value for a trait becomes, the smaller the gross assimilation becomes and thus the carbon costs become larger. Above the minimum, the carbon costs become larger because of additional limitations to photosynthesis that do not allow for an even increase in gross assimilation with increasing trait.
 
-In @fig-cost-function, this sensitivity of the carbon costs against varying values of the different traits are displayed. As can be seen, there are distinct minima for the cost of transpiration ($g_s$) and for the cost of carboxylation ($V_{cmax}$). For the cost of electron transport however, there is no distinct minima ($J_{max}$). This occurs because once $J_{max}$ becomes large enough so that $A_j$ is not limiting anymore, it does not play into the cost function anymore. So, the numerical routine simply picks a large enough value for $J_{max}$ to not be limiting but for no clear constraint on the upper end.
+In @fig-cost-function, this sensitivity of the carbon costs against varying values of the different traits are displayed. As can be seen, there are distinct minima for the cost of transpiration ($g_s$) and for the cost of carboxylation ($V_{cmax}$). For the cost of electron transport however, there is no distinct minima ($J_{max}$).
+
+The distinct minima for $V_{cmax}$ and $g_{s}$ occur where $A_{gross}$ switches from $A_{c}$-limitation to $A_{j}$-limitation, i.e., at the coordination point of $A_{c} = A_{j}$. At this point, increasing $V_{cmax}$ or $g_{s}$ only increases the costs without any gain in photosynthesis.
+
+In @fig-cost-function, there is no distinct minimum visible for $J_{max}$ because its associated costs are comparably small; the cost-factor $\beta$ is set to 146, whereas $c$ is set to 0.103. So, the algorithm finds a $J_{max}$ that is simply large enough to not cause $A_{j}$-limitation but once $A_{c}$ is limiting, $J_{max}$ can increase indefinitely because of its low costs. @fig-cost-function-zoom zooms in on the $Cost ~ J_{max}$ function, where the increase in costs with increasing $J_{max}$ is visible. However, this increase is so small that the algorithm does not pick it up in the optimization routine.
 
 ```{r}
 #| code-fold: true
 #| label: fig-cost-function
+#| fig-cap: "Sensitivity of the carbon costs defined in @eq-rcc to changes in $V_{cmax}$, $J_{cmax}$, and $g_{s}$. Distinct optimal minima are visible for $V_{cmax}$ and $g_{s}$, but not for $J_{max}$."
 
 # Get reference dataframe
 n_steps <- 50
@@ -242,6 +249,24 @@ df_cc |>
   theme_classic()
 ```
 
+```{r}
+#| code-fold: true
+#| label: fig-cost-function-zoom
+#| fig-cap: "Sensitivity of the carbon costs defined in @eq-rcc to changes in $V_{cmax}$, $J_{cmax}$, and $g_{s}$. Same plot as @fig-cost-function but zoomed in to show minor increase in costs with increasing $J_{cmax}."
+
+df_cc |> 
+  ggplot() +
+  aes(x = val*1e6, y = cost_total) +
+  geom_line() +
+  geom_point() +
+  facet_wrap(~var, scales = "free_x") +
+  labs(title = "Sensitivity of Carbon Costs (zoomed in)",
+       x = "Trait value [mu mol/m^2/s]",
+       y = "Carbon Costs") +
+  theme_classic() + 
+  ylim(750, 900)
+```
+
 ### Energy Balance
 
 The relevant functions are:
@@ -250,7 +275,7 @@ The relevant functions are:
 ## calculate_leaf_energy_balance()
 
 ```{r, echo=FALSE}
-calculate_leaf_energy_balance
+writeLines(readLines(here::here("R/calculate_leaf_energy_balance.R")))
 ```
 :::
 
@@ -258,60 +283,65 @@ calculate_leaf_energy_balance
 ## optimize_leaf_energy_balance()
 
 ```{r, echo=FALSE}
-optimize_leaf_energy_balance
+writeLines(readLines(here::here("R/optimize_leaf_energy_balance.R")))
 ```
 :::
 
 Below is a demonstration of the energy balance functions and a sensitivity analysis.
+The difference between input leaf temperature and energy-balance-closure leaf temperature is:
 
 ```{r}
-diff_tcleaf <- 
-  calculate_leaf_energy_balance(  
-    tc_leaf       = tc_leaf, 
-    tc_air        = tc_air,
-    gs            = gs,
-    ppfd          = ppfd, 
-    vpd_air       = vpd_air, 
-    patm          = patm,
-    return_what   = c("balance")
-  )
-
-leb_fluxes <- 
-  calculate_leaf_energy_balance(  
-    tc_leaf       = tc_leaf, 
-    tc_air        = tc_air,
-    gs            = gs,
-    ppfd          = ppfd, 
-    vpd_air       = vpd_air, 
-    patm          = patm,
-    return_what   = c("fluxes")
-  )
+#| code-fold: false
+calculate_leaf_energy_balance(  
+  tc_leaf       = tc_leaf, 
+  tc_air        = tc_air,
+  gs            = gs,
+  ppfd          = ppfd, 
+  vpd_air       = vpd_air, 
+  patm          = patm,
+  return_what   = c("balance")
+)
 ```
 
+The energy balance variables under the given conditions are: 
+
 ```{r}
-#| code-fold: true
-cat("\nThe squared difference between input tc_leaf and",
-    "\nenergy-balance-closure tc_leaf is: ", diff_tcleaf)
-cat("\nThe energy balance variables at this state are: ")
-knitr::kable(leb_fluxes)
+#| code-fold: false
+#| tbl-cap: "Energy balance output at given difference between input and energy-balance-closure leaf temperature."
+calculate_leaf_energy_balance(  
+  tc_leaf       = tc_leaf, 
+  tc_air        = tc_air,
+  gs            = gs,
+  ppfd          = ppfd, 
+  vpd_air       = vpd_air, 
+  patm          = patm,
+  return_what   = c("fluxes")
+) |> knitr::kable()
 ```
 
-```{r}
-tc_leaf_eb <- 
-  optimize_leaf_energy_balance(
-   tc_air  = tc_air,
-   vpd_air = vpd_air,
-   gs      = gs,
-   ppfd    = ppfd,
-   patm    = patm,
- )
+After minimizing the difference between input and energy-balance-closure leaf temperature, the final predicted leaf temperature is: 
 
-cat("Given the environment and gs, tc_leaf is: ", tc_leaf_eb)
+```{r}
+#| code-fold: false
+
+optimize_leaf_energy_balance(
+ tc_air  = tc_air,
+ vpd_air = vpd_air,
+ gs      = gs,
+ ppfd    = ppfd,
+ patm    = patm,
+)
 ```
 
 #### Sensitivity Analysis
 
-Below is a sensitivity analysis of the energy balance model showing how the main drivers of a leaf's temperature
+##### Abiotic drivers
+
+As shown in @fig-tleaf-abiotic and @fig-dtleaf-abiotic. The main abiotic drivers of the modeled leaf temperature are variables that directly drive the leave's energy input: light and air temperature. The air temperature is the main driver of leaf temperature. Interestingly, the energy balance model simulates a strong decoupling of leaf and air temperatures. At low air temperatures, the leaf is warmer than the air. And at high air temperatures, the leaf is cooler. This is likely driven by the co-occurring temperature-driven change in vapor pressure deficit that increases evaporative cooling.
+
+The incoming light is the main source of short-wave energy input, and is therefore also a strong driver of leaf temperature. At low light levels, leaves are modeled to be cooler than air. At high light values, however, the leaf becomes substantially warmer than the air.
+
+At higher wind speeds, the boundary conductance layer becomes thinner (i.e., the boundary layer conductance increases). This drives an equilibration of leaf and air temperatures, so that there is less decoupling at high wind speeds.
 
 ```{r}
 #| code-fold: true
@@ -320,6 +350,9 @@ Below is a sensitivity analysis of the energy balance model showing how the main
 run_fun <- function(df, var) {
   
   for (i in 1:nrow(df)) {
+    
+    # print(i)
+    
     df$tc_leaf[i] <- 
       optimize_leaf_energy_balance(
         tc_air  = df$tc_air[i],
@@ -384,6 +417,13 @@ df_tmp$vpd_air <-
 df_tmp <- run_fun(df_tmp, "tc_air")
 df_abio <- rbind(df_abio, df_tmp)
 
+# VPD
+df_tmp <- df_base
+df_tmp$vpd_air  <- seq(vpd_air/2, vpd_air*2, length.out = n_steps)
+
+df_tmp <- run_fun(df_tmp, "vpd_air")
+df_abio <- rbind(df_abio, df_tmp)
+
 # PPFD
 df_tmp <- df_base
 df_tmp$ppfd  <- seq(ppfd/10, ppfd*10, length.out = n_steps)
@@ -440,6 +480,9 @@ df_bio$name <- as.factor(df_bio$name)
 
 ```{r}
 #| code-fold: true
+#| label: fig-tleaf-abiotic
+#| fig-cap: "Sensitivity of modeled leaf temperature to abiotic drivers. Shown is the response to the respective variable when all other variables are kept constant at their standard conditions. For the sensitivity to air temperature, however, the temperature-driven change in vapor pressure deficit is additionally accounted for. The energy model breaks if too low temperatures and high vapor pressure deficits at low air temperatures are entered."
+
 df_abio |> 
   ggplot() +
   aes(x = value,
@@ -453,6 +496,42 @@ df_abio |>
        y = "T_leaf [ºC]",
        x = "Variable value") +
   theme_classic()
+```
+
+```{r}
+#| code-fold: true
+#| label: fig-dtleaf-abiotic
+#| fig-cap: "Sensitivity of the difference between modeled leaf temperature and air temperature to abiotic drivers. Shown is the response to the respective variable when all other variables are kept constant at their standard conditions."
+
+df_abio |> 
+  ggplot() +
+  aes(x = value,
+      y = tc_diff) +
+  geom_hline(yintercept = 0, lty = "dotted") +
+  geom_line() +
+  geom_point() +
+  facet_wrap(~name, 
+             scales = "free_x") +
+  ylim(-7.5, 7.5) +
+  labs(title = "Sensitivity of delta T to abiotic drivers",
+       subtitle = "Below dotted line means the leaf is cooler",
+       y = "T_leaf - T_air [ºC]",
+       x = "Variable value") +
+  theme_classic()
+```
+
+##### Biotic drivers
+
+Again, the main drivers of leaf temperature are variables that directly influence the amount of energy taken up or released by the leaf: stomatal conductance and leaf absorptance (see @fig-tleaf-biotic and @fig-dtleaf-biotic). The larger the stomatal conductance, the more transpirative cooling occurs, the stronger the leaf is cooled. However, this increase has a saturating effect and the same increase in stomatal conductance does not always lead to the same decrease in leaf temperature. The leaf absorptance controls how much of the incoming short-wave radiation is absorbed by the leaf and therefore scales leaf temperatures linearly. Smaller leaves have smaller boundary layers and their temperature are thus more quickly equilibrated with air temperatures. Interestingly, given the standard conditions here, a larger leaf leads to constantly cooler leaves.
+
+::: callout-warning
+In general, the model analysis shows that leaves can cool significantly below air temperatures. However, this could be an artifact of picking a relatively high stomatal conductance that drives this cooling. Real-world situations may have substantially lower values for stomatal conductance leading to less cooling.
+:::
+
+```{r}
+#| code-fold: true
+#| label: fig-tleaf-biotic
+#| fig-cap: "Sensitivity of modeled leaf temperature to biotic drivers. Shown is the response to the respective variable when all other variables are kept constant at their standard conditions."
 
 df_bio |> 
   ggplot() +
@@ -471,21 +550,8 @@ df_bio |>
 
 ```{r}
 #| code-fold: true
-df_abio |> 
-  ggplot() +
-  aes(x = value,
-      y = tc_diff) +
-  geom_hline(yintercept = 0, lty = "dotted") +
-  geom_line() +
-  geom_point() +
-  facet_wrap(~name, 
-             scales = "free_x") +
-  ylim(-7.5, 7.5) +
-  labs(title = "Sensitivity of delta T to abiotic drivers",
-       subtitle = "Below dotted line means the leaf is cooler",
-       y = "T_leaf - T_air [ºC]",
-       x = "Variable value") +
-  theme_classic()
+#| label: fig-dtleaf-biotic
+#| fig-cap: "Sensitivity of the difference between modeled leaf temperature and air temperature to biotic drivers. Shown is the response to the respective variable when all other variables are kept constant at their standard conditions."
 
 df_bio |> 
   ggplot() +
@@ -506,23 +572,65 @@ df_bio |>
 
 ### Coupled Model
 
-To call the coupled model, simply set `include_energy_balance == TRUE`.
+Below is a demonstration for the predictions of the numerical P-Model with and without the energy balance coupled. By comparing @tbl-pmodel-wo-eb and @tbl-pmodel-wi-eb below, we see that under standard conditions, the coupled model tends to predict a lower $V_{cmax}$ and $T_{leaf}$; a higher $g_{s}$ and $\chi$; and a similar $J_{max}$.
+
+@fig-traits-tcair-eb shows how this difference of predicted traits plays out along a gradient of air temperatures. First of all, it is clearly visible that there are numerical instabilities occurring at low air temperatures. As explained above and re-emphasized in the box below, this is likely due to the delicate sensitivity of the energy balance model to the given input of vapor pressure deficit and air temperature. 
+
+Nonetheless, two important dynamics can be identified: First, attaching the energy balance frees stomatal conductance to regulate leaf temperatures. At low temperatures, the model predicts that it is beneficial to have increase leaf temperatures to reduce carbon costs. However, it is important to note that this could also be a consequence of the forcing to the energy balance itself (see @fig-dtleaf-abiotic and box below). Vice versa, there is a tendency to increase stomatal conductance at high air temperatures to cool leaves and thereby minimize the carbon costs. 
+
+These higher leaf temperatures translate to the second dynamic to highlight: We see a reduction in predicted $V_{cmax}$ at these high temperatures, as it is predicted by the Least-Cost Hypothesis: At higher temperatures, costs can be reduced by reducing investments into $V_{cmax}$ whilst still benefiting from increasing assimilation due to faster enzyme kinetics. In theory, this should also apply to $J_{max}$. However, due to its minor influence on the overall costs - as described above - there is no clear change in its prediction when coupling the energy balance model.
+
+::: callout-warning
+## An important note on the results shown below.
+
+Note that the assumed vapor pressure deficit, how it changes with air temperature, and how it plays into stomatal conductance is **highly influential** on the numerical stability of the entire routine. We are not using any real-world data here, which causes the temperature-driven vapor pressure deficit calculation to likely have unrealistically low (or strongly negative) values. As a consequence, the effect of having warmer leaf-than-air temperatures may be a forcing artifact!
+:::
+
+##### Standard Conditions
 
 ```{r}
+#| code-fold: true
+#| label: tbl-pmodel-wo-eb
+#| column: page
+#| tbl-cap: "Output of numerical P-Model without coupled energy balance model, under standard conditions."
+
+# Numerical P-Model
 optimize_traits_and_costs(
-  tc_air  = tc_air,
+  tc_air = tc_air,
   vpd_air = vpd_air,
-  patm    = patm,
-  co2     = co2,
-  ppfd    = ppfd,
-  kphio   = kphio,
-  include_energy_balance = TRUE
-) |> knitr::kable()
+  patm = patm,
+  co2 = co2,
+  ppfd = ppfd,
+  kphio = kphio,
+  include_energy_balance = FALSE
+) |>
+  mutate(vcmax = vcmax * 1e6, jmax = jmax * 1e6, gs = gs * 1e6, a_gross = a_gross * 1e6) |> 
+  relocate(vcmax, jmax, gs, chi, ci, a_gross) |> knitr::kable()
 ```
 
-#### Model Comparison
+```{r}
+#| code-fold: true
+#| label: tbl-pmodel-wi-eb
+#| column: page
+#| tbl-cap: "Output of numerical P-Model with coupled energy balance model, under standard conditions."
 
-Below is a demonstration for the predictions of the numerical P-Model with and without the energy balance coupled. We see that given the same conditions, the coupled model predicts higher leaf than air temperatures across a range of air temperatures. Additionally, we see that the coupled model simulates an opening of the stomata whereby the predicted stomatal conductance is up to three times what the non-coupled model predicts. Since the leaf is warmer, and following the idea of optimality, the predicted values for $V_{cmax}$ tend to be smaller.
+# Coupled Numerical P-Model
+# To call the coupled model, simply set `include_energy_balance == TRUE`
+
+optimize_traits_and_costs(
+  tc_air = tc_air,
+  vpd_air = vpd_air,
+  patm = patm,
+  co2 = co2,
+  ppfd = ppfd,
+  kphio = kphio,
+  include_energy_balance = TRUE
+) |>
+  mutate(vcmax = vcmax * 1e6, jmax = jmax * 1e6, gs = gs * 1e6, a_gross = a_gross * 1e6) |> 
+  relocate(vcmax, jmax, gs, chi, ci, a_gross) |> knitr::kable()
+```
+
+##### Sensitivity Analysis
 
 ```{r}
 #| code-fold: true
@@ -530,6 +638,7 @@ Below is a demonstration for the predictions of the numerical P-Model with and w
 ## Air temperature and VPD
 df_tmp <- df_base
 df_tmp$tc_air  <- seq(1, 50, length.out = n_steps)
+df_tmp$data    <- NA
 
 # Account for changes in vpd when temperature changes:
 df_tmp$vpd_air <- 
@@ -539,7 +648,7 @@ df_tmp$vpd_air <-
     tc_leaf = df_tmp$tc_air)
 
 # Removing negative vpd values
-#df_tmp <- mutate(df_tmp, vpd_air = ifelse(vpd_air < 0, 10, vpd_air))
+# df_tmp <- mutate(df_tmp, vpd_air = ifelse(vpd_air < 0, 0, vpd_air))
 
 # With and Without EB
 df_with_eb <- df_tmp
@@ -601,7 +710,12 @@ df_fin <-
     df_wout_eb |> mutate(energy_balance = FALSE),
     df_with_eb |> mutate(energy_balance = TRUE)
     )
+```
 
+```{r}
+#| code-fold: true
+#| label: fig-traits-tcair-eb
+#| fig-cap: "Sensitivity of predicted optimal traits to whether the energy balance model is coupled or not."
 df_fin |> 
   ggplot() +
   aes(y = value,
@@ -614,7 +728,13 @@ df_fin |>
   labs(title = "Sensitivity of traits to tc_air",
        x = "T_air [ºC]",
        y = "Trait Value") +
-  theme_classic() 
+  theme_classic()
+```
+
+```{r}
+#| code-fold: true
+#| label: fig-dt-tcair-eb
+#| fig-cap: "Sensitivity of the leaf-to-air temperature difference to changes in air temperatures for the coupled and non-coupled models. Note that the non-coupled model does not model any leaf temperature and simply assumed air and leaf temperatures are the same."
 
 df_fin |> 
   select(tc_air, tc_diff, energy_balance) |> 
@@ -634,13 +754,14 @@ df_fin |>
   theme_classic() 
 ```
 
-#### Cost Function
+#### Cost Function Sensitivity
 
-In @fig-cost-function-eb is a demonstration for the effect the coupled energy balance has on finding a distinct minimum in the carbon costs. Compared to the non-coupled model in @fig-cost-function, we see that there is no distinct minima for either $g_s$ and $V_{cmax}$ - at least at the here investigated resoultion. This may cause convergence problems and lead to random rather than specific optimal values for the given conditions.
+@fig-cost-function-eb shows that coupling the energy balance does not alter the existence of distinct minima. As in @fig-cost-function, there are distinct minima for $V_{cmax}$ and $g_{s}$. $J_{max}$ also has a minima but due to its little influence on the carbon costs, the optimization algorithm cannot find that minima and tends to predict too high values for $J_{max}$.
 
 ```{r}
 #| code-fold: true
 #| label: fig-cost-function-eb
+#| fig-cap: "Sensitivity of the carbon costs defined in @eq-rcc to changes in $V_{cmax}$, $J_{cmax}$, and $g_{s}$ when energy balance is coupled."
 
 # Get reference dataframe
 n_steps <- 50
@@ -732,4 +853,22 @@ df_cc |>
        x = "Trait value [mu mol/m^2/s]",
        y = "Relative Carbon Costs") +
   theme_classic()
+```
+
+```{r}
+#| code-fold: true
+#| label: fig-cost-function-eb-zoomed
+#| fig-cap: "Sensitivity of the carbon costs defined in @eq-rcc to changes in $V_{cmax}$, $J_{cmax}$, and $g_{s}$ when energy balance is coupled. Same plot as @fig-cost-function-eb but zoomed in to show minor increase in costs with increasing $J_{cmax}$."
+
+df_cc |> 
+  ggplot() +
+  aes(x = val*1e6, y = cost_total) +
+  geom_line() +
+  geom_point() +
+  facet_wrap(~var, scales = "free_x") +
+  labs(title = "Sensitivity of Carbon Costs (with energy balance)",
+       x = "Trait value [mu mol/m^2/s]",
+       y = "Relative Carbon Costs") +
+  theme_classic() +
+  ylim(750, 900)
 ```

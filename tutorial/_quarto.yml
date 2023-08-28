@@ -16,7 +16,7 @@ book:
     - 99-variables.qmd
     - references.qmd
   search: true
-  sharing: [twitter, facebook]
+  sharing: [twitter, facebook, linkedin]
   navbar: 
     right:
       - icon: github

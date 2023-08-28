@@ -14,13 +14,13 @@ $$
 A_{gross} = \text{min}(A_c,\; A_j)
 $$ {#eq-agross}
 
-$A_c$ is the carboxylation-limited photosynthesis rate. Carboxylation is the reaction of CO$_2$ with the enzyme key photosynthesis enzyme Rubisco. Therefore, the maximum rate of carboxylation ($V_{cmax}$) directly controls $A_c$. Additionally, $A_c$ is constrained depends on the amount of CO$_2$ that is available in the leaf ($c_i$), and is constrained by additional enzyme-dynamics that we skip for now (given by the Michaelis-Menten Konstant $K$ and the photorespiration $\Gamma^*$). $A_c$ is defined as:
+$A_c$ is the carboxylation-limited photosynthesis rate. Carboxylation is the reaction of CO$_2$ with the enzyme key photosynthesis enzyme Rubisco. Therefore, the maximum rate of carboxylation ($V_{cmax}$) directly controls $A_c$. Additionally, $A_c$ is constrained depends on the amount of CO$_2$ that is available in the leaf ($c_i$), and is constrained by additional enzyme-dynamics that we skip for now (given by the Michaelis-Menten Constant $K$ and the photo respiration $\Gamma^*$). $A_c$ is defined as:
 
 $$
 A_c = V_{cmax}\frac{c_i - \Gamma^*}{c_i-K}\
 $$ {#eq-ac}
 
-$A_j$ is the RuBP-photosynthesis rate. RuBP is another crucial enzyme in the photosynthesic cycle and its regeneration depends on the electron transport coming from harvesting the incoming light. Thus, this photosynthesis rate is also often called "electron transport-limited rate". $A_j$ is therefore directly dependent on $J$, the electron transport rate, as shown below:
+$A_j$ is the RuBP-photosynthesis rate. RuBP is another crucial enzyme in the photosynthetic cycle and its regeneration depends on the electron transport coming from harvesting the incoming light. Thus, this photosynthesis rate is also often called "electron transport-limited rate". $A_j$ is therefore directly dependent on $J$, the electron transport rate, as shown below:
 
 $$
 A_j = \frac{J}{4}\frac{c_i-\Gamma^*}{c_i+2\Gamma^*}
@@ -36,7 +36,7 @@ Here, $\varphi$ is the quantum yield efficiency of photosynthesis and describes 
 
 For now, this is all we need to know about how to model the instantaneous response of photosynthesis, meaning how photosynthesis responds to immediate (think of milliseconds and faster) changes in temperature, light, and so on. Key to take away from this short primer is that a photosynthesis model requires the three variables: $c_i$, $V_{cmax}$, $J_{max}$. We know from the literature these leaf traits are not fixed in time and that plants adjust them over time. This means that plants acclimate to their environment by changing their physiology based on the environmental condition they experience over weeks [@smith2013plant]. As described below, this knowledge helps us to predict long-term average leaf traits from which we can then derive the instantaneous response of photosynthesis.
 
-Before we get to the acclimated part, we must also understand how CO$_2$ actually enters a leaf. All gaseous exchange with the atmosphere goes through small openings in a leaf, called the stomata, which are actively opened and closed by the leaf itself. As stomatas open CO$_2$ enters and H$_2$O leaves the leaf. This is a classic diffusion, which is controlled by the diffusivity of the compound in question and the gradient in compound concentration in the leaf and in the atmosphere. Using Fick's law, the transpiration of H$_2$O is:
+Before we get to the acclimated part, we must also understand how CO$_2$ actually enters a leaf. All gaseous exchange with the atmosphere goes through small openings in a leaf, called the stomata, which are actively opened and closed by the leaf itself. As stomata open CO$_2$ enters and H$_2$O leaves the leaf. This is a classic diffusion, which is controlled by the diffusivity of the compound in question and the gradient in compound concentration in the leaf and in the atmosphere. Using Fick's law, the transpiration of H$_2$O is:
 
 $$
 E = g_s 1.6D
@@ -78,7 +78,7 @@ Applying these equations predicts $V_{cmax}$, $g_{s}$, and $J_{max}$jointly and 
 
 #### A Numerical Approach
 
-The short-coming of the analytical approach to the P-Model describe above is that it takes air temperatures to predict the acclimated traits and cannot account for any de-coupling of leaf and air temperatures. Also, since $g_s$ is coupled jointly with the other traits, it cannot vary independently to potentially modify the leaf temperature so that the total carbon costs are minimzed. To resolve this issue, we can create a numerical minimization problem where each leaf trait is optimized separately - and through the liberation of $g_s$, we can couple an energy balance to additionally optimize a leaf's temperature. Following the rationale of the Least-Cost Hypothesis, we use here the following optimization problem:
+The short-coming of the analytic approach to the P-Model describe above is that it takes air temperatures to predict the acclimated traits and cannot account for any de-coupling of leaf and air temperatures. Also, since $g_s$ is coupled jointly with the other traits, it cannot vary independently to potentially modify the leaf temperature so that the total carbon costs are minimized. To resolve this issue, we can create a numerical minimization problem where each leaf trait is optimized separately - and through the liberation of $g_s$, we can couple an energy balance to additionally optimize a leaf's temperature. Following the rationale of the Least-Cost Hypothesis, we use here the following optimization problem:
 
 $$
 \frac{\beta \;V_{cmax} + 1.6\;D\;g_s + c \;J_{max} }{A_{gross}} = min.
@@ -112,6 +112,8 @@ $$ {#eq-quad-aj-param}
 
 ## Energy Balance {#sec-leb}
 
-A leaf's temperature is controlled by its gain and loss of energy. The total incoming energy of a leaf is the sum of absorbed solar short-wave and absorbed thermal long-wave radiation. The outgoing energy consists of the long-wave thermal radiation by the leaf, the sensible heat flux (i.e., thermal convection) and the latent heat flux (i.e., energy consumed by vaporization or released from dew of water). Under steady-state conditions, a constant leaf temperature exists at which incoming and outgoing energy are equal.
+A leaf's temperature is controlled by its gain and loss of energy. The total incoming energy of a leaf is the sum of absorbed solar short-wave and absorbed thermal long-wave radiation. The outgoing energy consists of the long-wave thermal radiation by the leaf, the sensible heat flux (i.e., thermal convection) and the latent heat flux (i.e., energy consumed through vaporization or released from dew). Under steady-state conditions, a constant leaf temperature exists at which incoming and outgoing energy are equal.
 
-The energy balance model implemented in this tutorial is based on the model published in the {plantecophys} package [@duursma2015plantecophys]. It is based on the model published by @leuning1995leaf and @wang1998twoleaf, where more in-depth descriptions can be found.
+For simplicity, we do not delve into the physics of the energy balance. The aspect to understand is that the calculation of the leaf temperature has a re-cursive component to it. For example, to calculate the leaf temperature, one must know the stomatal boundary layer for water. However, this boundary layer itself depends on the leaf temperature. Such recursion complicates the calculation of the leaf temperature.
+
+This tutorial follows a numerical approach to calculate leaf temperatures. The energy balance model implemented here is adapted from the {plantecophys} package [@duursma2015plantecophys]. It is based on the model published by @leuning1995leaf and @wang1998twoleaf, where more in-depth descriptions can be found.

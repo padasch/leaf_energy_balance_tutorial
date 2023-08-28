@@ -1,14 +1,23 @@
 # Variables {#sec-variables .unnumbered}
 
-| Symbol      | Variable | Unit              | Description                           |
-|-------------|----------|-------------------|---------------------------------------|
-| $V_{cmax}$  | vcmax    | $\mu$mol/CO$_2$/s | Maximum carboxylation rate of rubisco |
-| $J_{max}$   | jmax     |                   |                                       |
-| $g_s$       | gs       |                   | Stomatal conductance                  |
-| $c_i$       | ci       | \-                | Leaf-internal CO$_2$ concentration    |
-| $A_c$       | ac       |                   | Carboxylation-limited photosynthesis  |
-| $A_j$       | aj       |                   | RuBP-limited photosynthesis           |
-| $A_{gross}$ | agross   |                   | Gross photosynthesis                  |
-| $D$         | vpd      | Pa                | Vapor pressure deficit                |
+| Symbol      | Variable | Unit              | Description                                      |
+|--------------|--------------|----------|------------------------------|
+| $V_{cmax}$  | vcmax    | $\mu$mol/CO$_2$/s | Maximum carboxylation rate of rubisco            |
+| $J_{max}$   | jmax     | $\mu$mol/CO$_2$/s | Maximum rate of electron transport                                                 |
+| $J$   | j     | $\mu$mol/CO$_2$/s | Electron transport rate                                             |
+| $g_s$       | gs       | $\mu$mol/CO$_2$/s | Stomatal conductance in units of CO $_2$             |
+| $c_i$       | ci       | \-                | Leaf-internal CO$_2$ concentration               |
+| $A_c$       | ac       |   $\mu$mol/CO$_2$/s                | Carboxylation-limited photosynthesis             |
+| $A_j$       | aj       |   $\mu$mol/CO$_2$/s                | RuBP-limited (electron-transport limited) photosynthesis                      |
+| $A_{gross}$ | agross   |   $\mu$mol/CO$_2$/s                | Gross photosynthesis                             |
+| $K$ | kmm   |   Pa                | Michaelis-Menten Constant                             |
+| $\Gamma^{\star}$ | gammastar   |   Pa                | Photorespiration Point                             |
+| $D$         | vpd\_\*  | Pa                | Vapor pressure deficit of air or within the leaf |
+| $T$         | tc_\_\*  | ºC                | Leaf or air temperature |
+| $a$         | not used | -                | Marginal costs for water uptake |
+| $b$         | not used | -                | Marginal costs for nitrogen uptake |
+| $\eta^{\star}$         | n\_star  | -                | Relative viscosity of water |
+| $\beta$         | beta  | -                | Unit cost ratio of acquiring nitrogen over water |
+| $c$         | beta  | -                | Unit cost for maintaining electron transport |
 
 : Overview of variables used in this tutorial.
