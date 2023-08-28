@@ -109,6 +109,12 @@ ul.task-list li input[type="checkbox"] {
             Facebook
             </a>
           </li>
+          <li>
+            <a class="dropdown-item quarto-navbar-tools-item" href="https://www.linkedin.com/sharing/share-offsite/?url=|url|">
+              <i class="bi bi-bi-linkedin pe-1"></i>
+            LinkedIn
+            </a>
+          </li>
       </ul>
     </div>
   <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
@@ -214,10 +220,10 @@ ul.task-list li input[type="checkbox"] {
 <table class="table">
 <caption>Overview of variables used in this tutorial.</caption>
 <colgroup>
-<col style="width: 16%">
-<col style="width: 12%">
-<col style="width: 23%">
-<col style="width: 48%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 14%">
+<col style="width: 44%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -237,44 +243,98 @@ ul.task-list li input[type="checkbox"] {
 <tr class="even">
 <td><span class="math inline">\(J_{max}\)</span></td>
 <td>jmax</td>
-<td></td>
-<td></td>
+<td><span class="math inline">\(\mu\)</span>mol/CO<span class="math inline">\(_2\)</span>/s</td>
+<td>Maximum rate of electron transport</td>
 </tr>
 <tr class="odd">
-<td><span class="math inline">\(g_s\)</span></td>
-<td>gs</td>
-<td></td>
-<td>Stomatal conductance</td>
+<td><span class="math inline">\(J\)</span></td>
+<td>j</td>
+<td><span class="math inline">\(\mu\)</span>mol/CO<span class="math inline">\(_2\)</span>/s</td>
+<td>Electron transport rate</td>
 </tr>
 <tr class="even">
+<td><span class="math inline">\(g_s\)</span></td>
+<td>gs</td>
+<td><span class="math inline">\(\mu\)</span>mol/CO<span class="math inline">\(_2\)</span>/s</td>
+<td>Stomatal conductance in units of CO <span class="math inline">\(_2\)</span></td>
+</tr>
+<tr class="odd">
 <td><span class="math inline">\(c_i\)</span></td>
 <td>ci</td>
 <td>-</td>
 <td>Leaf-internal CO<span class="math inline">\(_2\)</span> concentration</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><span class="math inline">\(A_c\)</span></td>
 <td>ac</td>
-<td></td>
+<td><span class="math inline">\(\mu\)</span>mol/CO<span class="math inline">\(_2\)</span>/s</td>
 <td>Carboxylation-limited photosynthesis</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><span class="math inline">\(A_j\)</span></td>
 <td>aj</td>
-<td></td>
-<td>RuBP-limited photosynthesis</td>
-</tr>
-<tr class="odd">
-<td><span class="math inline">\(A_{gross}\)</span></td>
-<td>agross</td>
-<td></td>
-<td>Gross photosynthesis</td>
+<td><span class="math inline">\(\mu\)</span>mol/CO<span class="math inline">\(_2\)</span>/s</td>
+<td>RuBP-limited (electron-transport limited) photosynthesis</td>
 </tr>
 <tr class="even">
-<td><span class="math inline">\(D\)</span></td>
-<td>vpd</td>
+<td><span class="math inline">\(A_{gross}\)</span></td>
+<td>agross</td>
+<td><span class="math inline">\(\mu\)</span>mol/CO<span class="math inline">\(_2\)</span>/s</td>
+<td>Gross photosynthesis</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(K\)</span></td>
+<td>kmm</td>
 <td>Pa</td>
-<td>Vapor pressure deficit</td>
+<td>Michaelis-Menten Constant</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\Gamma^{\star}\)</span></td>
+<td>gammastar</td>
+<td>Pa</td>
+<td>Photorespiration Point</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(D\)</span></td>
+<td>vpd_*</td>
+<td>Pa</td>
+<td>Vapor pressure deficit of air or within the leaf</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(T\)</span></td>
+<td>tc__*</td>
+<td>ºC</td>
+<td>Leaf or air temperature</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(a\)</span></td>
+<td>not used</td>
+<td>-</td>
+<td>Marginal costs for water uptake</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(b\)</span></td>
+<td>not used</td>
+<td>-</td>
+<td>Marginal costs for nitrogen uptake</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(\eta^{\star}\)</span></td>
+<td>n_star</td>
+<td>-</td>
+<td>Relative viscosity of water</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\beta\)</span></td>
+<td>beta</td>
+<td>-</td>
+<td>Unit cost ratio of acquiring nitrogen over water</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(c\)</span></td>
+<td>beta</td>
+<td>-</td>
+<td>Unit cost for maintaining electron transport</td>
 </tr>
 </tbody>
 </table>

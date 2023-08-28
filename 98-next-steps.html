@@ -128,6 +128,12 @@ div.csl-indent {
             Facebook
             </a>
           </li>
+          <li>
+            <a class="dropdown-item quarto-navbar-tools-item" href="https://www.linkedin.com/sharing/share-offsite/?url=|url|">
+              <i class="bi bi-bi-linkedin pe-1"></i>
+            LinkedIn
+            </a>
+          </li>
       </ul>
     </div>
   <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
@@ -250,7 +256,7 @@ div.csl-indent {
 <li><p>Instead of using a cost-minimization approach, one could use a profit-maximization approach <span class="citation" data-cites="joshi2022unified">(<a href="references.html#ref-joshi2022unified" role="doc-biblioref">Joshi et al., 2022</a>)</span>.</p></li>
 <li><p>Higher leaf temperatures directly affect respiration, which is not considered yet. But according to <span class="citation" data-cites="michaletz2016energetic">Michaletz et al. (<a href="references.html#ref-michaletz2016energetic" role="doc-biblioref">2016</a>)</span> plants may purposefully ramp up their transpiration to avoid the carbon loss due to lethal temperature stress. Thus, one could consider net assimilation (gross assimilation - respiration) instead.</p></li>
 </ul></li>
-<li><p>Earlier tests - not included in this tutorial - showed that the initially assumed value for optimization (the starting values for vcmax, jmax, gs in <code>optimize_traits_and_costs()</code>) can lead to different optimal values. An optimization problem should be independent of initialization conditions, so this chaotic behaviour could be investigated.</p></li>
+<li><p>Earlier tests - not included in this tutorial - showed that the initially assumed value for optimization (the starting values for vcmax, jmax, gs in <code>optimize_traits_and_costs()</code>) can lead to different optimal values. An optimization problem should be independent of initialization conditions, so this chaotic behavior could be investigated.</p></li>
 <li><p>The current model only applies to long-term acclimation conditions. One could couple an instantaneous photosynthesis model (see {rpmodel} package) to predict on shorter timescales. However, to couple an energy balance model to the instantaneous photosynthesis model, one would first need a numerical formulation of the latter.</p></li>
 <li><p>The current implementation uses the {optimr} package, which may or may not be suitable. To test whether another optimization algorithm finds a better solution, one could implement the {gensa} package instead.</p></li>
 </ul>
@@ -266,9 +272,13 @@ div.csl-indent {
 <section id="test-cases-for-model-evaluation" class="level2" data-number="4.3">
 <h2 data-number="4.3" class="anchored" data-anchor-id="test-cases-for-model-evaluation"><span class="header-section-number">4.3</span> Test Cases for Model Evaluation</h2>
 <ul>
-<li><p><span class="math inline">\(V_{cmax}\)</span> and <span class="math inline">\(J_{max}\)</span>: One could use global leaf-measurements from <span class="citation" data-cites="peng2021global">Peng et al. (<a href="references.html#ref-peng2021global" role="doc-biblioref">2021</a>)</span> to evaluate the prediction of <span class="math inline">\(V_{cmax}\)</span> and <span class="math inline">\(J_{max}\)</span> by the numerical P-Model. Also, using this data one could revise the cost factor <span class="math inline">\(c\)</span> following the methods by <span class="citation" data-cites="wang2017universal">Wang et al. (<a href="references.html#ref-wang2017universal" role="doc-biblioref">2017</a>)</span>.</p></li>
+<li><p><span class="math inline">\(V_{cmax}\)</span> and <span class="math inline">\(J_{max}\)</span>: One could use global leaf-measurements from <span class="citation" data-cites="peng2021global">Peng et al. (<a href="references.html#ref-peng2021global" role="doc-biblioref">2021</a>)</span> to evaluate the prediction of <span class="math inline">\(V_{cmax}\)</span> and <span class="math inline">\(J_{max}\)</span> by the numerical P-Model. Also, using this data one could revise the cost factor <span class="math inline">\(c\)</span> following the methods by <span class="citation" data-cites="wang2017universal">Wang et al. (<a href="references.html#ref-wang2017universal" role="doc-biblioref">2017</a>)</span>.</p>
+<ul>
+<li><p>To predict <span class="math inline">\(V_{cmax}\)</span> at the canopy-level, one could also implement the methodology by <span class="citation" data-cites="jiang2020optimalitybased">Jiang et al. (<a href="references.html#ref-jiang2020optimalitybased" role="doc-biblioref">2020</a>)</span> and additionally predict land surface temperatures as explained next.</p></li>
+<li><p>Note: The cost factor <span class="math inline">\(c\)</span> is hard-coded for now. The P-Model functions would need to be adjusted to create a working calibration routine.</p></li>
+</ul></li>
 <li><p><strong>Land Surface Temperatures:</strong> To evaluate the prediction of leaf temperatures, one could use MODIS Land Surface Temperature data over dense ecosystems (high leaf area index) at FLUXNET sites without water stress (see <span class="citation" data-cites="stocker2018quantifying">Stocker et al. (<a href="references.html#ref-stocker2018quantifying" role="doc-biblioref">2018</a>)</span>).</p></li>
-<li><p><strong>Long-Term Leaf Temperature Measurements:</strong> To evaluate whether the predicted leaf temperature resembles an optimal long-term elaf temperature, one could use long time-series of leaf temperature measurements from e.g.&nbsp;thermal imaging <span class="citation" data-cites="still2022no">(<a href="references.html#ref-still2022no" role="doc-biblioref">Still et al., 2022</a>)</span>. Another data source could be the photosynthesis-weighted leaf temperature that can be inferred from <span class="math inline">\(^{18}\)</span>O isotopes<span class="citation" data-cites="helliker2008subtropical">(<a href="references.html#ref-helliker2008subtropical" role="doc-biblioref">Helliker &amp; Richter, 2008</a>)</span>.</p></li>
+<li><p><strong>Long-Term Leaf Temperature Measurements:</strong> To evaluate whether the predicted leaf temperature resembles an optimal long-term leaf temperature, one could use long time-series of leaf temperature measurements from e.g.&nbsp;thermal imaging <span class="citation" data-cites="still2022no">(<a href="references.html#ref-still2022no" role="doc-biblioref">Still et al., 2022</a>)</span>. Another data source could be the photosynthesis-weighted leaf temperature that can be inferred from <span class="math inline">\(^{18}\)</span>O isotopes <span class="citation" data-cites="helliker2008subtropical">(<a href="references.html#ref-helliker2008subtropical" role="doc-biblioref">Helliker &amp; Richter, 2008</a>)</span>.</p></li>
 <li><p><span class="math inline">\(^{13}\)</span><strong>C Isotopes:</strong> To evaluate the prediction of the long-term ratio of internal to ambient CO<span class="math inline">\(_2\)</span> concentrations (<span class="math inline">\(\chi\)</span>), one could repeat the analyses done in <span class="citation" data-cites="stocker2020pmodel">Stocker et al. (<a href="references.html#ref-stocker2020pmodel" role="doc-biblioref">2020</a>)</span>. This could also be used to revise the cost factor <span class="math inline">\(\beta\)</span>.</p></li>
 </ul>
 
@@ -282,6 +292,9 @@ Duursma, R. A. (2015). Plantecophys - An R Package for Analysing and Modelling L
 </div>
 <div id="ref-helliker2008subtropical" class="csl-entry" role="listitem">
 Helliker, B. R., &amp; Richter, S. L. (2008). Subtropical to boreal convergence of tree-leaf temperatures. <em>Nature</em>, <em>454</em>(7203), 511–514. <a href="https://doi.org/10.1038/nature07031">https://doi.org/10.1038/nature07031</a>
+</div>
+<div id="ref-jiang2020optimalitybased" class="csl-entry" role="listitem">
+Jiang, C., Ryu, Y., Wang, H., &amp; Keenan, T. F. (2020). An optimality-based model explains seasonal variation in C3 plant photosynthetic capacity. <em>Global Change Biology</em>, <em>26</em>(11), 6493–6510. <a href="https://doi.org/10.1111/gcb.15276">https://doi.org/10.1111/gcb.15276</a>
 </div>
 <div id="ref-joshi2022unified" class="csl-entry" role="listitem">
 Joshi, J., Stocker, B. D., Hofhansl, F., Zhou, S., Dieckmann, U., &amp; Prentice, I. C. (2022). Towards a unified theory of plant photosynthesis and hydraulics. <em>Nature Plants</em>. <a href="https://doi.org/10.1038/s41477-022-01244-5">https://doi.org/10.1038/s41477-022-01244-5</a>
